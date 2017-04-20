@@ -97,6 +97,111 @@
 		</property>
 	</bean>
 	
+	<bean id="userAccount7" class="security.UserAccount">
+		<property name="username" value="chorbi5" />
+		<property name="password" value="7e062f6f2a4c0f7ec5abacef2917e033" />
+		<property name="isEnabled" value="true" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="CHORBI" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccount8" class="security.UserAccount">
+		<property name="username" value="chorbi6" />
+		<property name="password" value="0b41c51bd4b755c5b639498f55058fd3" />
+		<property name="isEnabled" value="true" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="CHORBI" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccount9" class="security.UserAccount">
+		<property name="username" value="manager1" />
+		<property name="password" value="c240642ddef994358c96da82c0361a58" />
+		<property name="isEnabled" value="true" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="MANAGER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccount10" class="security.UserAccount">
+		<property name="username" value="manager2" />
+		<property name="password" value="8df5127cd164b5bc2d2b78410a7eea0c" />
+		<property name="isEnabled" value="true" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="MANAGER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccount11" class="security.UserAccount">
+		<property name="username" value="manager3" />
+		<property name="password" value="2d3a5db4a2a9717b43698520a8de57d0" />
+		<property name="isEnabled" value="true" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="MANAGER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccount12" class="security.UserAccount">
+		<property name="username" value="manager4" />
+		<property name="password" value="e1ec6fc941af3ba79a4ac5242dd39735" />
+		<property name="isEnabled" value="true" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="MANAGER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccount13" class="security.UserAccount">
+		<property name="username" value="manager5" />
+		<property name="password" value="029cb1d27c0b9c551703ccba2591c334" />
+		<property name="isEnabled" value="true" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="MANAGER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccount14" class="security.UserAccount">
+		<property name="username" value="manager6" />
+		<property name="password" value="46bae9ead851e0f288529e6322f4fd77" />
+		<property name="isEnabled" value="true" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="MANAGER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	
 	<!-- Other domain beans come here -->	
 	
 	<!-- ADMIN -->
@@ -133,6 +238,7 @@
 		<property name="state" value="Comunidad Valenciana"/>
 		<property name="province" value="Alicante"/>
 		<property name="city" value="Alicante"/>
+		<property name="cumulatedFee" value="4.0"></property>
 		
 		<property name="userAccount" ref="userAccount3" />
 	</bean>
@@ -153,6 +259,7 @@
 		<property name="state" value="Andalucía"/>
 		<property name="province" value="Sevilla"/>
 		<property name="city" value="El zaudín"/>
+		<property name="cumulatedFee" value="3.0"></property>
 
 		<property name="userAccount" ref="userAccount4" />
 	</bean>
@@ -173,6 +280,7 @@
 		<property name="state" value="Andalucía"/>
 		<property name="province" value="Sevilla"/>
 		<property name="city" value="Camas"/>
+		<property name="cumulatedFee" value="0.0"></property>
 
 		<property name="userAccount" ref="userAccount5" />
 	</bean>
@@ -193,8 +301,131 @@
 		<property name="state" value="Kansas"/>
 		<property name="province" value="Wyandotte"/>
 		<property name="city" value="Kansas City"/>
+		<property name="cumulatedFee" value="1.0"></property>
 
 		<property name="userAccount" ref="userAccount6" />
+	</bean>
+	
+	<bean id="chorbi5" class="domain.Chorbi">
+		<property name="name" value="Arturian" />
+		<property name="surname" value="Kurosakian" />
+		<property name="email" value="vamosARio@gmail.com" />
+		<property name="phoneNumber" value="2345" />
+
+		<property name="picture" value="http://imgs.abduzeedo.com/files/articles/wheat-fields-photography/5.jpg"/>
+		<property name="description" value="Voy por falla 85, top mil ez"/>
+		<property name="relationshipType" value="LOVE"/>
+		<property name="birthDate" value="23/03/1994"/>
+		<property name="genre" value="MAN"/>
+		<property name="banned" value="false"/>
+		<property name="country" value="España"/>
+		<property name="state" value="Sevilla"/>
+		<property name="province" value="Triana"/>
+		<property name="city" value="En la plaza esa rara"/>
+		<property name="cumulatedFee" value="7.0"></property>
+
+		<property name="userAccount" ref="userAccount7" />
+	</bean>
+	
+	<bean id="chorbi6" class="domain.Chorbi">
+		<property name="name" value="Alvaracha" />
+		<property name="surname" value="Acha" />
+		<property name="email" value="vapingAllDay@gmail.com" />
+		<property name="phoneNumber" value="2345" />
+
+		<property name="picture" value="http://marmoles.mex.tl/imagesnew2/0/0/0/1/0/9/2/6/3/2/marmol%20blanco%20royal%20block.jpg"/>
+		<property name="description" value="Pandilla a Patches es bueno"/>
+		<property name="relationshipType" value="FRIENDSHIP"/>
+		<property name="birthDate" value="04/01/1993"/>
+		<property name="genre" value="MAN"/>
+		<property name="banned" value="false"/>
+		<property name="country" value="España"/>
+		<property name="state" value="Sevilla"/>
+		<property name="province" value="Sevilla"/>
+		<property name="city" value="Sevilla"/>
+		<property name="cumulatedFee" value="6.0"></property>
+
+		<property name="userAccount" ref="userAccount8" />
+	</bean>
+	
+	<!-- Managers -->
+	
+	<bean id="manager1" class="domain.Manager">
+		<property name="name" value="Javier" />
+		<property name="surname" value="Ballena" />
+		<property name="email" value="matriculaOrDie@gmail.com" />
+		<property name="phoneNumber" value="2345" />
+
+		<property name="company" value="Google"/>
+		<property name="VAT" value="43321"/>
+		<property name="cumulatedFee" value="4.0"></property>
+
+		<property name="userAccount" ref="userAccount9" />
+	</bean>
+	
+	<bean id="manager2" class="domain.Manager">
+		<property name="name" value="Diego" />
+		<property name="surname" value="Alonso" />
+		<property name="email" value="queFresquitoHace@gmail.com" />
+		<property name="phoneNumber" value="2345" />
+
+		<property name="company" value="Portugal SA"/>
+		<property name="VAT" value="896234"/>
+		<property name="cumulatedFee" value="4.0"></property>
+
+		<property name="userAccount" ref="userAccount10" />
+	</bean>
+	
+	<bean id="manager3" class="domain.Manager">
+		<property name="name" value="Alberto" />
+		<property name="surname" value="Bujarranse" />
+		<property name="email" value="siNoLlegoALeyendaMeRapo@gmail.com" />
+		<property name="phoneNumber" value="2345" />
+
+		<property name="company" value="Youtube"/>
+		<property name="VAT" value="852842"/>
+		<property name="cumulatedFee" value="0.0"></property>
+
+		<property name="userAccount" ref="userAccount11" />
+	</bean>
+	
+	<bean id="manager4" class="domain.Manager">
+		<property name="name" value="Pavfvfvflo" />
+		<property name="surname" value="Vasques" />
+		<property name="email" value="mañanaEntregoLaDashboard@gmail.com" />
+		<property name="phoneNumber" value="2345" />
+
+		<property name="company" value="Fixing PCs Inc"/>
+		<property name="VAT" value="43321"/>
+		<property name="cumulatedFee" value="1.0"></property>
+
+		<property name="userAccount" ref="userAccount12" />
+	</bean>
+	
+	<bean id="manager5" class="domain.Manager">
+		<property name="name" value="José Luis" />
+		<property name="surname" value="Marmol" />
+		<property name="email" value="mañanaEntregoLaDashboard@gmail.com" />
+		<property name="phoneNumber" value="2345" />
+
+		<property name="company" value="Openinguess"/>
+		<property name="VAT" value="43321"/>
+		<property name="cumulatedFee" value="6.0"></property>
+
+		<property name="userAccount" ref="userAccount13" />
+	</bean>
+	
+	<bean id="manager6" class="domain.Manager">
+		<property name="name" value="Emilito" />
+		<property name="surname" value="Casper" />
+		<property name="email" value="noEstarasEstudiandoEnCultura@gmail.com" />
+		<property name="phoneNumber" value="2345" />
+
+		<property name="company" value="No me duele SL"/>
+		<property name="VAT" value="43321"/>
+		<property name="cumulatedFee" value="0.0"></property>
+
+		<property name="userAccount" ref="userAccount14" />
 	</bean>
 	
 	<!-- CREDITCARD -->
@@ -205,7 +436,7 @@
 		<property name="expirationMonth" value="12"/>
 		<property name="expirationYear" value="19"/>
 		<property name="CVV" value="842"/>
-		<property name="chorbi" ref="chorbi1"/>
+		<property name="creditCardHolder" ref="chorbi1"/>
 	</bean>
 	
 	<bean id="creditCard2" class="domain.CreditCard">
@@ -215,7 +446,7 @@
 		<property name="expirationMonth" value="7"/>
 		<property name="expirationYear" value="18"/>
 		<property name="CVV" value="842"/>
-		<property name="chorbi" ref="chorbi2"/>
+		<property name="creditCardHolder" ref="chorbi2"/>
 	</bean>
 	
 	<bean id="creditCard3" class="domain.CreditCard">
@@ -225,7 +456,77 @@
 		<property name="expirationMonth" value="4"/>
 		<property name="expirationYear" value="22"/>
 		<property name="CVV" value="122"/>
-		<property name="chorbi" ref="chorbi3"/>
+		<property name="creditCardHolder" ref="chorbi3"/>
+	</bean>
+	
+	<bean id="creditCard4" class="domain.CreditCard">
+		<property name="holderName" value="Arturo"/>
+		<property name="brandName" value="VISA"/>
+		<property name="creditCardNumber" value="6011989537619189"/>
+		<property name="expirationMonth" value="4"/>
+		<property name="expirationYear" value="22"/>
+		<property name="CVV" value="122"/>
+		<property name="creditCardHolder" ref="chorbi5"/>
+	</bean>
+	
+	<bean id="creditCard5" class="domain.CreditCard">
+		<property name="holderName" value="Alvaro"/>
+		<property name="brandName" value="VISA"/>
+		<property name="creditCardNumber" value="6011989537619189"/>
+		<property name="expirationMonth" value="4"/>
+		<property name="expirationYear" value="22"/>
+		<property name="CVV" value="122"/>
+		<property name="creditCardHolder" ref="chorbi6"/>
+	</bean>
+	
+	<bean id="creditCard6" class="domain.CreditCard">
+		<property name="holderName" value="Javi"/>
+		<property name="brandName" value="VISA"/>
+		<property name="creditCardNumber" value="6011989537619189"/>
+		<property name="expirationMonth" value="4"/>
+		<property name="expirationYear" value="22"/>
+		<property name="CVV" value="122"/>
+		<property name="creditCardHolder" ref="manager1"/>
+	</bean>
+	
+	<bean id="creditCard7" class="domain.CreditCard">
+		<property name="holderName" value="Diego"/>
+		<property name="brandName" value="VISA"/>
+		<property name="creditCardNumber" value="6011989537619189"/>
+		<property name="expirationMonth" value="4"/>
+		<property name="expirationYear" value="22"/>
+		<property name="CVV" value="122"/>
+		<property name="creditCardHolder" ref="manager2"/>
+	</bean>
+	
+	<bean id="creditCard8" class="domain.CreditCard">
+		<property name="holderName" value="Alberto"/>
+		<property name="brandName" value="VISA"/>
+		<property name="creditCardNumber" value="6011989537619189"/>
+		<property name="expirationMonth" value="4"/>
+		<property name="expirationYear" value="22"/>
+		<property name="CVV" value="122"/>
+		<property name="creditCardHolder" ref="manager3"/>
+	</bean>
+	
+	<bean id="creditCard9" class="domain.CreditCard">
+		<property name="holderName" value="Pablo"/>
+		<property name="brandName" value="VISA"/>
+		<property name="creditCardNumber" value="6011989537619189"/>
+		<property name="expirationMonth" value="4"/>
+		<property name="expirationYear" value="22"/>
+		<property name="CVV" value="122"/>
+		<property name="creditCardHolder" ref="manager4"/>
+	</bean>
+	
+	<bean id="creditCard10" class="domain.CreditCard">
+		<property name="holderName" value="Jose"/>
+		<property name="brandName" value="VISA"/>
+		<property name="creditCardNumber" value="6011989537619189"/>
+		<property name="expirationMonth" value="4"/>
+		<property name="expirationYear" value="22"/>
+		<property name="CVV" value="122"/>
+		<property name="creditCardHolder" ref="manager5"/>
 	</bean>
 	
 	<!-- FOLDER -->
@@ -462,6 +763,7 @@
 		<property name="moment" value="2017/03/25 13:45" />
 		<property name="liked" ref="chorbi3" />
 		<property name="chorbi" ref="chorbi4" />
+		<property name="stars" value="2"></property>
 	</bean>
 	
 	<bean id="likes2" class="domain.Likes">
@@ -469,6 +771,7 @@
 		<property name="moment" value="2017/03/30 21:43" />
 		<property name="liked" ref="chorbi3" />
 		<property name="chorbi" ref="chorbi1" />
+		<property name="stars" value="3"></property>
 	</bean>
 	
 	<bean id="likes3" class="domain.Likes">
@@ -476,8 +779,121 @@
 		<property name="moment" value="2017/03/31 12:00" />
 		<property name="liked" ref="chorbi4" />
 		<property name="chorbi" ref="chorbi2" />
+		<property name="stars" value="3"></property>
 	</bean>
 	
+	<bean id="likes4" class="domain.Likes">
+		<property name="comment" value="Una cebadita?"/>
+		<property name="moment" value="2017/03/31 12:00" />
+		<property name="liked" ref="chorbi5" />
+		<property name="chorbi" ref="chorbi6" />
+		<property name="stars" value="3"></property>
+	</bean>
+	
+	<bean id="likes5" class="domain.Likes">
+		<property name="comment" value="¿Quedamos?"/>
+		<property name="moment" value="2017/03/31 12:00" />
+		<property name="liked" ref="chorbi6" />
+		<property name="chorbi" ref="chorbi1" />
+		<property name="stars" value="1"></property>
+	</bean>
+	
+	<bean id="likes6" class="domain.Likes">
+		<property name="comment" value="Mi num 2345"/>
+		<property name="moment" value="2017/03/31 12:00" />
+		<property name="liked" ref="chorbi2" />
+		<property name="chorbi" ref="chorbi4" />
+		<property name="stars" value="3"></property>
+	</bean>
+	
+	<!-- Events -->
+	
+	<bean id="event1" class="domain.Event">
+		<property name="title" value="MLP Party"/>
+		<property name="moment" value="2017/07/23 15:00"/>
+		<property name="description" value="Best party ever"/>
+		<property name="picture" value="http://img10.deviantart.net/b3f4/i/2012/091/3/c/mlp__fim_pony_party_summary_comic_hi_res_by_moviefreaq-d4ulfqo.png"/>
+		<property name="seats" value="1300"/>
+		<property name="organiser" ref="manager1"/>
+		<property name="registereds">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="event2" class="domain.Event">
+		<property name="title" value="Viaje a canarias"/>
+		<property name="moment" value="2018/07/23 10:00"/>
+		<property name="description" value="Barco ready"/>
+		<property name="picture" value="http://www.holaislascanarias.com/sites/default/files/lanzarote.jpg"/>
+		<property name="seats" value="500"/>
+		<property name="organiser" ref="manager3"/>
+		<property name="registereds">
+			<list>
+				<ref bean="chorbi4"></ref>
+				<ref bean="chorbi5"></ref>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="event3" class="domain.Event">
+		<property name="title" value="Papasá"/>
+		<property name="moment" value="2017/05/30 21:00"/>
+		<property name="description" value="En Triana, bueno bueno"/>
+		<property name="picture" value="http://www.infofranquicias.com/media/mediauploads/Papasa-foto1.jpg"/>
+		<property name="seats" value="10"/>
+		<property name="organiser" ref="manager2"/>
+		<property name="registereds">
+			<list>
+				<ref bean="chorbi1"></ref>
+				<ref bean="chorbi2"></ref>
+				<ref bean="chorbi6"></ref>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="event4" class="domain.Event">
+		<property name="title" value="Raideo Mítico"/>
+		<property name="moment" value="2017/09/23 10:00"/>
+		<property name="description" value="Full equip or kick"/>
+		<property name="picture" value="https://lh3.googleusercontent.com/-htwgMWOeoxo/TpRONlsITNI/AAAAAAAAAL0/dnC35Uoz78Y/s1024/BT_InstanceMap.jpg"/>
+		<property name="seats" value="25"/>
+		<property name="organiser" ref="manager1"/>
+		<property name="registereds">
+			<list>
+				<ref bean="chorbi1"></ref>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="event5" class="domain.Event">
+		<property name="title" value="Greater rift lvl 987"/>
+		<property name="moment" value="2017/05/10 00:00"/>
+		<property name="description" value="No monk no party"/>
+		<property name="picture" value="http://i.imgur.com/Vi1WVMy.jpg"/>
+		<property name="seats" value="3"/>
+		<property name="organiser" ref="manager5"/>
+		<property name="registereds">
+			<list>
+				<ref bean="chorbi4"></ref>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="event6" class="domain.Event">
+		<property name="title" value="Reunión sin gluten"/>
+		<property name="moment" value="2021/04/11 10:00"/>
+		<property name="description" value="Ni cebada ni trigo ni avena ni ná"/>
+		<property name="picture" value="http://cienciauanl.uanl.mx/wp-content/uploads/2015/04/glutenalimentos.jpg"/>
+		<property name="seats" value="45"/>
+		<property name="organiser" ref="manager4"/>
+		<property name="registereds">
+			<list>
+				<ref bean="chorbi6"></ref>
+				<ref bean="chorbi5"></ref>
+			</list>
+		</property>
+	</bean>
 	
 	<!-- SYSTEM CONFIGURATION -->
 	<bean id="systemConfiguration" class="domain.SystemConfiguration">
