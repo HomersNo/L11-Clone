@@ -18,7 +18,6 @@ import org.springframework.util.Assert;
 
 import repositories.SystemConfigurationRepository;
 import domain.SystemConfiguration;
-import domain.Urrl;
 
 @Service
 @Transactional
@@ -97,13 +96,13 @@ public class SystemConfigurationService {
 		SystemConfiguration sc;
 		int randomNum;
 		final Random rn = new Random();
-		List<Urrl> banners;
+		List<String> banners;
 
 		sc = this.findMain();
 		randomNum = rn.nextInt(sc.getBanners().size());
-		banners = new ArrayList<Urrl>(sc.getBanners());
+		banners = new ArrayList<String>(sc.getBanners());
 
-		result = banners.get(randomNum).getLink();
+		result = banners.get(randomNum);
 
 		return result;
 	}

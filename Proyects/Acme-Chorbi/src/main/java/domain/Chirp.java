@@ -38,7 +38,7 @@ public class Chirp extends DomainEntity {
 
 	private String				subject;
 	private String				text;
-	private Collection<Urrl>	attachments;
+	private Collection<String>	attachments;
 	private Date				moment;
 
 
@@ -60,10 +60,10 @@ public class Chirp extends DomainEntity {
 	@ElementCollection
 	@Valid
 	@NotNull
-	public Collection<Urrl> getAttachments() {
+	public Collection<String> getAttachments() {
 		return this.attachments;
 	}
-	public void setAttachments(final Collection<Urrl> attachments) {
+	public void setAttachments(final Collection<String> attachments) {
 		this.attachments = attachments;
 	}
 
