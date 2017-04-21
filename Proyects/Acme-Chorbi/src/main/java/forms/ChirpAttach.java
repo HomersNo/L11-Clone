@@ -7,7 +7,6 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
 
 import domain.Chorbi;
-import domain.Urrl;
 
 public class ChirpAttach {
 
@@ -20,7 +19,7 @@ public class ChirpAttach {
 	private String				text;
 	private Chorbi				recipient;
 	private String				attachment;
-	private Collection<Urrl>	attachments;
+	private Collection<String>	attachments;
 
 
 	@URL
@@ -51,11 +50,11 @@ public class ChirpAttach {
 		this.subject = subject;
 	}
 
-	public Collection<Urrl> getAttachments() {
+	public Collection<String> getAttachments() {
 
 		return this.attachments;
 	}
-	public void setAttachments(final Collection<Urrl> attachments) {
+	public void setAttachments(final Collection<String> attachments) {
 
 		this.attachments = attachments;
 	}

@@ -23,7 +23,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 	@Index(columnList = "relationshipType"), @Index(columnList = "birthDate"), @Index(columnList = "genre"), @Index(columnList = "banned"), @Index(columnList = "country"), @Index(columnList = "description"), @Index(columnList = "state"),
 	@Index(columnList = "province"), @Index(columnList = "city")
 })
-public class Chorbi extends Actor {
+public class Chorbi extends CreditHolder {
 
 	// Constructors -----------------------------------------------------------
 
