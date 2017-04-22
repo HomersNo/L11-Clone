@@ -10,7 +10,6 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.Valid;
 import javax.validation.constraints.Min;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -36,7 +35,6 @@ public class SystemConfiguration extends DomainEntity {
 
 
 	@ElementCollection
-	@Valid
 	@NotEmpty
 	public Collection<String> getBanners() {
 		return this.banners;
