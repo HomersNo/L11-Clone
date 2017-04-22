@@ -1,14 +1,20 @@
 
 package domain;
 
+import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
@@ -75,6 +81,31 @@ public class Event extends DomainEntity {
 		this.numberSeat = numberSeat;
 	}
 
+
 	// Relationships ----------------------------------------------------------
+
+	private Manager				organiser;
+	private Collection<Chorbi>	registered;
+
+
+	@Valid
+	@NotNull
+	@ManyToOne(optional = false)
+	public Manager getOrganiser() {
+		return this.organiser;
+	}
+	public void setOrganiser(final Manager organiser) {
+		this.organiser = organiser;
+	}
+
+	@Valid
+	@ManyToMany(cascade = CascadeType.ALL)
+	@NotNull
+	public Collection<Chorbi> getRegistered() {
+		return this.registered;
+	}
+	public void setRegistered(final Collection<Chorbi> registered) {
+		this.registered = registered;
+	}
 
 }

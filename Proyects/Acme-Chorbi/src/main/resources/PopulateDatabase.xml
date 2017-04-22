@@ -356,8 +356,8 @@
 		<property name="email" value="matriculaOrDie@gmail.com" />
 		<property name="phoneNumber" value="2345" />
 
-		<property name="company" value="Google"/>
-		<property name="VAT" value="43321"/>
+		<property name="companyName" value="Google"/>
+		<property name="VATNumber" value="43321"/>
 		<property name="cumulatedFee" value="4.0"></property>
 
 		<property name="userAccount" ref="userAccount9" />
@@ -369,8 +369,8 @@
 		<property name="email" value="queFresquitoHace@gmail.com" />
 		<property name="phoneNumber" value="2345" />
 
-		<property name="company" value="Portugal SA"/>
-		<property name="VAT" value="896234"/>
+		<property name="companyName" value="Portugal SA"/>
+		<property name="VATNumber" value="896234"/>
 		<property name="cumulatedFee" value="4.0"></property>
 
 		<property name="userAccount" ref="userAccount10" />
@@ -382,8 +382,8 @@
 		<property name="email" value="siNoLlegoALeyendaMeRapo@gmail.com" />
 		<property name="phoneNumber" value="2345" />
 
-		<property name="company" value="Youtube"/>
-		<property name="VAT" value="852842"/>
+		<property name="companyName" value="Youtube"/>
+		<property name="VATNumber" value="852842"/>
 		<property name="cumulatedFee" value="0.0"></property>
 
 		<property name="userAccount" ref="userAccount11" />
@@ -395,8 +395,8 @@
 		<property name="email" value="mañanaEntregoLaDashboard@gmail.com" />
 		<property name="phoneNumber" value="2345" />
 
-		<property name="company" value="Fixing PCs Inc"/>
-		<property name="VAT" value="43321"/>
+		<property name="companyName" value="Fixing PCs Inc"/>
+		<property name="VATNumber" value="43321"/>
 		<property name="cumulatedFee" value="1.0"></property>
 
 		<property name="userAccount" ref="userAccount12" />
@@ -408,8 +408,8 @@
 		<property name="email" value="mañanaEntregoLaDashboard@gmail.com" />
 		<property name="phoneNumber" value="2345" />
 
-		<property name="company" value="Openinguess"/>
-		<property name="VAT" value="43321"/>
+		<property name="companyName" value="Openinguess"/>
+		<property name="VATNumber" value="43321"/>
 		<property name="cumulatedFee" value="6.0"></property>
 
 		<property name="userAccount" ref="userAccount13" />
@@ -421,8 +421,8 @@
 		<property name="email" value="noEstarasEstudiandoEnCultura@gmail.com" />
 		<property name="phoneNumber" value="2345" />
 
-		<property name="company" value="No me duele SL"/>
-		<property name="VAT" value="43321"/>
+		<property name="companyName" value="No me duele SL"/>
+		<property name="VATNumber" value="43321"/>
 		<property name="cumulatedFee" value="0.0"></property>
 
 		<property name="userAccount" ref="userAccount14" />
@@ -436,7 +436,7 @@
 		<property name="expirationMonth" value="12"/>
 		<property name="expirationYear" value="19"/>
 		<property name="CVV" value="842"/>
-		<property name="creditCardHolder" ref="chorbi1"/>
+		<property name="holder" ref="chorbi1"/>
 	</bean>
 	
 	<bean id="creditCard2" class="domain.CreditCard">
@@ -446,7 +446,7 @@
 		<property name="expirationMonth" value="7"/>
 		<property name="expirationYear" value="18"/>
 		<property name="CVV" value="842"/>
-		<property name="creditCardHolder" ref="chorbi2"/>
+		<property name="holder" ref="chorbi2"/>
 	</bean>
 	
 	<bean id="creditCard3" class="domain.CreditCard">
@@ -456,7 +456,7 @@
 		<property name="expirationMonth" value="4"/>
 		<property name="expirationYear" value="22"/>
 		<property name="CVV" value="122"/>
-		<property name="creditCardHolder" ref="chorbi3"/>
+		<property name="holder" ref="chorbi3"/>
 	</bean>
 	
 	<bean id="creditCard4" class="domain.CreditCard">
@@ -466,7 +466,7 @@
 		<property name="expirationMonth" value="4"/>
 		<property name="expirationYear" value="22"/>
 		<property name="CVV" value="122"/>
-		<property name="creditCardHolder" ref="chorbi5"/>
+		<property name="holder" ref="chorbi5"/>
 	</bean>
 	
 	<bean id="creditCard5" class="domain.CreditCard">
@@ -476,7 +476,7 @@
 		<property name="expirationMonth" value="4"/>
 		<property name="expirationYear" value="22"/>
 		<property name="CVV" value="122"/>
-		<property name="creditCardHolder" ref="chorbi6"/>
+		<property name="holder" ref="chorbi6"/>
 	</bean>
 	
 	<bean id="creditCard6" class="domain.CreditCard">
@@ -486,7 +486,7 @@
 		<property name="expirationMonth" value="4"/>
 		<property name="expirationYear" value="22"/>
 		<property name="CVV" value="122"/>
-		<property name="creditCardHolder" ref="manager1"/>
+		<property name="holder" ref="manager1"/>
 	</bean>
 	
 	<bean id="creditCard7" class="domain.CreditCard">
@@ -496,7 +496,7 @@
 		<property name="expirationMonth" value="4"/>
 		<property name="expirationYear" value="22"/>
 		<property name="CVV" value="122"/>
-		<property name="creditCardHolder" ref="manager2"/>
+		<property name="holder" ref="manager2"/>
 	</bean>
 	
 	<bean id="creditCard8" class="domain.CreditCard">
@@ -506,7 +506,7 @@
 		<property name="expirationMonth" value="4"/>
 		<property name="expirationYear" value="22"/>
 		<property name="CVV" value="122"/>
-		<property name="creditCardHolder" ref="manager3"/>
+		<property name="holder" ref="manager3"/>
 	</bean>
 	
 	<bean id="creditCard9" class="domain.CreditCard">
@@ -516,7 +516,7 @@
 		<property name="expirationMonth" value="4"/>
 		<property name="expirationYear" value="22"/>
 		<property name="CVV" value="122"/>
-		<property name="creditCardHolder" ref="manager4"/>
+		<property name="holder" ref="manager4"/>
 	</bean>
 	
 	<bean id="creditCard10" class="domain.CreditCard">
@@ -526,7 +526,7 @@
 		<property name="expirationMonth" value="4"/>
 		<property name="expirationYear" value="22"/>
 		<property name="CVV" value="122"/>
-		<property name="creditCardHolder" ref="manager5"/>
+		<property name="holder" ref="manager5"/>
 	</bean>
 	
 	<!-- FOLDER -->
@@ -578,9 +578,7 @@
 		<property name="moment" value="03/03/2017 23:49" />
 		<property name="attachments">
 			<list>
-				<bean class="domain.Urrl">
-					<property name="link" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png"/>
-				</bean>
+				<value>http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png</value>
 			</list>
 		</property>
 		<property name="recipient" ref="chorbi1" />
@@ -594,9 +592,6 @@
 		<property name="moment" value="03/03/2017 23:49" />
 		<property name="attachments">
 			<list>
-				<bean class="domain.Urrl">
-					<property name="link" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png"/>
-				</bean>
 			</list>
 		</property>
 		<property name="recipient" ref="chorbi1" />
@@ -610,9 +605,7 @@
 		<property name="moment" value="03/03/2017 23:49" />
 		<property name="attachments">
 			<list>
-				<bean class="domain.Urrl">
-					<property name="link" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png"/>
-				</bean>
+				<value>http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png</value>
 			</list>
 		</property>
 		<property name="recipient" ref="chorbi2" />
@@ -626,9 +619,7 @@
 		<property name="moment" value="03/03/2017 23:49" />
 				<property name="attachments">
 			<list>
-				<bean class="domain.Urrl">
-					<property name="link" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png"/>
-				</bean>
+				<value>http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png</value>
 			</list>
 		</property>
 		<property name="recipient" ref="chorbi2" />
@@ -643,9 +634,8 @@
 		<property name="moment" value="03/03/2017 23:49" />
 		<property name="attachments">
 			<list>
-				<bean class="domain.Urrl">
-					<property name="link" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png"/>
-				</bean>
+				<value>http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png</value>
+				<value>http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png</value>
 			</list>
 		</property>
 		<property name="recipient" ref="chorbi3" />
@@ -659,9 +649,10 @@
 		<property name="moment" value="03/03/2017 23:49" />
 		<property name="attachments">
 			<list>
-				<bean class="domain.Urrl">
-					<property name="link" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png"/>
-				</bean>
+				<value>http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png</value>
+				<value>http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png</value>
+				<value>http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png</value>
+				<value>http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png</value>
 			</list>
 		</property>
 		<property name="recipient" ref="chorbi3" />
@@ -675,9 +666,6 @@
 		<property name="moment" value="03/03/2017 23:49" />
 		<property name="attachments">
 			<list>
-				<bean class="domain.Urrl">
-					<property name="link" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png"/>
-				</bean>
 			</list>
 		</property>
 		<property name="recipient" ref="chorbi3" />
@@ -689,11 +677,10 @@
 		<property name="subject" value="¿Estás interesado en esto?" />
 		<property name="text" value="Era una broma" />
 		<property name="moment" value="03/03/2017 23:49" />
-<property name="attachments">
+		<property name="attachments">
 			<list>
-				<bean class="domain.Urrl">
-					<property name="link" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png"/>
-				</bean>
+				<value>http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png</value>
+				<value>http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png</value>
 			</list>
 		</property>
 		<property name="recipient" ref="chorbi3" />
@@ -813,9 +800,9 @@
 		<property name="moment" value="2017/07/23 15:00"/>
 		<property name="description" value="Best party ever"/>
 		<property name="picture" value="http://img10.deviantart.net/b3f4/i/2012/091/3/c/mlp__fim_pony_party_summary_comic_hi_res_by_moviefreaq-d4ulfqo.png"/>
-		<property name="seats" value="1300"/>
+		<property name="numberSeat" value="1300"/>
 		<property name="organiser" ref="manager1"/>
-		<property name="registereds">
+		<property name="registered">
 			<list>
 			</list>
 		</property>
@@ -826,9 +813,9 @@
 		<property name="moment" value="2018/07/23 10:00"/>
 		<property name="description" value="Barco ready"/>
 		<property name="picture" value="http://www.holaislascanarias.com/sites/default/files/lanzarote.jpg"/>
-		<property name="seats" value="500"/>
+		<property name="numberSeat" value="500"/>
 		<property name="organiser" ref="manager3"/>
-		<property name="registereds">
+		<property name="registered">
 			<list>
 				<ref bean="chorbi4"></ref>
 				<ref bean="chorbi5"></ref>
@@ -841,9 +828,9 @@
 		<property name="moment" value="2017/05/30 21:00"/>
 		<property name="description" value="En Triana, bueno bueno"/>
 		<property name="picture" value="http://www.infofranquicias.com/media/mediauploads/Papasa-foto1.jpg"/>
-		<property name="seats" value="10"/>
+		<property name="numberSeat" value="10"/>
 		<property name="organiser" ref="manager2"/>
-		<property name="registereds">
+		<property name="registered">
 			<list>
 				<ref bean="chorbi1"></ref>
 				<ref bean="chorbi2"></ref>
@@ -857,9 +844,9 @@
 		<property name="moment" value="2017/09/23 10:00"/>
 		<property name="description" value="Full equip or kick"/>
 		<property name="picture" value="https://lh3.googleusercontent.com/-htwgMWOeoxo/TpRONlsITNI/AAAAAAAAAL0/dnC35Uoz78Y/s1024/BT_InstanceMap.jpg"/>
-		<property name="seats" value="25"/>
+		<property name="numberSeat" value="25"/>
 		<property name="organiser" ref="manager1"/>
-		<property name="registereds">
+		<property name="registered">
 			<list>
 				<ref bean="chorbi1"></ref>
 			</list>
@@ -871,9 +858,9 @@
 		<property name="moment" value="2017/05/10 00:00"/>
 		<property name="description" value="No monk no party"/>
 		<property name="picture" value="http://i.imgur.com/Vi1WVMy.jpg"/>
-		<property name="seats" value="3"/>
+		<property name="numberSeat" value="3"/>
 		<property name="organiser" ref="manager5"/>
-		<property name="registereds">
+		<property name="registered">
 			<list>
 				<ref bean="chorbi4"></ref>
 			</list>
@@ -885,9 +872,9 @@
 		<property name="moment" value="2021/04/11 10:00"/>
 		<property name="description" value="Ni cebada ni trigo ni avena ni ná"/>
 		<property name="picture" value="http://cienciauanl.uanl.mx/wp-content/uploads/2015/04/glutenalimentos.jpg"/>
-		<property name="seats" value="45"/>
+		<property name="numberSeat" value="45"/>
 		<property name="organiser" ref="manager4"/>
-		<property name="registereds">
+		<property name="registered">
 			<list>
 				<ref bean="chorbi6"></ref>
 				<ref bean="chorbi5"></ref>
@@ -899,15 +886,9 @@
 	<bean id="systemConfiguration" class="domain.SystemConfiguration">
 		<property name="banners">
 			<list>
-				<bean class="domain.Urrl">
-					<property name="link" value="http://i.imgur.com/lDhkAcr.jpg"/>
-				</bean>
-				<bean class="domain.Urrl">
-					<property name="link" value="http://i.imgur.com/hZkZS9z.jpg"/>
-				</bean>
-				<bean class="domain.Urrl">
-					<property name="link" value="http://i.imgur.com/bP4ykEJ.jpg"/>
-				</bean>
+				<value>http://i.imgur.com/lDhkAcr.jpg</value>
+				<value>http://i.imgur.com/hZkZS9z.jpg</value>
+				<value>http://i.imgur.com/bP4ykEJ.jpg</value>
 			</list>
 		</property>
 		<property name="cacheTime" value="07/04/2017 12:00:00"/>

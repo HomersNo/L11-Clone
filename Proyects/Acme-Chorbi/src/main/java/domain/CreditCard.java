@@ -106,7 +106,7 @@ public class CreditCard extends DomainEntity {
 	public CreditHolder getHolder() {
 		return this.holder;
 	}
-	public void setChorbi(final CreditHolder holder) {
+	public void setHolder(final CreditHolder holder) {
 		this.holder = holder;
 	}
 }

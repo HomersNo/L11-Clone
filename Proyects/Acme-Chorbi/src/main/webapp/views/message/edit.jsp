@@ -31,19 +31,33 @@
 	</jstl:if>
 	<form:hidden path="attachments"/>
 	
+	<script>
+		function setSubject(){
+			
+			var s = document.getElementById("subject");
+		}
+		function setText(){
+			
+			var t = document.getElementById("text");
+		}
+		function setChorbi(){
+	
+			var c = document.forms[0].actors.value;
+		}
+	</script>
 	
 
 	<form:label path="subject">
 		<spring:message code="message.title" />:
 	</form:label>
-	<form:input path="subject" />
+	<form:input path="subject" id="subject" onchange="setSubject()"/>
 	<form:errors cssClass="error" path="subject" />
 	<br />
 	
 	<form:label path="text">
 		<spring:message code="message.body" />:
 	</form:label>
-	<form:textarea path="text" />
+	<form:textarea path="text" id="text" onchange="setText()"/>
 	<form:errors cssClass="error" path="text" />
 	<br />
 	
@@ -58,7 +72,7 @@
 	<form:label path="recipient">
 		<spring:message code="message.recipient" />:
 	</form:label>
-	<form:select id="actors" path="recipient" >
+	<form:select id="actors" path="recipient" onchange="setChorbi()">
 		<form:option value="0" label="----"/>
 		<jstl:forEach items="${actors}" var="actor">
 			<form:option value="${actor.id}" label="${actor.surname}, ${actor.name}" />
@@ -69,7 +83,6 @@
 	</jstl:if>
 	
 	
-	</ul>
 
 	<input type="submit" name="save"
 		value="<spring:message code="message.save" />" />&nbsp; 
@@ -84,10 +97,10 @@
 
 	<form:form action="chirp/chorbi/attach.do" modelAttribute="chirpAttach">
 		
-		<form:hidden path="text" value="${chirp.text}" />
-		<form:hidden path="subject" value="${chirp.subject}" />
+		<form:hidden path="text" value="${t}" />
+		<form:hidden path="subject" value="${s}" />
 		<form:hidden path="attachments" value="${chirp.attachments}" />
-		<form:hidden path="recipient" value="${chirp.recipient}" />
+		<form:hidden path="recipient" value="${c}" />
 	
 		<acme:textbox  code="chirp.attachment.add" path="attachment"/>
 		
@@ -97,9 +110,9 @@
 	</form:form>
 	
 	<ul>
-	<jstl:forEach var="row" varStatus="i" items="${chirp.attachments}">
+	<jstl:forEach var="row" varStatus="i" items="${attachments}">
 	
-		<li><a href="${row.link}"><jstl:out value="${row.link}" /></a>
+		<li><a href="${row}"><jstl:out value="${row}" /></a>
 	
     </jstl:forEach>
     </ul>
