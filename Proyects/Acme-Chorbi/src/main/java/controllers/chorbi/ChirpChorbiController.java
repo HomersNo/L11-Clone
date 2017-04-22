@@ -112,30 +112,33 @@ public class ChirpChorbiController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/attach", method = RequestMethod.POST, params = "attach")
-	public ModelAndView attach(@Valid final ChirpAttach chirpAttach, final BindingResult binding) {
+	public ModelAndView attach(@Valid final ChirpAttach chirpAttach) {
 		ModelAndView result;
 
 		Chirp message;
 
+		Collection<String> attachments = chirpAttach.getAttachments();
 		message = this.messageService.create();
 		message.setRecipient(chirpAttach.getRecipient());
 		message.setSubject(chirpAttach.getSubject());
 		message.setText(chirpAttach.getText());
-		message.setAttachments(chirpAttach.getAttachments());
 
-		if (binding.hasErrors())
-			result = this.createEditModelAndView(message);
-		else
+		if (this.messageService.checkAttachment(chirpAttach.getAttachment()))
 			try {
-				final String attachment = chirpAttach.getAttachment();
-				this.messageService.addAttachment(message, attachment);
+				attachments = this.messageService.addAttachment(chirpAttach.getAttachments(), chirpAttach.getAttachment());
+				message.setAttachments(attachments);
 				result = this.createEditModelAndView(message);
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(message, "message.commit.error");
 			}
+		else {
 
-		result = this.createEditModelAndView(message);
+			result = this.createEditModelAndView(message);
+			result.addObject("urlError", "message.url.error");
 
+		}
+
+		result.addObject("attachments", attachments);
 		return result;
 	}
 	//TODO Cuando lanza la excepción a dónde lo mando?

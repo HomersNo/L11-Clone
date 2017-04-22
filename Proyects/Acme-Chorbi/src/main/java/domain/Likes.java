@@ -57,6 +57,15 @@ public class Likes extends DomainEntity {
 		this.comment = comment;
 	}
 
+	@Min(0)
+	@Max(3)
+	public Integer getStars() {
+		return this.stars;
+	}
+	public void setStars(final Integer stars) {
+		this.stars = stars;
+	}
+
 
 	// Relationships ----------------------------------------------------------
 	private Chorbi	chorbi;
@@ -81,15 +90,6 @@ public class Likes extends DomainEntity {
 	}
 	public void setLiked(final Chorbi liked) {
 		this.liked = liked;
-	}
-
-	@Min(0)
-	@Max(3)
-	public Integer getStars() {
-		return this.stars;
-	}
-	public void setStars(final Integer stars) {
-		this.stars = stars;
 	}
 
 }

@@ -129,17 +129,15 @@ public class ChirpService {
 		return message;
 	}
 
-	public void addAttachment(final Chirp chirp, final String attachment) {
+	public Collection<String> addAttachment(Collection<String> attachments, final String attachment) {
 
-		final String url = new String();
-		//		url.setLink(attachment);
-		//
-		//		if (chirp.getAttachments() == null) {
-		//			final Collection<String> attachments = new HashSet<String>();
-		//			attachments.add(url);
-		//			chirp.setAttachments(attachments);
-		//		} else
-		//			chirp.getAttachments().add(url);
+		if (attachments == null) {
+			attachments = new ArrayList<String>();
+			attachments.add(attachment);
+		} else
+			attachments.add(attachment);
+
+		return attachments;
 
 	}
 	public Chirp move(final Chirp message, final Folder folder) {
@@ -195,4 +193,12 @@ public class ChirpService {
 		Assert.isTrue(actor.equals(message.getSender()) || actor.equals(message.getRecipient()));
 	}
 
+	public boolean checkAttachment(final String attachment) {
+
+		boolean result = false;
+		if (attachment.matches("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]"))
+			result = true;
+
+		return result;
+	}
 }
