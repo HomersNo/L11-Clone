@@ -92,53 +92,63 @@ public class ChirpChorbiController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final Chirp message, final BindingResult binding) {
+	public ModelAndView save(@Valid final ChirpAttach chirpAttach, final BindingResult binding) {
 		Chorbi principal;
 		ModelAndView result;
 		Chirp sent;
+		Chirp chirp;
+
+		chirp = this.messageService.create();
+		chirp.setAttachments(chirpAttach.getAttachments());
+		chirp.setRecipient(chirpAttach.getRecipient());
+		chirp.setSubject(chirpAttach.getSubject());
+		chirp.setText(chirpAttach.getText());
 
 		if (binding.hasErrors())
-			result = this.createEditModelAndView(message);
+			result = this.createEditModelAndView(chirpAttach);
 		else
 			try {
-				sent = this.messageService.send(message);
+
+				sent = this.messageService.send(chirp);
 				principal = this.actorService.findByPrincipal();
 				result = new ModelAndView("redirect:/chirp/chorbi/list.do?folderId=" + this.folderService.findSystemFolder(principal, "Sent").getId());
 			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(message, "message.commit.error");
+				result = this.createEditModelAndView(chirp, "message.commit.error", null);
 			}
 
 		return result;
 	}
 
-	@RequestMapping(value = "/attach", method = RequestMethod.POST, params = "attach")
-	public ModelAndView attach(@Valid final ChirpAttach chirpAttach) {
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "attach")
+	public ModelAndView attach(final ChirpAttach chirpAttach) {
 		ModelAndView result;
 
 		Chirp message;
+		String attachment;
 
-		Collection<String> attachments = chirpAttach.getAttachments();
 		message = this.messageService.create();
+		message.setAttachments(chirpAttach.getAttachments());
 		message.setRecipient(chirpAttach.getRecipient());
 		message.setSubject(chirpAttach.getSubject());
 		message.setText(chirpAttach.getText());
+		attachment = chirpAttach.getAttachment();
+
+		final Collection<String> attachments = chirpAttach.getAttachments();
 
 		if (this.messageService.checkAttachment(chirpAttach.getAttachment()))
 			try {
-				attachments = this.messageService.addAttachment(chirpAttach.getAttachments(), chirpAttach.getAttachment());
-				message.setAttachments(attachments);
+				message.getAttachments().add(attachment);
 				result = this.createEditModelAndView(message);
 			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(message, "message.commit.error");
+				result = this.createEditModelAndView(message, "message.commit.error", null);
 			}
 		else {
 
 			result = this.createEditModelAndView(message);
-			result.addObject("urlError", "message.url.error");
+			result.addObject("urlError", "chirp.attach.error");
 
 		}
 
-		result.addObject("attachments", attachments);
 		return result;
 	}
 	//TODO Cuando lanza la excepción a dónde lo mando?
@@ -200,23 +210,45 @@ public class ChirpChorbiController extends AbstractController {
 	protected ModelAndView createEditModelAndView(final Chirp message) {
 		ModelAndView result;
 
-		result = this.createEditModelAndView(message, null);
+		result = this.createEditModelAndView(message, null, null);
 
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(final Chirp message, final String errorMessage) {
+	//la existencia de este método es porque he planeado mal el reconstruct y me sirve
+	//de workarround hasta que lo afine un poco. Por ahora gracias a esto el sistema funciona
+	protected ModelAndView createEditModelAndView(final ChirpAttach chirpAttach) {
+		ModelAndView result;
+
+		result = this.createEditModelAndView(null, null, chirpAttach);
+
+		return result;
+	}
+
+	protected ModelAndView createEditModelAndView(final Chirp message, final String errorMessage, final ChirpAttach ca) {
 		ModelAndView result;
 		Collection<Chorbi> actors;
-		final ChirpAttach chirpAttach = new ChirpAttach();
+		if (ca == null) {
+			final ChirpAttach chirpAttach = new ChirpAttach();
+			chirpAttach.setAttachments(message.getAttachments());
+			chirpAttach.setFolder(message.getFolder());
+			chirpAttach.setMoment(message.getMoment());
+			chirpAttach.setRecipient(message.getRecipient());
+			chirpAttach.setSender(message.getSender());
+			chirpAttach.setSubject(message.getSubject());
+			chirpAttach.setText(message.getText());
 
-		actors = this.actorService.findAll();
+			actors = this.actorService.findAll();
 
-		result = new ModelAndView("message/edit");
-		result.addObject("chirp", message);
-		result.addObject("message", errorMessage);
-		result.addObject("actors", actors);
-		result.addObject("chirpAttach", chirpAttach);
+			result = new ModelAndView("message/edit");
+			result.addObject("message", errorMessage);
+			result.addObject("actors", actors);
+			result.addObject("chirpAttach", chirpAttach);
+		} else {
+
+			result = new ModelAndView("message/edit");
+			result.addObject("chirpAttach", ca);
+		}
 
 		return result;
 	}
