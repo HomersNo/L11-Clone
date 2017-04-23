@@ -20,69 +20,41 @@
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 
-<form:form action="chirp/chorbi/edit.do" modelAttribute="chirp">
+<form:form action="chirp/chorbi/edit.do" modelAttribute="chirpAttach">
 
-	<form:hidden path="id" />
-	<form:hidden path="version" />
 	<form:hidden path="sender"/>
 	<form:hidden path="folder"/>
-	<jstl:if test="${chirp.id!=0}">
-		<form:hidden path="recipient"/>
-	</jstl:if>
+	<form:hidden path="moment"/>
 	<form:hidden path="attachments"/>
 	
-	<script>
-		function setSubject(){
-			
-			var s = document.getElementById("subject");
-		}
-		function setText(){
-			
-			var t = document.getElementById("text");
-		}
-		function setChorbi(){
-	
-			var c = document.forms[0].actors.value;
-		}
-	</script>
-	
-	
 
-	<form:label path="subject">
-		<spring:message code="message.title" />:
-	</form:label>
-	<form:input path="subject" id="subject" onchange="setSubject()"/>
-	<form:errors cssClass="error" path="subject" />
-	<br />
+
+	<acme:textbox code="message.title" path="subject"/>
 	
-	<form:label path="text">
-		<spring:message code="message.body" />:
-	</form:label>
-	<form:textarea path="text" id="text" onchange="setText()"/>
-	<form:errors cssClass="error" path="text" />
-	<br />
+	<acme:textbox code="message.body" path="text"/>
 	
-	<form:label path="moment">
-		<spring:message code="message.moment" />:
-	</form:label>
-	<form:input path="moment" readonly="true" />
-	<form:errors cssClass="error" path="moment" />
-	<br />
-	
-	<jstl:if test="${chirp.id==0}">
 	<form:label path="recipient">
 		<spring:message code="message.recipient" />:
 	</form:label>
-	<form:select id="actors" path="recipient" onchange="setChorbi()">
+	<form:select id="actors" path="recipient">
 		<form:option value="0" label="----"/>
 		<jstl:forEach items="${actors}" var="actor">
 			<form:option value="${actor.id}" label="${actor.surname}, ${actor.name}" />
 		</jstl:forEach>
 	</form:select>
 	<form:errors cssClass="error" path="recipient" />
-	<br />
-	</jstl:if>
+	<br /><br /><br />
 	
+	<acme:textbox  code="chirp.attachment.add" path="attachment"/>
+		
+		<input type="submit" name="attach"
+		value="<spring:message code="chirp.attachment.add" />" />&nbsp; 
+		<br/>
+		<jstl:if test="${urlError != null}">
+			<br />
+			<span class="message"><spring:message code="${urlError}" /></span>
+		</jstl:if>	
+	<br />
 	
 
 	<input type="submit" name="save"
@@ -95,23 +67,9 @@
 	
 
 </form:form>
-
-	<form:form action="chirp/chorbi/attach.do" modelAttribute="chirpAttach">
-		
-		<form:hidden path="text" value="${t}" />
-		<form:hidden path="subject" value="${s}" />
-		<form:hidden path="attachments" value="${chirp.attachments}" />
-		<form:hidden path="recipient" value="${c}" />
-	
-		<acme:textbox  code="chirp.attachment.add" path="attachment"/>
-		
-		<input type="submit" name="attach"
-		value="<spring:message code="chirp.attachment.add" />" />&nbsp; 
-	   
-	</form:form>
 	
 	<ul>
-	<jstl:forEach var="row" varStatus="i" items="${attachments}">
+	<jstl:forEach var="row" varStatus="i" items="${chirpAttach.attachments}">
 	
 		<li><a href="${row}"><jstl:out value="${row}" /></a>
 	
