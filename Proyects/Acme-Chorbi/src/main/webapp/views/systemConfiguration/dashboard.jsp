@@ -263,3 +263,150 @@
 	
 </display:table>
 <br/>
+
+
+<spring:message	code="systemConfiguration.manager.order.events" />
+<br/>
+
+<display:table pagesize="5" class="displaytag" keepStatus="true"
+	name="managerWithMoreEvents" requestURI="${requestURI}" id="row">
+
+	<!-- Attributes -->
+
+	<spring:message code="systemConfiguration.actor.name" var="nameHeader" />
+	<display:column property="name" title="${nameHeader}" sortable="true" />
+
+	<spring:message code="systemConfiguration.actor.surname" var="surnameHeader" />
+	<display:column property="surname" title="${surnameHeader}" sortable="true" />
+	
+	<spring:message code="systemConfiguration.actor.email" var="emailHeader" />
+	<display:column property="email" title="${emailHeader}" sortable="true" />
+
+	<spring:message code="systemConfiguration.actor.phone" var="phoneHeader" />
+	<display:column property="phoneNumber" title="${phoneHeader}" sortable="true"/>
+	
+</display:table>
+<br/>
+
+
+<spring:message	code="systemConfiguration.manager.with.fee" />
+<br/>
+
+<display:table pagesize="5" class="displaytag" keepStatus="true"
+	name="managerWithFee" requestURI="${requestURI}" id="row">
+
+	<!-- Attributes -->
+
+	<spring:message code="systemConfiguration.actor.name" var="nameHeader" />
+	<display:column property="name" title="${nameHeader}" sortable="true" />
+
+	<spring:message code="systemConfiguration.actor.surname" var="surnameHeader" />
+	<display:column property="surname" title="${surnameHeader}" sortable="true" />
+	
+	<spring:message code="systemConfiguration.actor.email" var="emailHeader" />
+	<display:column property="email" title="${emailHeader}" sortable="true" />
+
+	<spring:message code="systemConfiguration.actor.phone" var="phoneHeader" />
+	<display:column property="phoneNumber" title="${phoneHeader}" sortable="true"/>
+	
+	<spring:message code="systemConfiguration.actor.fee" var="feeHeader" />
+	<display:column property="cumulatedFee" title="${feeHeader}" sortable="true"/>
+	
+</display:table>
+<br/>
+
+<spring:message	code="systemConfiguration.chorbi.order.events" />
+<br/>
+
+<display:table pagesize="5" class="displaytag" keepStatus="true"
+	name="chorbiWithMoreEvents" requestURI="${requestURI}" id="row">
+
+	<!-- Attributes -->
+
+	<spring:message code="systemConfiguration.actor.name" var="nameHeader" />
+	<display:column property="name" title="${nameHeader}" sortable="true" />
+
+	<spring:message code="systemConfiguration.actor.surname" var="surnameHeader" />
+	<display:column property="surname" title="${surnameHeader}" sortable="true" />
+	
+	<spring:message code="systemConfiguration.actor.email" var="emailHeader" />
+	<display:column property="email" title="${emailHeader}" sortable="true" />
+
+	<spring:message code="systemConfiguration.actor.phone" var="phoneHeader" />
+	<display:column property="phoneNumber" title="${phoneHeader}" sortable="true"/>
+	
+</display:table>
+<br/>
+
+
+<spring:message	code="systemConfiguration.chorbi.with.fee" />
+<br/>
+
+<display:table pagesize="5" class="displaytag" keepStatus="true"
+	name="chorbiWithFee" requestURI="${requestURI}" id="row">
+
+	<!-- Attributes -->
+
+	<spring:message code="systemConfiguration.actor.name" var="nameHeader" />
+	<display:column property="name" title="${nameHeader}" sortable="true" />
+
+	<spring:message code="systemConfiguration.actor.surname" var="surnameHeader" />
+	<display:column property="surname" title="${surnameHeader}" sortable="true" />
+	
+	<spring:message code="systemConfiguration.actor.email" var="emailHeader" />
+	<display:column property="email" title="${emailHeader}" sortable="true" />
+
+	<spring:message code="systemConfiguration.actor.phone" var="phoneHeader" />
+	<display:column property="phoneNumber" title="${phoneHeader}" sortable="true"/>
+	
+	<spring:message code="systemConfiguration.actor.fee" var="feeHeader" />
+	<display:column property="cumulatedFee" title="${feeHeader}" sortable="true"/>
+	
+</display:table>
+<br/>
+
+
+<table>
+<thead>
+	<tr>
+		<th colspan = "3"><spring:message	code="systemConfiguration.stars.stats" /></th>
+	</tr>
+	<tr>
+		<th><spring:message	code="systemConfiguration.stars.min" /></th>
+		<th><spring:message	code="systemConfiguration.stars.avg" /></th>
+		<th><spring:message	code="systemConfiguration.stars.max" /></th>
+	</tr>
+</thead>
+<tbody>
+	<tr>
+		<td>${minStarsPerActor}</td>
+		<td>${avgStarsPerActor}</td>
+		<td>${maxStarsPerActor}</td>
+	</tr>
+</tbody>
+</table>
+<br/>
+
+
+<spring:message	code="systemConfiguration.chorbi.order.stars" />
+<br/>
+
+<display:table pagesize="5" class="displaytag" keepStatus="true"
+	name="chorbiWithMoreStars" requestURI="${requestURI}" id="row">
+
+	<!-- Attributes -->
+
+	<spring:message code="systemConfiguration.actor.name" var="nameHeader" />
+	<display:column property="name" title="${nameHeader}" sortable="true" />
+
+	<spring:message code="systemConfiguration.actor.surname" var="surnameHeader" />
+	<display:column property="surname" title="${surnameHeader}" sortable="true" />
+	
+	<spring:message code="systemConfiguration.actor.email" var="emailHeader" />
+	<display:column property="email" title="${emailHeader}" sortable="true" />
+
+	<spring:message code="systemConfiguration.actor.phone" var="phoneHeader" />
+	<display:column property="phoneNumber" title="${phoneHeader}" sortable="true"/>
+	
+</display:table>
+<br/>

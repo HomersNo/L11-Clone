@@ -334,4 +334,20 @@ public class ChorbiService {
 		result = this.chorbiRepository.findAllLiking(chorbiId);
 		return result;
 	}
+
+	// Dashboard 2.0
+
+	// A listing of chorbies sorted by the number of events to which they have registered.
+	public Collection<Chorbi> findChorbiesOrderedByEvents() {
+		Collection<Chorbi> result;
+		result = this.chorbiRepository.findChorbiesOrderedByEvents();
+		return result;
+	}
+
+	// The list of chorbies, sorted by the average number of stars that they've got.
+	public Collection<Chorbi> findChorbiesOrderedByAvgStars() {
+		Collection<Chorbi> result;
+		result = this.chorbiRepository.findChorbiesOrderedByAvgStars();
+		return result;
+	}
 }

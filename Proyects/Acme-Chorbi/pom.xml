@@ -18,7 +18,7 @@
 	<!-- Artifact identification and properties -->
 
 	<groupId>Design-and-Testing</groupId>
-	<version>1.8</version>
+	<version>2.0</version>
 	<packaging>war</packaging>
 	
 	<properties>

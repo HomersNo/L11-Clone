@@ -93,7 +93,7 @@ public class CreditCardServiceTest extends AbstractTest {
 			cc.setExpirationYear(expirationYear);
 			cc.setCVV(cvv);
 			final Chorbi c = (Chorbi) this.actorService.findByPrincipal();
-			cc.setChorbi(c);
+			cc.setHolder(c);
 			this.creditCardService.save(cc);
 			this.creditCardService.flush();
 			this.unauthenticate();

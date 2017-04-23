@@ -15,6 +15,8 @@ public interface SystemConfigurationRepository extends JpaRepository<SystemConfi
 	@Query("select sc from SystemConfiguration sc")
 	SystemConfiguration findMain();
 
+	//Dashboard
+
 	@Query("select count(cc)*1.0/(select count(c)*1.0 from Chorbi c) from CreditCard cc")
 	Double findRatioChorbiesWithoutCreditCard();
 
@@ -36,4 +38,8 @@ public interface SystemConfigurationRepository extends JpaRepository<SystemConfi
 	@Query("select count(ch) from Chirp ch right join ch.sender c where ch.folder.name = 'Sent' group by c order by count(ch) ASC")
 	List<Long> listNumberChirpsFromChorbiASC();
 
+	//Dashboard 2.0
+
+	@Query("select new List(min(l.stars), avg(l.stars), max(l.stars)) from Likes l")
+	List<Double> minMaxAvgStars();
 }

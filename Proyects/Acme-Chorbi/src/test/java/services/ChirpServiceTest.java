@@ -18,7 +18,6 @@ import utilities.AbstractTest;
 import domain.Chirp;
 import domain.Chorbi;
 import domain.Folder;
-import domain.Urrl;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -48,17 +47,15 @@ public class ChirpServiceTest extends AbstractTest {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void driverCreation() {
-		final Collection<Urrl> attachments = new ArrayList<Urrl>();
-		final Urrl url = new Urrl();
-		url.setLink("http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png");
+		final Collection<String> attachments = new ArrayList<String>();
+		final String url = "http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png";
 		attachments.add(url);
-		final Collection<Urrl> attachmentsEmpty = new ArrayList<Urrl>();
-		final Collection<Urrl> attachmentsFull = new ArrayList<Urrl>();
-		final Collection<Urrl> attachmentWrong = new ArrayList<Urrl>();
+		final Collection<String> attachmentsEmpty = new ArrayList<String>();
+		final Collection<String> attachmentsFull = new ArrayList<String>();
+		final Collection<String> attachmentWrong = new ArrayList<String>();
 		for (int i = 0; i < 20; i++)
 			attachmentsFull.add(url);
-		final Urrl urlWrong = new Urrl();
-		urlWrong.setLink("Esto no es un link");
+		final String urlWrong = "Esto no es un link";
 		attachmentWrong.add(urlWrong);
 
 		final Object testingData[][] = {
@@ -86,7 +83,7 @@ public class ChirpServiceTest extends AbstractTest {
 
 		};
 		for (int i = 0; i < testingData.length; i++)
-			this.templateCreation((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Collection<Urrl>) testingData[i][3], (Class<?>) testingData[i][4]);
+			this.templateCreation((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Collection<String>) testingData[i][3], (Class<?>) testingData[i][4]);
 	}
 	//- An actor who is authenticated must be able to:
 	//	o List the chirps that he or she's got and reply to them.
@@ -112,7 +109,7 @@ public class ChirpServiceTest extends AbstractTest {
 			this.templateFindAllByFolderId((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
 	}
 	// Templates ----------------------------------------------------------
-	protected void templateCreation(final String username, final String subject, final String text, final Collection<Urrl> attachment, final Class<?> expected) {
+	protected void templateCreation(final String username, final String subject, final String text, final Collection<String> attachment, final Class<?> expected) {
 		Class<?> caught;
 		caught = null;
 		try {

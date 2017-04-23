@@ -33,11 +33,10 @@ public class CreditCardService {
 		CreditCard result;
 		final Chorbi chorbi = this.chorbiService.findByPrincipal();
 		result = new CreditCard();
-		result.setChorbi(chorbi);
+		result.setHolder(chorbi);
 
 		return result;
 	}
-
 	public CreditCard findOne(final int creditCardId) {
 		Assert.isTrue(creditCardId != 0);
 
