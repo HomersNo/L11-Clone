@@ -27,7 +27,7 @@
 
 		<form:hidden path="id" />
 		<form:hidden path="version" />
-		<form:hidden path="chorbi" />
+		<form:hidden path="holder" />
    	 	<acme:textbox code="creditCard.holder.name" path="holderName"/>
     
 		<div>
@@ -68,12 +68,23 @@
 			<p><spring:message code="creditCard.expiration.year"/>: <jstl:out value="${creditCard.expirationYear}" /></p>
 			<p><spring:message code="creditCard.CVV"/>: <jstl:out value="${creditCard.CVV}" /></p>
 		
-			<a href="creditCard/chorbi/delete.do"> <spring:message code="chorbi.delete" /></a>
+			<security:authorize access="hasRole('CHORBI')">
+				<input type="button" name="delete"
+					value="<spring:message code="creditCard.delete" />"
+					onclick="location.href = ('creditCard/chorbi/delete.do');" />
+			</security:authorize>
+			<security:authorize access="hasRole('MANAGER')">
+				<input type="button" name="delete"
+					value="<spring:message code="creditCard.delete" />"
+					onclick="location.href = ('creditCard/manager/delete.do');" />
+			</security:authorize>
 			
 		</jstl:otherwise>
 	</jstl:choose>
 	<br/>
 	
-	<a href="welcome/index.do"> <spring:message code="chorbi.back" /></a>
+	<input type="button" name="back"
+		value="<spring:message code="creditCard.back" />"
+			onclick="location.href = ('welcome/index.do');" />
 	
 	
