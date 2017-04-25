@@ -97,7 +97,7 @@ public class SystemConfigurationAdministratorController extends AbstractControll
 		final Collection<Manager> managerWithFee = this.managerService.findAll();
 		final Collection<Chorbi> chorbiWithMoreEvents = this.chorbiService.findChorbiesOrderedByEvents();
 		final Collection<Chorbi> chorbiWithFee = this.chorbiService.findAll();
-		final List<Double> minMaxAvgStars = this.scService.minMaxAvgStars();
+		final Object[] minMaxAvgStars = this.scService.minMaxAvgStars();
 		final Collection<Chorbi> chorbiWithMoreStars = this.chorbiService.findChorbiesOrderedByAvgStars();
 
 		result.addObject("cities", cities);
@@ -125,11 +125,11 @@ public class SystemConfigurationAdministratorController extends AbstractControll
 		result.addObject("managerWithFee", managerWithFee);
 		result.addObject("chorbiWithMoreEvents", chorbiWithMoreEvents);
 		result.addObject("chorbiWithFee", chorbiWithFee);
-		result.addObject("minStarsPerActor", minMaxAvgStars.get(0));
-		result.addObject("avgStarsPerActor", minMaxAvgStars.get(1));
-		result.addObject("maxStarsPerActor", minMaxAvgStars.get(2));
+		result.addObject("minStarsPerActor", minMaxAvgStars[0]);
+		result.addObject("avgStarsPerActor", minMaxAvgStars[1]);
+		result.addObject("maxStarsPerActor", minMaxAvgStars[2]);
 		result.addObject("chorbiWithMoreStars", chorbiWithMoreStars);
-		result.addObject("requestURI", "systemConfiguration/dashboard.do");
+		result.addObject("requestURI", "systemConfiguration/administrator/dashboard.do");
 
 		return result;
 	}
