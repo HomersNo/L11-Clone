@@ -1,7 +1,6 @@
 
 package controllers.manager;
 
-
 import java.util.Collection;
 
 import javax.validation.Valid;
@@ -33,87 +32,87 @@ public class EventManagerController extends AbstractController {
 	public EventManagerController() {
 		super();
 	}
-	
+
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create() {
 		ModelAndView result;
 		Event event;
 
-		event = eventService.create();
-		result = createEditModelAndView(event);
+		event = this.eventService.create();
+		result = this.createEditModelAndView(event);
 
 		return result;
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public ModelAndView edit(@RequestParam int eventId) {
+	public ModelAndView edit(@RequestParam final int eventId) {
 		ModelAndView result;
 		Event event;
 
-		event = eventService.findOne(eventId);
-		result = createEditModelAndView(event);
+		event = this.eventService.findOne(eventId);
+		result = this.createEditModelAndView(event);
 
 		return result;
 	}
-	
+
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam(required = false) String errorMessage) {
+	public ModelAndView list(@RequestParam(required = false) final String errorMessage) {
 		ModelAndView result;
 
 		Collection<Event> events;
 
-		events = eventService.findAllByPrincipal();
+		events = this.eventService.findAllByPrincipal();
 
 		result = new ModelAndView("event/list");
+		result.addObject("requestURI", "event/manager/list.do");
 		result.addObject("events", events);
 		result.addObject("errorMessage", errorMessage);
 
 		return result;
 	}
-	
+
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid Event event, BindingResult binding) {
+	public ModelAndView save(@Valid Event event, final BindingResult binding) {
 		ModelAndView result;
 
-		if (binding.hasErrors()) {
-			result = createEditModelAndView(event);
-		} else {
+		if (binding.hasErrors())
+			result = this.createEditModelAndView(event);
+		else
 			try {
-				event = eventService.save(event);
+				event = this.eventService.save(event);
 				result = new ModelAndView("redirect:/event/manager/list.do");
-			} catch (Throwable oops) {
-				result = createEditModelAndView(event, "manager.commit.error");
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(event, "manager.commit.error");
 			}
-		}
 		return result;
 	}
-	
+
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public ModelAndView delete(@RequestParam int eventId) {
+	public ModelAndView delete(@RequestParam final int eventId) {
 		ModelAndView result;
 		Event event;
 
-		event = eventService.findOne(eventId);
-		eventService.delete(event);
-		
+		event = this.eventService.findOne(eventId);
+		this.eventService.delete(event);
+
 		result = new ModelAndView("redirect:/event/manager/list.do");
 
 		return result;
 	}
-	
+
 	// Ancillary methods
-	
-	protected ModelAndView createEditModelAndView(Event event) {
+
+	protected ModelAndView createEditModelAndView(final Event event) {
 		ModelAndView result;
 
-		result = createEditModelAndView(event, null);
+		result = this.createEditModelAndView(event, null);
 
 		return result;
 	}
-	protected ModelAndView createEditModelAndView(Event event, String message) {
+	protected ModelAndView createEditModelAndView(final Event event, final String message) {
 		ModelAndView result;
 
-		String requestURI = "event/manager/edit.do";
+		final String requestURI = "event/manager/edit.do";
 
 		result = new ModelAndView("event/edit");
 		result.addObject("event", event);

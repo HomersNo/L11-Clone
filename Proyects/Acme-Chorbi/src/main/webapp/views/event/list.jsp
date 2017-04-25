@@ -23,7 +23,7 @@
 <jstl:set var="passed" value="font-color:red" />
 
 <display:table pagesize="5" class="displaytag" keepStatus="true"
-	name="events" requestURI="event/actor/list.do" id="row">
+	name="events" requestURI="${requestURI}" id="row">
 	<security:authentication property="principal" var ="loggedactor"/>
 	
 	<spring:message code="event.title" var="titleHeader" />

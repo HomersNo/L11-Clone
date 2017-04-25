@@ -20,7 +20,7 @@ public class ManagerManagerController {
 	//Services
 
 	@Autowired
-	private ManagerService			managerService;
+	private ManagerService	managerService;
 
 
 	//Constructor
@@ -66,7 +66,7 @@ public class ManagerManagerController {
 		else
 			try {
 				manager = this.managerService.register(editManager);
-				result = new ModelAndView("redirect:/manager/manager/edit.do?managerId=" + manager.getId());
+				result = new ModelAndView("redirect:/manager/manager/display.do?managerId=" + manager.getId());
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(editManager, "manager.commit.error");
 			}

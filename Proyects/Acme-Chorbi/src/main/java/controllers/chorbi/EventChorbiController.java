@@ -1,7 +1,6 @@
 
 package controllers.chorbi;
 
-
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,33 +29,34 @@ public class EventChorbiController extends AbstractController {
 	public EventChorbiController() {
 		super();
 	}
-	
-	@RequestMapping(value = "/register", method = RequestMethod.GET)
-	public ModelAndView register(@RequestParam int eventId) {
-		ModelAndView result;
-		Event event = eventService.findOne(eventId);
 
-		eventService.register(event);
+	@RequestMapping(value = "/register", method = RequestMethod.GET)
+	public ModelAndView register(@RequestParam final int eventId) {
+		ModelAndView result;
+		final Event event = this.eventService.findOne(eventId);
+
+		this.eventService.register(event);
 		result = new ModelAndView("redirect:/event/chorbi/list.do");
 
 		return result;
 	}
-	
+
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam(required = false) String errorMessage) {
+	public ModelAndView list(@RequestParam(required = false) final String errorMessage) {
 		ModelAndView result;
 
 		Collection<Event> events;
 
-		events = eventService.findAllByPrincipalChorbi();
+		events = this.eventService.findAllByPrincipalChorbi();
 
 		result = new ModelAndView("event/list");
+		result.addObject("requestURI", "event/chorbi/list.do");
 		result.addObject("events", events);
 		result.addObject("errorMessage", errorMessage);
 
 		return result;
 	}
-	
+
 	// Ancillary methods
 
 	// Creation ---------------------------------------------------------------

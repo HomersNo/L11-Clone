@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.EventService;
-import controllers.AbstractController;
 import domain.Event;
 
 @Controller
@@ -32,30 +31,32 @@ public class EventController extends AbstractController {
 
 	//Listing
 
-	@RequestMapping(value = "/listImminent", method = RequestMethod.GET)
-	public ModelAndView listImminent(@RequestParam(required = false) String errorMessage) {
+	@RequestMapping(value = "/listInminent", method = RequestMethod.GET)
+	public ModelAndView listImminent(@RequestParam(required = false) final String errorMessage) {
 		ModelAndView result;
 
 		Collection<Event> events;
 
-		events = eventService.findAllEventsInOneMonth();
+		events = this.eventService.findAllEventsInOneMonth();
 
 		result = new ModelAndView("event/list");
+		result.addObject("requestURI", "event/listInminent.do");
 		result.addObject("events", events);
 		result.addObject("errorMessage", errorMessage);
 
 		return result;
 	}
-	
+
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam(required = false) String errorMessage) {
+	public ModelAndView list(@RequestParam(required = false) final String errorMessage) {
 		ModelAndView result;
 
 		Collection<Event> events;
 
-		events = eventService.findAll();
+		events = this.eventService.findAll();
 
 		result = new ModelAndView("event/list");
+		result.addObject("requestURI", "event/list.do");
 		result.addObject("events", events);
 		result.addObject("errorMessage", errorMessage);
 
