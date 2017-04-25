@@ -16,4 +16,7 @@ public interface ManagerRepository extends JpaRepository<Manager, Integer> {
 	@Query("select e.organiser from Event e group by e.organiser order by count(e) DESC")
 	Collection<Manager> findManagersOrderByEvent();
 
+	@Query("select m from Manager m where m.userAccount.id = ?1")
+	Manager findByUserAccountId(int userAcountId);
+
 }
