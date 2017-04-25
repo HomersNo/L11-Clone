@@ -64,8 +64,20 @@
 		<!-- ACTOR --> 
 		<security:intercept-url pattern="/actor/actor/display.do**" access="isAuthenticated()" /> 
 	
+		<!-- EVENT --> 
+		<security:intercept-url pattern="/event/list.do" access="permitAll" /> 
+		<security:intercept-url pattern="/event/listImminent.do" access="permitAll" /> 
+		<security:intercept-url pattern="/event/manager/**" access="hasRole('MANAGER')" /> 
+		<security:intercept-url pattern="/event/chorbi/**" access="hasRole('CHORBI')" /> 
+		
+		<!-- MANAGER --> 
+		<security:intercept-url pattern="/manager/register.do" access="isAnonymous()" /> 
+		<security:intercept-url pattern="/manager/edit.do" access="isAnonymous()" />
+		<security:intercept-url pattern="/manager/manager/**" access="hasRole('MANAGER')" />
+	
 		<!-- CREDIT CARD -->
 		<security:intercept-url pattern="/creditCard/chorbi/**" access="hasRole('CHORBI')" /> 
+		<security:intercept-url pattern="/creditCard/manager/**" access="hasRole('MANAGER')" /> 
 		
 		<!-- LIKES -->
 		<security:intercept-url pattern="/likes/chorbi/**" access="hasRole('CHORBI')" /> 

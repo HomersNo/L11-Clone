@@ -1,5 +1,5 @@
 /*
- * ActorRepository.java
+ * CreditHolderRepository.java
  * 
  * Copyright (C) 2017 Universidad de Sevilla
  * 
@@ -14,12 +14,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import domain.CreditCard;
+import domain.CreditHolder;
 
 @Repository
-public interface CreditCardRepository extends JpaRepository<CreditCard, Integer> {
+public interface CreditHolderRepository extends JpaRepository<CreditHolder, Integer> {
 
-	@Query("select c from CreditCard c where c.holder.id = ?1")
-	CreditCard findByHolderId(int chorbiId);
+	@Query("select ch from CreditHolder ch where ch.userAccount.id = ?1")
+	CreditHolder findByUserAccount(int id);
+
+	@Query("select ch from CreditHolder ch where ch.id = ?1")
+	CreditHolder findOne(int id);
 
 }
