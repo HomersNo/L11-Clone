@@ -14,7 +14,9 @@ import repositories.ChirpRepository;
 import domain.Actor;
 import domain.Chirp;
 import domain.Chorbi;
+import domain.Event;
 import domain.Folder;
+import forms.ChirpBroadcast;
 
 @Service
 @Transactional
@@ -174,6 +176,21 @@ public class ChirpService {
 		this.send(result);
 
 		return result;
+	}
+
+	public Chirp broadcast(final ChirpBroadcast chirp, final Event event) {
+
+		Chirp message;
+		message = this.create();
+
+		message.setAttachments(chirp.getAttachments());
+		message.setSubject(chirp.getSubject());
+		message.setText(chirp.getText());
+
+		Collection<Chorbi> recipients;
+		recipients = this.chorbiService.findChorbiesRegisteredEvent(event.getId());
+
+		return message;
 	}
 	// Principal Checkers
 
