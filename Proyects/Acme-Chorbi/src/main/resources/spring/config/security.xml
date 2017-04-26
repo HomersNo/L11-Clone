@@ -86,6 +86,7 @@
 		<security:intercept-url pattern="/searchTemplate/chorbi/**.do**" access="hasRole('CHORBI')" />
 		
 		<security:intercept-url pattern="/chirp/chorbi/**" access="hasRole('CHORBI')" /> 
+		<security:intercept-url pattern="/chirp/manager/**" access="hasRole('MANAGER')" />
 		<security:intercept-url pattern="/systemConfiguration/administrator/**" access="hasRole('ADMIN')" /> 
 		<security:intercept-url pattern="/folder/chorbi/**" access="hasRole('CHORBI')"/>
 		 

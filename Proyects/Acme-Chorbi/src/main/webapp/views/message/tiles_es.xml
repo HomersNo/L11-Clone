@@ -22,13 +22,18 @@
 	</definition>
 	
 	<definition name="message/edit" extends="master.page">	
-		<put-attribute name="title" value="Enviar mensaje" />
+		<put-attribute name="title" value="Enviar chirp" />
 		<put-attribute name="body" value="/views/message/edit.jsp" />
 	</definition>
 	
 	<definition name="message/move" extends="master.page">	
 		<put-attribute name="title" value="Cambiar carpeta" />
 		<put-attribute name="body" value="/views/message/move.jsp" />
+	</definition>
+	
+	<definition name="message/broadcast" extends="master.page">	
+		<put-attribute name="title" value="Chirp masivo" />
+		<put-attribute name="body" value="/views/message/broadcast.jsp" />
 	</definition>
 	
 </tiles-definitions>
