@@ -38,7 +38,7 @@
 	
 	<spring:message code="message.title" var="titleHeader" />
 	<display:column title="${titleHeader}" sortable="true" >
-		${mask:mask(row.subject) }
+		${mask:mask(row.subject) } 
 	</display:column>
 
 	<spring:message code="message.moment" var="momentHeader" />
@@ -52,7 +52,7 @@
 	<spring:message code="message.attachment" var="attachmentHeader"/>
 	<display:column title="${attachmentHeader}">
 	<jstl:forEach items="${row.attachments}" var="thisAttachment">
-		<a href="${thisAttachment.link}" target="_blank">${thisAttachment.link}</a>
+		<a href="${thisAttachment}" target="_blank">${thisAttachment}</a>
 	</jstl:forEach>
 	</display:column> 
 	

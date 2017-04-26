@@ -1,5 +1,5 @@
 /*
- * AuthorityToStringConverter.java
+ * ActorToStringConverter.java
  * 
  * Copyright (C) 2017 Universidad de Sevilla
  * 
@@ -14,20 +14,20 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import domain.Urrl;
+import domain.Manager;
 
 @Component
 @Transactional
-public class UrrlToStringConverter implements Converter<Urrl, String> {
+public class ManagerToStringConverter implements Converter<Manager, String> {
 
 	@Override
-	public String convert(final Urrl urrl) {
+	public String convert(final Manager manager) {
 		String result;
 
-		if (urrl == null)
+		if (manager == null)
 			result = null;
 		else
-			result = urrl.getLink();
+			result = String.valueOf(manager.getId());
 
 		return result;
 	}

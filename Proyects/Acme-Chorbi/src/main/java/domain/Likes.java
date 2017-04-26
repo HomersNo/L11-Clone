@@ -12,6 +12,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
@@ -19,7 +21,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"chorbi_id","liked_id"}))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {
+	"chorbi_id", "liked_id"
+}))
 public class Likes extends DomainEntity {
 
 	// Constructors -----------------------------------------------------------
@@ -33,6 +37,7 @@ public class Likes extends DomainEntity {
 
 	private Date	moment;
 	private String	comment;
+	private Integer	stars;
 
 
 	@Past
@@ -50,6 +55,15 @@ public class Likes extends DomainEntity {
 	}
 	public void setComment(final String comment) {
 		this.comment = comment;
+	}
+
+	@Min(0)
+	@Max(3)
+	public Integer getStars() {
+		return this.stars;
+	}
+	public void setStars(final Integer stars) {
+		this.stars = stars;
 	}
 
 

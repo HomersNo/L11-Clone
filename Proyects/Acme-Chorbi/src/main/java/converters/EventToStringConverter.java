@@ -1,5 +1,5 @@
 /*
- * StringToAuthorityConverter.java
+ * ActorToStringConverter.java
  * 
  * Copyright (C) 2017 Universidad de Sevilla
  * 
@@ -14,22 +14,20 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import domain.Urrl;
+import domain.Event;
 
 @Component
 @Transactional
-public class StringToUrrlConverter implements Converter<String, Urrl> {
+public class EventToStringConverter implements Converter<Event, String> {
 
 	@Override
-	public Urrl convert(final String text) {
-		Urrl result;
+	public String convert(final Event event) {
+		String result;
 
-		try {
-			result = new Urrl();
-			result.setLink(text);
-		} catch (final Throwable oops) {
-			throw new IllegalArgumentException(oops);
-		}
+		if (event == null)
+			result = null;
+		else
+			result = String.valueOf(event.getId());
 
 		return result;
 	}

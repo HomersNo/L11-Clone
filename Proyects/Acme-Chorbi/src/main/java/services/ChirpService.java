@@ -4,7 +4,6 @@ package services;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +15,6 @@ import domain.Actor;
 import domain.Chirp;
 import domain.Chorbi;
 import domain.Folder;
-import domain.Urrl;
 
 @Service
 @Transactional
@@ -54,7 +52,7 @@ public class ChirpService {
 	public Chirp create() {
 		final Chirp result = new Chirp();
 		Chorbi sender;
-		final Collection<Urrl> attachments = new ArrayList<Urrl>();
+		final Collection<String> attachments = new ArrayList<String>();
 		sender = this.chorbiService.findByPrincipal();
 		final Folder senderFolder = this.folderService.findSystemFolder(sender, "Sent");
 		result.setFolder(senderFolder);
@@ -131,17 +129,15 @@ public class ChirpService {
 		return message;
 	}
 
-	public void addAttachment(final Chirp chirp, final String attachment) {
+	public Collection<String> addAttachment(Collection<String> attachments, final String attachment) {
 
-		final Urrl url = new Urrl();
-		url.setLink(attachment);
-
-		if (chirp.getAttachments() == null) {
-			final Collection<Urrl> attachments = new HashSet<Urrl>();
-			attachments.add(url);
-			chirp.setAttachments(attachments);
+		if (attachments == null) {
+			attachments = new ArrayList<String>();
+			attachments.add(attachment);
 		} else
-			chirp.getAttachments().add(url);
+			attachments.add(attachment);
+
+		return attachments;
 
 	}
 	public Chirp move(final Chirp message, final Folder folder) {
@@ -197,4 +193,12 @@ public class ChirpService {
 		Assert.isTrue(actor.equals(message.getSender()) || actor.equals(message.getRecipient()));
 	}
 
+	public boolean checkAttachment(final String attachment) {
+
+		boolean result = false;
+		if (attachment.matches("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]"))
+			result = true;
+
+		return result;
+	}
 }
