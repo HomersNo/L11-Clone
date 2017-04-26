@@ -29,14 +29,17 @@ public class EventService {
 	@Autowired
 	private ChorbiService	chorbiService;
 
+	@Autowired
+	private ChirpService	chirpService;
+
 
 	public EventService() {
 		super();
 	}
-	
+
 	public Event create() {
 		final Event result = new Event();
-		final Manager manager = managerService.findByPrincipal();
+		final Manager manager = this.managerService.findByPrincipal();
 		Assert.notNull(manager);
 		result.setOrganiser(manager);
 		result.setRegistered(new ArrayList<Chorbi>());
@@ -50,7 +53,7 @@ public class EventService {
 
 		return result;
 	}
-	
+
 	public Event findOneToEdit(final int eventId) {
 		Event result;
 
@@ -66,7 +69,7 @@ public class EventService {
 
 	public Collection<Event> findAllEventsInOneMonth() {
 		Collection<Event> result;
-		managerService.checkPrincipal();
+		this.managerService.checkPrincipal();
 		result = this.eventRepository.findAllEventsInOneMonth();
 		return result;
 	}
@@ -76,19 +79,21 @@ public class EventService {
 		result = this.eventRepository.findAllByChorbi(chorbiId);
 		return result;
 	}
-	
+
 	public Collection<Event> findAllByPrincipal() {
-		final Manager manager = managerService.findByPrincipal();
+		final Manager manager = this.managerService.findByPrincipal();
 		Assert.notNull(manager);
 		Collection<Event> result;
 		result = this.eventRepository.findAllByPrincipal(manager.getId());
 		return result;
 	}
 
-	public Event save(Event event){
+	public Event save(final Event event) {
 		Assert.notNull(event);
 		Event result;
-		result = eventRepository.save(event);
+		if (event.getId() != 0)
+			this.chirpService.automaticChirp(event);
+		result = this.eventRepository.save(event);
 		return result;
 	}
 
@@ -97,11 +102,11 @@ public class EventService {
 		Assert.notNull(event);
 		Assert.isTrue(event.getId() != 0);
 		this.checkPrincipal(event);
-		managerService.checkPrincipal();
+		this.managerService.checkPrincipal();
 
 		this.eventRepository.delete(event);
-		
-		Assert.isNull(eventRepository.findOne(event.getId()));
+
+		Assert.isNull(this.eventRepository.findOne(event.getId()));
 
 	}
 
@@ -109,16 +114,16 @@ public class EventService {
 		this.eventRepository.flush();
 
 	}
-	
-	public void register(Event event) {
-		final Chorbi chorbi = chorbiService.findByPrincipal();
+
+	public void register(final Event event) {
+		final Chorbi chorbi = this.chorbiService.findByPrincipal();
 		Assert.notNull(chorbi);
-		Assert.isTrue(event.getMoment().compareTo(new Date())>0);
-		Collection<Chorbi> registered = event.getRegistered();
-		if(event.getRegistered().contains(chorbi)){
+		Assert.isTrue(event.getMoment().compareTo(new Date()) > 0);
+		final Collection<Chorbi> registered = event.getRegistered();
+		if (event.getRegistered().contains(chorbi)) {
 			registered.remove(chorbi);
 			event.setRegistered(registered);
-		}else{
+		} else {
 			registered.add(chorbi);
 			event.setRegistered(registered);
 		}
@@ -141,7 +146,7 @@ public class EventService {
 	}
 
 	public Collection<Event> findAllByPrincipalChorbi() {
-		final Chorbi chorbi = chorbiService.findByPrincipal();
+		final Chorbi chorbi = this.chorbiService.findByPrincipal();
 		Assert.notNull(chorbi);
 		Collection<Event> result;
 		result = this.eventRepository.findAllByChorbi(chorbi.getId());

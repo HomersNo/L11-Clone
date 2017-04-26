@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.EventService;
+import services.ManagerService;
 import controllers.AbstractController;
 import domain.Event;
+import domain.Manager;
 
 @Controller
 @RequestMapping("/event/manager")
@@ -25,6 +27,9 @@ public class EventManagerController extends AbstractController {
 
 	@Autowired
 	private EventService	eventService;
+
+	@Autowired
+	private ManagerService	managerService;
 
 
 	//Constructor
@@ -37,10 +42,10 @@ public class EventManagerController extends AbstractController {
 	public ModelAndView create() {
 		ModelAndView result;
 		Event event;
-
 		event = this.eventService.create();
 		result = this.createEditModelAndView(event);
-
+		final Manager manager = this.managerService.findByPrincipal();
+		this.managerService.updateFee(manager);
 		return result;
 	}
 
