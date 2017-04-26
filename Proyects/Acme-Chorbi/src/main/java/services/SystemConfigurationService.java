@@ -70,7 +70,7 @@ public class SystemConfigurationService {
 			final Calendar calendar2 = Calendar.getInstance();
 			calendar2.setTime(systemConfiguration.getCacheTime());
 
-			Assert.isTrue(calendar1.before(calendar2));
+			Assert.isTrue(calendar1.before(calendar2) || calendar1.equals(calendar2));
 		} catch (final ParseException e) {
 
 		}

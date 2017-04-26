@@ -53,11 +53,16 @@ public class ChirpService {
 
 	public Chirp create() {
 		final Chirp result = new Chirp();
-		Chorbi sender;
+		Actor sender;
 		final Collection<String> attachments = new ArrayList<String>();
-		sender = this.chorbiService.findByPrincipal();
-		final Folder senderFolder = this.folderService.findSystemFolder(sender, "Sent");
-		result.setFolder(senderFolder);
+
+		sender = this.actorService.findByPrincipal();
+
+		if (sender instanceof Chorbi) {
+			final Chorbi senderChorbi = this.chorbiService.findByPrincipal();
+			final Folder senderFolder = this.folderService.findSystemFolder(senderChorbi, "Sent");
+			result.setFolder(senderFolder);
+		}
 		result.setMoment(new Date());
 		result.setSender(sender);
 		result.setAttachments(attachments);
@@ -159,6 +164,9 @@ public class ChirpService {
 	public Chirp reply(final Chirp chirp) {
 		final Chirp result;
 		result = this.create();
+		Collection<String> attachments;
+		attachments = chirp.getAttachments();
+		result.setAttachments(attachments);
 		result.setSubject("Re: " + chirp.getSubject());
 		result.setRecipient(chirp.getSender());
 
@@ -169,7 +177,8 @@ public class ChirpService {
 
 		Chirp result;
 		result = this.create();
-		result.setAttachments(chirp.getAttachments());
+		final Collection<String> attachments = chirp.getAttachments();
+		result.setAttachments(attachments);
 		result.setSubject(chirp.getSubject());
 		result.setText(chirp.getText());
 		result.setRecipient(chorbi);
@@ -178,19 +187,55 @@ public class ChirpService {
 		return result;
 	}
 
-	public Chirp broadcast(final ChirpBroadcast chirp, final Event event) {
+	public Chirp broadcast(final ChirpBroadcast chirp) {
 
 		Chirp message;
 		message = this.create();
 
+		String subject = chirp.getSubject();
+		subject = "BROAD: " + subject;
+
 		message.setAttachments(chirp.getAttachments());
-		message.setSubject(chirp.getSubject());
+		message.setSubject(subject);
 		message.setText(chirp.getText());
+		message.setMoment(new Date(System.currentTimeMillis() - 1));
 
 		Collection<Chorbi> recipients;
-		recipients = this.chorbiService.findChorbiesRegisteredEvent(event.getId());
+		recipients = this.chorbiService.findChorbiesRegisteredEvent(chirp.getEvent().getId());
+
+		for (final Chorbi c : recipients) {
+			final Folder recipientFolder = this.folderService.findSystemFolder(c, "Received");
+			message.setFolder(recipientFolder);
+			message.setRecipient(c);
+			this.messageRepository.save(message);
+
+		}
 
 		return message;
+	}
+
+	public void automaticChirp(final Event event) {
+
+		Chirp chirp;
+		Collection<Chorbi> recipients;
+
+		chirp = this.create();
+		recipients = this.chorbiService.findChorbiesRegisteredEvent(event.getId());
+
+		final String text = "The event " + event.getTitle() + " in which you are registered has been edited or deleted \n" + "El evento " + event.getTitle() + " en el que está registrado ha sido modificado o borrado";
+		final String subject = event.getTitle() + " Warn";
+
+		chirp.setSubject(subject);
+		chirp.setText(text);
+		chirp.setMoment(new Date(System.currentTimeMillis() - 1));
+
+		for (final Chorbi c : recipients) {
+			final Folder recipientFolder = this.folderService.findSystemFolder(c, "Received");
+			chirp.setFolder(recipientFolder);
+			chirp.setRecipient(c);
+			this.messageRepository.save(chirp);
+
+		}
 	}
 	// Principal Checkers
 

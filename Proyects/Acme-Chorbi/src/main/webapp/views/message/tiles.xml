@@ -22,7 +22,7 @@
 	</definition>
 	
 	<definition name="message/edit" extends="master.page">	
-		<put-attribute name="title" value="Send message" />
+		<put-attribute name="title" value="Send chirp" />
 		<put-attribute name="body" value="/views/message/edit.jsp" />
 	</definition>
 	
@@ -31,4 +31,13 @@
 		<put-attribute name="body" value="/views/message/move.jsp" />
 	</definition>
 	
+	<definition name="message/move" extends="master.page">	
+		<put-attribute name="title" value="Cambiar carpeta" />
+		<put-attribute name="body" value="/views/message/move.jsp" />
+	</definition>
+	
+	<definition name="message/broadcast" extends="master.page">	
+		<put-attribute name="title" value="Broadcast chirp" />
+		<put-attribute name="body" value="/views/message/broadcast.jsp" />
+	</definition>
 </tiles-definitions>
