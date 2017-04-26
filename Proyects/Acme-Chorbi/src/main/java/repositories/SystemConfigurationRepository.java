@@ -40,6 +40,6 @@ public interface SystemConfigurationRepository extends JpaRepository<SystemConfi
 
 	//Dashboard 2.0
 
-	@Query("select new List(min(l.stars), avg(l.stars), max(l.stars)) from Likes l")
-	List<Double> minMaxAvgStars();
+	@Query("select min(l.stars), avg(l.stars), max(l.stars) from Likes l")
+	Object[] minMaxAvgStars();
 }

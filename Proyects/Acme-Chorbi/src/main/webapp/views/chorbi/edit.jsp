@@ -83,7 +83,8 @@
 		<spring:message code="chorbi.save" />
 	</button>
 	
-	<acme:cancel url="welcome/index.do" code="chorbi.cancel"/>
-	
+	<input type="button" name="cancel"
+		value="<spring:message code="manager.cancel" />"
+		onclick="location.href = ('welcome/index.do');" />	
 	
 </form:form>

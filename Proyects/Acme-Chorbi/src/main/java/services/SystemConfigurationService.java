@@ -179,8 +179,8 @@ public class SystemConfigurationService {
 	//Dashboard 2.0
 
 	// The minimum, the maximum, and the average number of stars per chorbi.
-	public List<Double> minMaxAvgStars() {
-		List<Double> result;
+	public Object[] minMaxAvgStars() {
+		Object[] result;
 		result = this.systemConfigurationRepository.minMaxAvgStars();
 		return result;
 	}

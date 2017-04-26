@@ -20,6 +20,23 @@
 <div>
 	<ul id="jMenu">
 		<!-- Do not forget the "fNiv" class for the first level links !! -->
+		<li><a class="fNiv"><spring:message	code="master.page.events" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<security:authorize access="hasRole('MANAGER')">
+						<li><a href="event/manager/list.do"><spring:message code="master.page.event.manager.list" /></a></li>
+						<li><a href="event/manager/create.do"><spring:message code="master.page.event.manager.create" /></a></li>
+					</security:authorize>
+					<li><a href="event/list.do"><spring:message code="master.page.events.all" /></a></li>
+					<li><a href="event/listInminent.do"><spring:message code="master.page.events.imminent" /></a></li>
+					<security:authorize access="hasRole('CHORBI')">
+						<li><a href="event/chorbi/list.do"><spring:message code="master.page.events.chorbi.list" /></a></li>
+					</security:authorize>
+									
+				</ul>
+		</li>
+		
+		
 		<security:authorize access="hasRole('ADMIN')">
 			<li><a class="fNiv"><spring:message	code="master.page.chorbi" /></a>
 				<ul>
@@ -35,11 +52,18 @@
 					<li><a href="j_spring_security_logout"><spring:message code="master.page.logout" /> </a></li>				
 				</ul>
 			</li>
+			
 		</security:authorize>
 		
 		<security:authorize access="isAnonymous()">
 			<li><a class="fNiv" href="security/login.do"><spring:message code="master.page.login" /></a></li>
-			<li><a class="fNiv" href="chorbi/register.do"><spring:message code="master.page.register" /></a></li>
+			<li><a class="fNiv"><spring:message	code="master.page.register" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="chorbi/register.do"><spring:message code="master.page.as.chorbi" /></a></li>
+					<li><a href="manager/register.do"><spring:message code="master.page.as.manager" /></a></li>				
+				</ul>
+			</li>
 		</security:authorize>
 		
 		<security:authorize access="hasRole('CHORBI')">
@@ -78,6 +102,25 @@
 					<li><a href="chorbi/chorbi/display.do"><spring:message code="master.page.chorbi.display" /></a></li>
 					<li><a href="chorbi/chorbi/edit.do"><spring:message code="master.page.chorbi.edit" /></a></li>
 					<li><a href="creditCard/chorbi/edit.do"><spring:message code="master.page.credit" /></a></li>
+					<li><a href="j_spring_security_logout"><spring:message code="master.page.logout" /> </a></li>
+				</ul>
+			</li>
+			
+		</security:authorize>
+		
+		<security:authorize access="hasRole('MANAGER')">
+			
+			
+			<li>
+				<a class="fNiv"> 
+					<spring:message code="master.page.profile" /> 
+			        (<security:authentication property="principal.username" />)
+				</a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="manager/manager/display.do"><spring:message code="master.page.manager.display" /></a></li>
+					<li><a href="manager/manager/edit.do"><spring:message code="master.page.manager.edit" /></a></li>
+					<li><a href="creditCard/manager/edit.do"><spring:message code="master.page.manager.credit" /></a></li>
 					<li><a href="j_spring_security_logout"><spring:message code="master.page.logout" /> </a></li>
 				</ul>
 			</li>

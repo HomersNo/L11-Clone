@@ -38,7 +38,7 @@
 	
 	<spring:message code="message.title" var="titleHeader" />
 	<display:column title="${titleHeader}" sortable="true" >
-		${mask:mask(row.subject) }
+		${mask:mask(row.subject) } 
 	</display:column>
 
 	<spring:message code="message.moment" var="momentHeader" />

@@ -892,6 +892,8 @@
 			</list>
 		</property>
 		<property name="cacheTime" value="07/04/2017 12:00:00"/>
+		<property name="feeManager" value="1.0"/>
+		<property name="feeChorbi" value="1.0"/>
 	</bean>
 	
 </beans>
