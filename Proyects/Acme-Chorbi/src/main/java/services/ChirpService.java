@@ -165,7 +165,7 @@ public class ChirpService {
 		final Chirp result;
 		result = this.create();
 		Collection<String> attachments;
-		attachments = chirp.getAttachments();
+		attachments = new ArrayList<String>(chirp.getAttachments());
 		result.setAttachments(attachments);
 		result.setSubject("Re: " + chirp.getSubject());
 		result.setRecipient(chirp.getSender());
@@ -177,7 +177,7 @@ public class ChirpService {
 
 		Chirp result;
 		result = this.create();
-		final Collection<String> attachments = chirp.getAttachments();
+		final Collection<String> attachments = new ArrayList<String>(chirp.getAttachments());
 		result.setAttachments(attachments);
 		result.setSubject(chirp.getSubject());
 		result.setText(chirp.getText());

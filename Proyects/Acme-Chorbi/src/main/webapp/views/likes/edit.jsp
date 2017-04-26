@@ -31,6 +31,17 @@
 
     <acme:textbox code="likes.comment" path="comment"/>
     
+    <form:label path="stars">
+		<spring:message code="likes.stars" />:
+	</form:label>
+	<form:select id="stars" path="stars">
+		<form:option value="0" label="0"/>
+		<form:option value="1" label="1"/>
+		<form:option value="2" label="2"/>
+		<form:option value="3" label="3"/>
+	</form:select>
+	<form:errors cssClass="error" path="stars" />
+    
 	<br/>
 	
 	<button type="submit" name="save" class="btn btn-primary" id="save">
@@ -38,6 +49,8 @@
 	</button>
 	
 	<acme:cancel url="likes/chorbi/list.do" code="chorbi.cancel"/>
+	
+	
 	
 	
 </form:form>
