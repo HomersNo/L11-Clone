@@ -100,32 +100,9 @@ public class SearchTemplateService {
 		Assert.notNull(creditCard);
 		Assert.isTrue(this.creditCardService.checkCCNumber(creditCard.getCreditCardNumber()) && this.creditCardService.expirationDate(creditCard));
 		Collection<Chorbi> filtered;
-		filtered = new ArrayList<Chorbi>();
-		filtered.addAll(this.chorbiService.findAllNotBanned());
 
-		if (searchTemplate.getRelationshipType() != "" && searchTemplate.getRelationshipType() != null)
-			filtered.retainAll(this.chorbiService.findByRelationshipType(searchTemplate.getRelationshipType()));
-
-		if (searchTemplate.getAge() != null)
-			filtered.retainAll(this.chorbiService.findByAge(searchTemplate.getAge()));
-
-		if (searchTemplate.getGenre() != "" && searchTemplate.getGenre() != null)
-			filtered.retainAll(this.chorbiService.findByGenre(searchTemplate.getGenre()));
-
-		if (searchTemplate.getKeyword() != "" && searchTemplate.getKeyword() != null)
-			filtered.retainAll(this.chorbiService.findByKeyword(searchTemplate.getKeyword()));
-
-		if (searchTemplate.getCountry() != "" && searchTemplate.getCountry() != null)
-			filtered.retainAll(this.chorbiService.findByCountry(searchTemplate.getCountry()));
-
-		if (searchTemplate.getState() != "" && searchTemplate.getState() != null)
-			filtered.retainAll(this.chorbiService.findByState(searchTemplate.getState()));
-
-		if (searchTemplate.getProvince() != "" && searchTemplate.getProvince() != null)
-			filtered.retainAll(this.chorbiService.findByProvince(searchTemplate.getProvince()));
-
-		if (searchTemplate.getCity() != "" && searchTemplate.getCity() != null)
-			filtered.retainAll(this.chorbiService.findByCity(searchTemplate.getCity()));
+		filtered = this.chorbiService.search(searchTemplate.getRelationshipType(), searchTemplate.getGenre(), searchTemplate.getCountry(), searchTemplate.getState(), searchTemplate.getProvince(), searchTemplate.getCity(), searchTemplate.getAge(),
+			searchTemplate.getKeyword());
 
 		searchTemplate.setChorbies(filtered);
 
@@ -187,50 +164,7 @@ public class SearchTemplateService {
 		final Chorbi principal = this.chorbiService.findByPrincipal();
 		final SearchTemplate chorbiTemplate = this.findSearchTemplateByChorbi(principal);
 		if (chorbiTemplate != null) {
-			Boolean relationshipType;
-			Boolean age;
-			Boolean genre;
-			Boolean keyword;
-			Boolean country;
-			Boolean state;
-			Boolean province;
-			Boolean city;
-
-			relationshipType = true;
-			age = true;
-			genre = true;
-			keyword = true;
-			country = true;
-			state = true;
-			province = true;
-			city = true;
-
-			if (searchTemplate.getRelationshipType() != "" && searchTemplate.getRelationshipType() != null)
-				relationshipType = chorbiTemplate.getRelationshipType().equals(searchTemplate.getRelationshipType());
-
-			if (searchTemplate.getAge() != null)
-				age = chorbiTemplate.getAge().equals(searchTemplate.getAge());
-
-			if (searchTemplate.getGenre() != "" && searchTemplate.getGenre() != null)
-				genre = chorbiTemplate.getGenre().equals(searchTemplate.getGenre());
-
-			if (searchTemplate.getKeyword() != "" && searchTemplate.getKeyword() != null)
-				keyword = chorbiTemplate.getKeyword().equals(searchTemplate.getKeyword());
-
-			if (searchTemplate.getCountry() != "" && searchTemplate.getCountry() != null)
-				country = chorbiTemplate.getCountry().equals(searchTemplate.getCountry());
-
-			if (searchTemplate.getState() != "" && searchTemplate.getState() != null)
-				state = chorbiTemplate.getState().equals(searchTemplate.getState());
-
-			if (searchTemplate.getProvince() != "" && searchTemplate.getProvince() != null)
-				province = chorbiTemplate.getProvince().equals(searchTemplate.getProvince());
-
-			if (searchTemplate.getCity() != "" && searchTemplate.getCity() != null)
-				city = chorbiTemplate.getCity().equals(searchTemplate.getCity());
-
-			final Boolean isEqual = relationshipType && age && genre && keyword && country && state && province && city;
-
+			final Boolean isEqual = chorbiTemplate.equals(searchTemplate);
 			if (now.minus(system.getCacheTime().getTime()).isBefore(last) && isEqual)
 				res = true;
 			else

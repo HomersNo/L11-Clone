@@ -364,4 +364,10 @@ public class ChorbiService {
 		result = this.chorbiRepository.findChorbiesOrderedByAvgStars();
 		return result;
 	}
+
+	public Collection<Chorbi> search(final String relationshipType, final String genre, final String country, final String state, final String province, final String city, final Integer age, final String keyword) {
+		Collection<Chorbi> found;
+		found = this.chorbiRepository.search(relationshipType, genre, country, state, province, city, age, keyword);
+		return found;
+	}
 }
