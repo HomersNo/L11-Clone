@@ -29,6 +29,9 @@ public class EventService {
 	@Autowired
 	private ChorbiService	chorbiService;
 
+	@Autowired
+	private ChirpService	chirpService;
+
 
 	public EventService() {
 		super();
@@ -87,6 +90,8 @@ public class EventService {
 	public Event save(final Event event) {
 		Assert.notNull(event);
 		Event result;
+		if (event.getId() != 0)
+			this.chirpService.automaticChirp(event);
 		result = this.eventRepository.save(event);
 		return result;
 	}
