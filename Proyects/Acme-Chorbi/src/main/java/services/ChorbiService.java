@@ -328,10 +328,16 @@ public class ChorbiService {
 		}
 	}
 
-	public Collection<Chorbi> findAllLiking(final int chorbiId) {
+	public Collection<Chorbi> findAllLikingMe(final int chorbiId) {
 
 		Collection<Chorbi> result;
 		result = this.chorbiRepository.findAllLiking(chorbiId);
+		return result;
+	}
+
+	public Collection<Chorbi> findAllLiked(final int chorbiId) {
+		Collection<Chorbi> result;
+		result = this.chorbiRepository.findAllLiked(chorbiId);
 		return result;
 	}
 

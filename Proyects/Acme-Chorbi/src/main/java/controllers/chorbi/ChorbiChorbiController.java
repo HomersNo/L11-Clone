@@ -19,7 +19,6 @@ import services.LikesService;
 import services.SearchTemplateService;
 import domain.Chorbi;
 import domain.CreditCard;
-import domain.Likes;
 import domain.SearchTemplate;
 
 @Controller
@@ -97,12 +96,12 @@ public class ChorbiChorbiController {
 		ModelAndView result;
 
 		Collection<Chorbi> chorbis;
-		Collection<Likes> likes;
+		Collection<Chorbi> likes;
 		Chorbi principal;
 
 		principal = this.chorbiService.findByPrincipal();
-		chorbis = this.chorbiService.findAllLiking(principal.getId());
-		likes = this.likesService.findAllByPrincipal();
+		chorbis = this.chorbiService.findAllLikingMe(principal.getId());
+		likes = this.chorbiService.findAllLiked(principal.getId());
 
 		result = new ModelAndView("chorbi/list");
 		result.addObject("chorbis", chorbis);
@@ -117,7 +116,7 @@ public class ChorbiChorbiController {
 
 		ModelAndView result;
 		Collection<Chorbi> chorbies;
-		Collection<Likes> likes;
+		Collection<Chorbi> likes;
 		final Chorbi principal = this.chorbiService.findByPrincipal();
 		final CreditCard credit = this.creditCardService.findByPrincipal();
 		if (credit != null) {
@@ -129,7 +128,7 @@ public class ChorbiChorbiController {
 					else {
 						chorbies = this.chorbiService.findAllFound(search.getId());
 						chorbies.remove(principal);
-						likes = this.likesService.findAllByPrincipal();
+						likes = this.chorbiService.findAllLiked(principal.getId());
 						result = new ModelAndView("chorbi/list");
 						result.addObject("chorbis", chorbies);
 						result.addObject("likes", likes);
@@ -139,7 +138,7 @@ public class ChorbiChorbiController {
 
 					chorbies = this.chorbiService.findAllFound(searchTemplateId);
 					chorbies.remove(principal);
-					likes = this.likesService.findAllByPrincipal();
+					likes = this.chorbiService.findAllLiked(principal.getId());
 					result = new ModelAndView("chorbi/list");
 					result.addObject("chorbis", chorbies);
 					result.addObject("likes", likes);
