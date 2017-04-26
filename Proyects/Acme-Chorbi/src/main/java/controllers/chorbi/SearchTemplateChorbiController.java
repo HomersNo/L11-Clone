@@ -3,6 +3,7 @@ package controllers.chorbi;
 
 import javax.validation.Valid;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -12,9 +13,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.ChorbiService;
 import services.SearchTemplateService;
+import services.SystemConfigurationService;
 import controllers.AbstractController;
 import domain.Chorbi;
 import domain.SearchTemplate;
+import domain.SystemConfiguration;
 
 @Controller
 @RequestMapping("/searchTemplate/chorbi")
@@ -22,10 +25,13 @@ public class SearchTemplateChorbiController extends AbstractController {
 
 	//Services --------------------
 	@Autowired
-	private SearchTemplateService	searchTemplateService;
+	private SearchTemplateService		searchTemplateService;
 
 	@Autowired
-	private ChorbiService			chorbiService;
+	private ChorbiService				chorbiService;
+
+	@Autowired
+	private SystemConfigurationService	scService;
 
 
 	//Constructor -----------------
@@ -58,21 +64,28 @@ public class SearchTemplateChorbiController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid SearchTemplate searchTemplate, final BindingResult binding) {
+	public ModelAndView save(@Valid final SearchTemplate searchTemplate, final BindingResult binding) {
 		ModelAndView result;
+		Boolean sameFields;
+		final SystemConfiguration system = this.scService.findMain();
+		final DateTime last = new DateTime(searchTemplate.getMoment()); // Esto se pone una vez reconstruido el objeto, tú veras como lo pones
+		final DateTime now = DateTime.now();
+
+		SearchTemplate search;
 		if (binding.hasErrors())
 			result = this.createEditModelAndView(searchTemplate);
 		else
 			try {
-				searchTemplate = this.searchTemplateService.reconstruct(searchTemplate, binding);
+				sameFields = this.searchTemplateService.checkCache(searchTemplate);
+				search = this.searchTemplateService.reconstruct(searchTemplate, binding);
 				if (binding.hasErrors())
-					result = this.createEditModelAndView(searchTemplate);
-				if (this.searchTemplateService.checkCache(searchTemplate)) {
-					result = new ModelAndView("redirect:/chorbi/chorbi/listFound.do?searchTemplateId=" + searchTemplate.getId());
+					result = this.createEditModelAndView(search);
+				if (now.minus(system.getCacheTime().getTime()).isBefore(last) && sameFields) {
+					result = new ModelAndView("redirect:/chorbi/chorbi/listFound.do?searchTemplateId=" + search.getId());
 					result.addObject("message", "searchTemplate.commit.ok");
 				} else {
-					this.searchTemplateService.save(searchTemplate);
-					result = new ModelAndView("redirect:/chorbi/chorbi/listFound.do?searchTemplateId=" + searchTemplate.getId());
+					this.searchTemplateService.save(search);
+					result = new ModelAndView("redirect:/chorbi/chorbi/listFound.do?searchTemplateId=" + search.getId());
 					result.addObject("message", "searchTemplate.commit.ok");
 				}
 

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +18,6 @@ import security.UserAccount;
 import domain.Chorbi;
 import domain.CreditCard;
 import domain.SearchTemplate;
-import domain.SystemConfiguration;
 
 @Service
 @Transactional
@@ -136,7 +134,6 @@ public class SearchTemplateService {
 		else {
 			result = this.searchTemplateRepository.findOne(searchTemplate.getId());
 
-			result.setChorbies(searchTemplate.getChorbies());
 			result.setAge(searchTemplate.getAge());
 			result.setKeyword(searchTemplate.getKeyword());
 			result.setChorbi(searchTemplate.getChorbi());
@@ -149,6 +146,7 @@ public class SearchTemplateService {
 			result.setState(searchTemplate.getState());
 
 			this.validator.validate(result, binding);
+			this.searchTemplateRepository.flush();
 		}
 
 		return result;
@@ -157,18 +155,54 @@ public class SearchTemplateService {
 	public Boolean checkCache(final SearchTemplate searchTemplate) {
 
 		Boolean res = true;
-		final SystemConfiguration system = this.scService.findMain();
-		final DateTime last = new DateTime(searchTemplate.getMoment());
-		final DateTime now = DateTime.now();
 
 		final Chorbi principal = this.chorbiService.findByPrincipal();
 		final SearchTemplate chorbiTemplate = this.findSearchTemplateByChorbi(principal);
 		if (chorbiTemplate != null) {
-			final Boolean isEqual = chorbiTemplate.equals(searchTemplate);
-			if (now.minus(system.getCacheTime().getTime()).isBefore(last) && isEqual)
-				res = true;
-			else
-				res = false;
+			Boolean relationshipType;
+			Boolean age;
+			Boolean genre;
+			Boolean keyword;
+			Boolean country;
+			Boolean state;
+			Boolean province;
+			Boolean city;
+
+			relationshipType = true;
+			age = true;
+			genre = true;
+			keyword = true;
+			country = true;
+			state = true;
+			province = true;
+			city = true;
+
+			if (searchTemplate.getRelationshipType() != "" && searchTemplate.getRelationshipType() != null)
+				relationshipType = chorbiTemplate.getRelationshipType().equals(searchTemplate.getRelationshipType());
+
+			if (searchTemplate.getAge() != null)
+				age = chorbiTemplate.getAge().equals(searchTemplate.getAge());
+
+			if (searchTemplate.getGenre() != "" && searchTemplate.getGenre() != null)
+				genre = chorbiTemplate.getGenre().equals(searchTemplate.getGenre());
+
+			if (searchTemplate.getKeyword() != "" && searchTemplate.getKeyword() != null)
+				keyword = chorbiTemplate.getKeyword().equals(searchTemplate.getKeyword());
+
+			if (searchTemplate.getCountry() != "" && searchTemplate.getCountry() != null)
+				country = chorbiTemplate.getCountry().equals(searchTemplate.getCountry());
+
+			if (searchTemplate.getState() != "" && searchTemplate.getState() != null)
+				state = chorbiTemplate.getState().equals(searchTemplate.getState());
+
+			if (searchTemplate.getProvince() != "" && searchTemplate.getProvince() != null)
+				province = chorbiTemplate.getProvince().equals(searchTemplate.getProvince());
+
+			if (searchTemplate.getCity() != "" && searchTemplate.getCity() != null)
+				city = chorbiTemplate.getCity().equals(searchTemplate.getCity());
+
+			res = relationshipType && age && genre && keyword && country && state && province && city;
+
 		} else
 			res = false;
 
