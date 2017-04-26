@@ -344,6 +344,14 @@ public class ChorbiService {
 		return result;
 	}
 
+	public Collection<Chorbi> findChorbiesRegisteredEvent(final int eventId) {
+
+		Collection<Chorbi> result;
+		result = this.chorbiRepository.findChorbiesRegisteredEvent(eventId);
+
+		return result;
+	}
+
 	// The list of chorbies, sorted by the average number of stars that they've got.
 	public Collection<Chorbi> findChorbiesOrderedByAvgStars() {
 		Collection<Chorbi> result;
