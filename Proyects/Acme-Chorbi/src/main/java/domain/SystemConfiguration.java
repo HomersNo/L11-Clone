@@ -11,8 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -35,7 +35,7 @@ public class SystemConfiguration extends DomainEntity {
 
 
 	@ElementCollection
-	@NotEmpty
+	@NotNull
 	public Collection<String> getBanners() {
 		return this.banners;
 	}
@@ -45,6 +45,7 @@ public class SystemConfiguration extends DomainEntity {
 
 	@Temporal(TemporalType.TIME)
 	@DateTimeFormat(pattern = "HH:mm:ss")
+	@NotNull
 	public Date getCacheTime() {
 		return this.cacheTime;
 	}
@@ -53,6 +54,7 @@ public class SystemConfiguration extends DomainEntity {
 	}
 
 	@Min(0)
+	@NotNull
 	public Double getFeeManager() {
 		return this.feeManager;
 	}
@@ -61,6 +63,7 @@ public class SystemConfiguration extends DomainEntity {
 	}
 
 	@Min(0)
+	@NotNull
 	public Double getFeeChorbi() {
 		return this.feeChorbi;
 	}

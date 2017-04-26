@@ -11,12 +11,14 @@ import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
+
 import repositories.ManagerRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.CreditCard;
 import domain.Manager;
+import domain.SystemConfiguration;
 import forms.RegisterManager;
 
 @Service
@@ -24,10 +26,11 @@ import forms.RegisterManager;
 public class ManagerService {
 
 	@Autowired
-	private ManagerRepository	managerRepository;
+	private ManagerRepository			managerRepository;
 
 	@Autowired
 	private SystemConfigurationService	systemConfigurationService;
+
 
 	public ManagerService() {
 		super();
@@ -92,70 +95,70 @@ public class ManagerService {
 	}
 
 	public ArrayList<Object> reconstruct(final RegisterManager registerManager, final BindingResult binding) {
-		ArrayList<Object> result = new ArrayList<Object>();
+		final ArrayList<Object> result = new ArrayList<Object>();
 		Manager manager;
 		Assert.isTrue(registerManager.isAccept());
-		CreditCard creditCard = new CreditCard();
+		final CreditCard creditCard = new CreditCard();
 		manager = this.create();
 
 		manager.setName(registerManager.getName());
 		manager.setSurname(registerManager.getSurname());
 		manager.setPhoneNumber(registerManager.getPhoneNumber());
 		manager.setEmail(registerManager.getEmail());
-		manager.setCumulatedFee(systemConfigurationService.findMain().getFeeManager());
-		
+		manager.setCumulatedFee(this.systemConfigurationService.findMain().getFeeManager());
+
 		manager.setCompanyName(registerManager.getCompanyName());
 		manager.setVATNumber(registerManager.getVATNumber());
 
 		manager.getUserAccount().setUsername(registerManager.getUsername());
 		manager.getUserAccount().setPassword(registerManager.getPassword());
-		
+
 		creditCard.setBrandName(registerManager.getBrandName());
 		creditCard.setHolderName(registerManager.getHolderName());
 		creditCard.setCreditCardNumber(registerManager.getCreditCardNumber());
 		creditCard.setCVV(registerManager.getCVV());
 		creditCard.setExpirationMonth(registerManager.getExpirationMonth());
 		creditCard.setExpirationYear(registerManager.getExpirationYear());
-		
+
 		result.add(manager);
 		result.add(creditCard);
 
 		return result;
 	}
 
-//	public Manager reconstruct(final Manager manager, final BindingResult binding) {
-//		Manager result;
-//
-//		if (manager.getId() == 0)
-//			result = manager;
-//		else {
-//			result = this.managerRepository.findOne(manager.getId());
-//
-//			manager.setName(registerManager.getName());
-//			manager.setSurname(registerManager.getSurname());
-//			manager.setPhoneNumber(registerManager.getPhoneNumber());
-//			manager.setEmail(registerManager.getEmail());
-//			
-//			manager.setCompanyName(registerManager.getCompanyName());
-//			manager.setVATNumber(registerManager.getVATNumber());
-//
-//			manager.getUserAccount().setUsername(registerManager.getUsername());
-//			manager.getUserAccount().setPassword(registerManager.getPassword());
-//			
-//			creditCard.setBrandName(registerManager.getBrandName());
-//			creditCard.setHolderName(registerManager.getHolderName());
-//			creditCard.setCreditCardNumber(registerManager.getCreditCardNumber());
-//			creditCard.setCVV(registerManager.getCVV());
-//			creditCard.setExpirationMonth(registerManager.getExpirationMonth());
-//			creditCard.setExpirationYear(registerManager.getExpirationYear());
-//
-//			result.getUserAccount().setPassword(manager.getUserAccount().getPassword());
-//
-//			this.validator.validate(result, binding);
-//		}
-//
-//		return result;
-//	}
+	//	public Manager reconstruct(final Manager manager, final BindingResult binding) {
+	//		Manager result;
+	//
+	//		if (manager.getId() == 0)
+	//			result = manager;
+	//		else {
+	//			result = this.managerRepository.findOne(manager.getId());
+	//
+	//			manager.setName(registerManager.getName());
+	//			manager.setSurname(registerManager.getSurname());
+	//			manager.setPhoneNumber(registerManager.getPhoneNumber());
+	//			manager.setEmail(registerManager.getEmail());
+	//			
+	//			manager.setCompanyName(registerManager.getCompanyName());
+	//			manager.setVATNumber(registerManager.getVATNumber());
+	//
+	//			manager.getUserAccount().setUsername(registerManager.getUsername());
+	//			manager.getUserAccount().setPassword(registerManager.getPassword());
+	//			
+	//			creditCard.setBrandName(registerManager.getBrandName());
+	//			creditCard.setHolderName(registerManager.getHolderName());
+	//			creditCard.setCreditCardNumber(registerManager.getCreditCardNumber());
+	//			creditCard.setCVV(registerManager.getCVV());
+	//			creditCard.setExpirationMonth(registerManager.getExpirationMonth());
+	//			creditCard.setExpirationYear(registerManager.getExpirationYear());
+	//
+	//			result.getUserAccount().setPassword(manager.getUserAccount().getPassword());
+	//
+	//			this.validator.validate(result, binding);
+	//		}
+	//
+	//		return result;
+	//	}
 
 	public Manager findByPrincipal() {
 		Manager result;
@@ -189,6 +192,12 @@ public class ManagerService {
 		final Collection<Manager> result = this.findLikersOfManager(likedId);
 
 		return result;
+	}
+
+	public void updateFee(Manager manager) {
+		final SystemConfiguration sc = this.systemConfigurationService.findMain();
+		manager.setCumulatedFee(manager.getCumulatedFee() + sc.getFeeManager());
+		manager = this.save(manager);
 	}
 
 	public void flush() {

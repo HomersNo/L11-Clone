@@ -64,10 +64,9 @@
 	<security:authorize access="hasAnyRole('CHORBI')">
 		<spring:message code="chorbi.like" var="likeHeader" />
 		<display:column title="${likeHeader}">
-		<jstl:forEach items="${likes}" var="likes">
 			<jstl:choose>
-				<jstl:when test="${row.id == likes.liked.id}">
-					<a href="likes/chorbi/delete.do?likesId=${likes.id}">
+				<jstl:when test="${likes.contains(row)}">
+					<a href="likes/chorbi/delete.do?likesId=${like.id}">
 		 			<spring:message code="chorbi.dislike" />
 		 			</a>
 				</jstl:when>
@@ -77,7 +76,6 @@
 		 			</a>
 				</jstl:otherwise>
 			</jstl:choose>
-		</jstl:forEach>
 		</display:column>
 	</security:authorize>
 	

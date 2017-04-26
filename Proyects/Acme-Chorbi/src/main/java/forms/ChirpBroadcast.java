@@ -9,6 +9,8 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import domain.Event;
+
 public class ChirpBroadcast {
 
 	public ChirpBroadcast() {
@@ -20,6 +22,7 @@ public class ChirpBroadcast {
 	private String				subject;
 	private String				text;
 	private Collection<String>	attachments;
+	private Event				event;
 
 
 	@NotBlank
@@ -38,8 +41,6 @@ public class ChirpBroadcast {
 	}
 
 	@ElementCollection
-	@Valid
-	@NotNull
 	public Collection<String> getAttachments() {
 		return this.attachments;
 	}
@@ -56,4 +57,12 @@ public class ChirpBroadcast {
 		this.attachment = attachment;
 	}
 
+	@NotNull
+	@Valid
+	public Event getEvent() {
+		return this.event;
+	}
+	public void setEvent(final Event event) {
+		this.event = event;
+	}
 }

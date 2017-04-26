@@ -56,6 +56,9 @@ public interface ChorbiRepository extends JpaRepository<Chorbi, Integer> {
 	@Query("Select c from Chorbi c where c.banned = false")
 	Collection<Chorbi> findAllNotBanned();
 
+	@Query("select l.liked from Likes l where l.chorbi.id = ?1")
+	Collection<Chorbi> findAllLiked(int chorbiId);
+
 	//Dashboard queries
 
 	@Query("select new list(count(c) as count, c.city as city) from Chorbi c group by c.city")
@@ -101,4 +104,5 @@ public interface ChorbiRepository extends JpaRepository<Chorbi, Integer> {
 
 	@Query("select l.liked from Likes l group by l.liked order by avg(l.stars) DESC")
 	Collection<Chorbi> findChorbiesOrderedByAvgStars();
+
 }
