@@ -64,6 +64,7 @@ public class Event extends DomainEntity {
 		this.picture = picture;
 	}
 
+	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	public Date getMoment() {
