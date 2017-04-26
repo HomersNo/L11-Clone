@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import repositories.CreditCardRepository;
-import domain.Chorbi;
 import domain.CreditCard;
+import domain.CreditHolder;
 
 @Service
 @Transactional
@@ -22,7 +22,7 @@ public class CreditCardService {
 	private CreditCardRepository	creditCardRepository;
 
 	@Autowired
-	private ChorbiService			chorbiService;
+	private CreditHolderService			creditHolderService;
 
 
 	public CreditCardService() {
@@ -31,13 +31,12 @@ public class CreditCardService {
 
 	public CreditCard create() {
 		CreditCard result;
-		final Chorbi chorbi = this.chorbiService.findByPrincipal();
+		final CreditHolder creditHolder = this.creditHolderService.findByPrincipal();
 		result = new CreditCard();
-		result.setChorbi(chorbi);
+		result.setHolder(creditHolder);
 
 		return result;
 	}
-
 	public CreditCard findOne(final int creditCardId) {
 		Assert.isTrue(creditCardId != 0);
 
@@ -114,9 +113,9 @@ public class CreditCardService {
 
 	public CreditCard findByPrincipal() {
 		CreditCard result;
-		Chorbi chorbi;
-		chorbi = this.chorbiService.findByPrincipal();
-		result = this.creditCardRepository.findByChorbiId(chorbi.getId());
+		CreditHolder creditHolder;
+		creditHolder = this.creditHolderService.findByPrincipal();
+		result = this.creditCardRepository.findByHolderId(creditHolder.getId());
 		return result;
 	}
 

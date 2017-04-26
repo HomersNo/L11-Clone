@@ -52,6 +52,14 @@
 		<bean class="converters.UserAccountToStringConverter" />
 		<bean class="converters.StringToUserAccountConverter" />
 		
+		<bean class="converters.EventToStringConverter" />
+		<bean class="converters.StringToEventConverter" />
+		
+		
+		<bean class="converters.ManagerToStringConverter" />
+		<bean class="converters.StringToManagerConverter" />
+		
+		
 	</util:list>
 	
 </beans>

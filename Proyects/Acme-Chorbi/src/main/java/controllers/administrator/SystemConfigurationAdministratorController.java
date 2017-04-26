@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ChorbiService;
+import services.ManagerService;
 import services.SystemConfigurationService;
 import controllers.AbstractController;
 import domain.Chorbi;
+import domain.Manager;
 import domain.SystemConfiguration;
 
 @Controller
@@ -30,6 +32,9 @@ public class SystemConfigurationAdministratorController extends AbstractControll
 
 	@Autowired
 	private ChorbiService				chorbiService;
+
+	@Autowired
+	private ManagerService				managerService;
 
 
 	//Contructor
@@ -88,6 +93,12 @@ public class SystemConfigurationAdministratorController extends AbstractControll
 		final Long[] minMaxReceived = this.scService.minMaxChirpsToChorbi();
 		final Collection<Chorbi> actorWithMoreSentMessages = this.chorbiService.findChorbiesMoreChirpsSent();
 		final Collection<Chorbi> actorWithMoreReceivedMessages = this.chorbiService.findChorbiesMoreChirpsReceived();
+		final Collection<Manager> managerWithMoreEvents = this.managerService.findManagersOrderByEvent();
+		final Collection<Manager> managerWithFee = this.managerService.findAll();
+		final Collection<Chorbi> chorbiWithMoreEvents = this.chorbiService.findChorbiesOrderedByEvents();
+		final Collection<Chorbi> chorbiWithFee = this.chorbiService.findAll();
+		final Object[] minMaxAvgStars = this.scService.minMaxAvgStars();
+		final Collection<Chorbi> chorbiWithMoreStars = this.chorbiService.findChorbiesOrderedByAvgStars();
 
 		result.addObject("cities", cities);
 		result.addObject("countries", countries);
@@ -110,11 +121,18 @@ public class SystemConfigurationAdministratorController extends AbstractControll
 		result.addObject("maxReceivedMessagesPerActor", minMaxReceived[1]);
 		result.addObject("actorWithMoreSentMessages", actorWithMoreSentMessages);
 		result.addObject("actorWithMoreReceivedMessages", actorWithMoreReceivedMessages);
-		result.addObject("requestURI", "systemConfiguration/dashboard.do");
+		result.addObject("managerWithMoreEvents", managerWithMoreEvents);
+		result.addObject("managerWithFee", managerWithFee);
+		result.addObject("chorbiWithMoreEvents", chorbiWithMoreEvents);
+		result.addObject("chorbiWithFee", chorbiWithFee);
+		result.addObject("minStarsPerActor", minMaxAvgStars[0]);
+		result.addObject("avgStarsPerActor", minMaxAvgStars[1]);
+		result.addObject("maxStarsPerActor", minMaxAvgStars[2]);
+		result.addObject("chorbiWithMoreStars", chorbiWithMoreStars);
+		result.addObject("requestURI", "systemConfiguration/administrator/dashboard.do");
 
 		return result;
 	}
-
 	// Ancillary methods
 
 	protected ModelAndView createEditModelAndView(final SystemConfiguration system) {

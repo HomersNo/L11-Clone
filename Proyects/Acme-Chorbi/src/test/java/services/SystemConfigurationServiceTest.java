@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import utilities.AbstractTest;
 import domain.SystemConfiguration;
-import domain.Urrl;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -38,17 +37,15 @@ public class SystemConfigurationServiceTest extends AbstractTest {
 	@Test
 	public void driverModifyingCache() {
 
-		final Collection<Urrl> banners = new ArrayList<Urrl>();
-		final Urrl url = new Urrl();
-		url.setLink("http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png"); //Mete las url de las imágenes
+		final Collection<String> banners = new ArrayList<String>();
+		final String url = "http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png";
 		banners.add(url);
-		final Collection<Urrl> bannersEmpty = new ArrayList<Urrl>();
-		final Collection<Urrl> bannersFull = new ArrayList<Urrl>();
-		final Collection<Urrl> bannersWrong = new ArrayList<Urrl>();
+		final Collection<String> bannersEmpty = new ArrayList<String>();
+		final Collection<String> bannersFull = new ArrayList<String>();
+		final Collection<String> bannersWrong = new ArrayList<String>();
 		for (int i = 0; i < 20; i++)
 			bannersFull.add(url);
-		final Urrl urlWrong = new Urrl();
-		urlWrong.setLink("Esto no es un link");
+		final String urlWrong = "Esto no es un link";
 		bannersWrong.add(urlWrong);
 
 		final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
@@ -70,13 +67,13 @@ public class SystemConfigurationServiceTest extends AbstractTest {
 				}
 			};
 			for (int i = 0; i < testingData.length; i++)
-				this.templateModifyingCache((String) testingData[i][0], (Collection<Urrl>) testingData[i][1], (Date) testingData[i][2], (Class<?>) testingData[i][3]);
+				this.templateModifyingCache((String) testingData[i][0], (Collection<String>) testingData[i][1], (Date) testingData[i][2], (Class<?>) testingData[i][3]);
 		} catch (final ParseException e) {
 			e.printStackTrace();
 		}
 	}
 	// Templates ----------------------------------------------------------
-	protected void templateModifyingCache(final String username, final Collection<Urrl> banners, final Date cacheTime, final Class<?> expected) {
+	protected void templateModifyingCache(final String username, final Collection<String> banners, final Date cacheTime, final Class<?> expected) {
 		Class<?> caught;
 		caught = null;
 		try {
