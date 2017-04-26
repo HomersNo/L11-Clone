@@ -69,7 +69,6 @@ public class EventService {
 
 	public Collection<Event> findAllEventsInOneMonth() {
 		Collection<Event> result;
-		this.managerService.checkPrincipal();
 		result = this.eventRepository.findAllEventsInOneMonth();
 		return result;
 	}
