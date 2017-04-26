@@ -15,8 +15,14 @@
 	<form:hidden path="chorbi" />
 	<form:hidden path="moment" />
 	
-  <acme:textarea code="searchTemplate.age" path="age"/>
-  <br/>
+	<div>
+		<form:label path="age">
+			<spring:message code="searchTemplate.age" />:
+		</form:label>
+		<form:input type="number" path="age" />
+		<form:errors cssClass="error" path="age" />
+	</div>
+ 
   <acme:textarea code="searchTemplate.country" path="country"/>
   <br/>
   <acme:textarea code="searchTemplate.state" path="state"/>

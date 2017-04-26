@@ -44,7 +44,8 @@
 		<!-- CHORBI -->
 		<security:intercept-url pattern="/chorbi/register.do" access="isAnonymous()" /> 
 		<security:intercept-url pattern="/chorbi/edit.do**" access="isAnonymous()" /> 
-		<security:intercept-url pattern="/chorbi/actor/**" access="isAuthenticated()" /> 
+		<security:intercept-url pattern="/chorbi/actor/**" access="isAuthenticated()" />
+		<security:intercept-url pattern="/chorbi/list.do" access="isAuthenticated()" />  
 		<security:intercept-url pattern="/chorbi/chorbi/**" access="hasRole('CHORBI')" /> 
 		<security:intercept-url pattern="/chorbi/administrator/**" access="hasRole('ADMIN')" />
 		<security:intercept-url pattern="/chorbi/administrator/list.do" access="hasRole('ADMIN')" /> 
