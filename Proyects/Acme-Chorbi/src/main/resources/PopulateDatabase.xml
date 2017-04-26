@@ -570,6 +570,26 @@
 		<property name="chorbi" ref="chorbi4" />
 	</bean>
 	
+	<bean id="sent5" class="domain.Folder">
+		<property name="name" value="Sent" />
+		<property name="chorbi" ref="chorbi5" />
+	</bean>
+	
+	<bean id="received5" class="domain.Folder">
+		<property name="name" value="Received" />
+		<property name="chorbi" ref="chorbi5" />
+	</bean>
+	
+	<bean id="sent6" class="domain.Folder">
+		<property name="name" value="Sent" />
+		<property name="chorbi" ref="chorbi6" />
+	</bean>
+	
+	<bean id="received6" class="domain.Folder">
+		<property name="name" value="Received" />
+		<property name="chorbi" ref="chorbi6" />
+	</bean>
+	
 	<!-- MESSAGE -->
 	
 	<bean id="chirp1" class="domain.Chirp">
