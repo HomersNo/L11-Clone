@@ -161,7 +161,7 @@ public class ChirpChorbiController extends AbstractController {
 		try {
 			message = this.messageService.findOne(messageId);
 			this.messageService.delete(message);
-			result = new ModelAndView("redirect:/message/actor/list.do?folderId=" + message.getFolder().getId());
+			result = new ModelAndView("redirect:/chirp/chorbi/list.do?folderId=" + message.getFolder().getId());
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:/welcome/index.do");
 			result.addObject("errorChirp", "message.commit.error");
