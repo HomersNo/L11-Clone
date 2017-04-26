@@ -51,9 +51,11 @@
 	
 	<spring:message code="message.attachment" var="attachmentHeader"/>
 	<display:column title="${attachmentHeader}">
+	<ul>
 	<jstl:forEach items="${row.attachments}" var="thisAttachment">
-		<a href="${thisAttachment}" target="_blank">${thisAttachment}</a>
+		<li><a href="${thisAttachment}" target="_blank">${thisAttachment}</a>
 	</jstl:forEach>
+	</ul>
 	</display:column> 
 	
 	
