@@ -19,7 +19,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 <jstl:set var="full" value="font-color:grey" />
-<jstl:set var="Inminent" value="font-weight:bold" />
+<jstl:set var="Inminent" value="background-color:red" />
 <jstl:set var="passed" value="font-color:red" />
 
 <display:table pagesize="5" class="displaytag" keepStatus="true"
