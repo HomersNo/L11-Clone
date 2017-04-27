@@ -176,7 +176,6 @@ public class ChirpChorbiController extends AbstractController {
 		ModelAndView result;
 		Chirp sent;
 		final Chorbi recipient;
-		Collection<String> attachments;
 
 		if (binding.hasErrors())
 			result = new ModelAndView("redirect:/welcome/index.do");
@@ -184,7 +183,6 @@ public class ChirpChorbiController extends AbstractController {
 			try {
 				recipient = this.actorService.findOne(resendChirp.getRecipientId());
 				sent = this.messageService.findOne(resendChirp.getChirpId());
-				attachments = sent.getAttachments();
 				sent = this.messageService.reSend(sent, recipient);
 				principal = this.actorService.findByPrincipal();
 				result = new ModelAndView("redirect:/chirp/chorbi/list.do?folderId=" + this.folderService.findSystemFolder(principal, "Sent").getId());

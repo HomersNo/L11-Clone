@@ -114,7 +114,6 @@ public class SearchTemplate extends DomainEntity {
 
 
 	@Valid
-	@NotNull
 	@OneToOne(optional = false)
 	public Chorbi getChorbi() {
 		return this.chorbi;
@@ -125,7 +124,6 @@ public class SearchTemplate extends DomainEntity {
 
 	@Valid
 	@ManyToMany(cascade = CascadeType.ALL)
-	@NotNull
 	public Collection<Chorbi> getChorbies() {
 		return this.chorbies;
 	}

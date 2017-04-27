@@ -67,17 +67,20 @@ public class SearchTemplateChorbiController extends AbstractController {
 	public ModelAndView save(@Valid final SearchTemplate searchTemplate, final BindingResult binding) {
 		ModelAndView result;
 		Boolean sameFields;
+		
+		SearchTemplate search;
+		search = this.searchTemplateService.reconstruct(searchTemplate, binding);
+		
 		final SystemConfiguration system = this.scService.findMain();
 		final DateTime last = new DateTime(searchTemplate.getMoment()); // Esto se pone una vez reconstruido el objeto, tú veras como lo pones
 		final DateTime now = DateTime.now();
 
-		SearchTemplate search;
 		if (binding.hasErrors())
 			result = this.createEditModelAndView(searchTemplate);
 		else
 			try {
 				sameFields = this.searchTemplateService.checkCache(searchTemplate);
-				search = this.searchTemplateService.reconstruct(searchTemplate, binding);
+				
 				if (binding.hasErrors())
 					result = this.createEditModelAndView(search);
 				if (now.minus(system.getCacheTime().getTime()).isBefore(last) && sameFields) {
