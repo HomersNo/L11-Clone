@@ -32,11 +32,14 @@ public interface ChorbiRepository extends JpaRepository<Chorbi, Integer> {
 	@Query("Select c from Chorbi c where floor(datediff(Current_date, c.birthDate)/365) = ?1")
 	Collection<Chorbi> findByAge(Integer age);
 
-	@Query("Select c from Chorbi c where (?1 = '' OR ?1=null OR c.relationshipType like %?1%) AND (?2 = '' OR ?2=null OR c.genre like %?2%) AND (?3 = '' OR ?3=null OR c.country like %?3%) AND (?4 = '' OR ?4=null OR c.state like %?4%) AND (?5 = '' OR ?5=null OR c.province like %?5%) AND (?6 = '' OR ?6=null OR c.city like %?6%) AND (?7=null OR floor(datediff(Current_date, c.birthDate)/365) = ?7) AND (?8 = '' OR ?8=null OR c.name like %?8% OR c.surname like %?8% OR c.description like %?8%)")
+	@Query("Select c from Chorbi c where (?1 = '' OR ?1=null OR c.relationshipType = ?1) AND (?2 = '' OR ?2=null OR c.genre = ?2) AND (?3 = '' OR ?3=null OR c.country like %?3%) AND (?4 = '' OR ?4=null OR c.state like %?4%) AND (?5 = '' OR ?5=null OR c.province like %?5%) AND (?6 = '' OR ?6=null OR c.city like %?6%) AND (?7=null OR floor(datediff(Current_date, c.birthDate)/365) = ?7) AND (?8 = '' OR ?8=null OR c.name like %?8% OR c.surname like %?8% OR c.description like %?8%)")
 	Collection<Chorbi> search(String relationshipType, String genre, String country, String state, String province, String city, Integer age, String keyword);
 
 	@Query("Select c from Chorbi c where c.name like %?1% OR c.surname like %?1% OR c.description like %?1%")
 	Collection<Chorbi> findByKeyword(String keyword);
+
+	@Query("select st.chorbies from SearchTemplate st where st.id = ?1")
+	Collection<Chorbi> findAllFound(int id);
 
 	@Query("Select c from Chorbi c where c.country = ?1")
 	Collection<Chorbi> findByCountry(String country);
