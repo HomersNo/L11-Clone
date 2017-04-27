@@ -37,6 +37,9 @@ public interface ChorbiRepository extends JpaRepository<Chorbi, Integer> {
 
 	@Query("Select c from Chorbi c where c.name like %?1% OR c.surname like %?1% OR c.description like %?1%")
 	Collection<Chorbi> findByKeyword(String keyword);
+	
+	@Query("select st.chorbies from SearchTemplate st where st.id = ?1")
+	Collection<Chorbi> findAllFound(int id);
 
 	@Query("Select c from Chorbi c where c.country = ?1")
 	Collection<Chorbi> findByCountry(String country);

@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -102,7 +103,7 @@ public class SearchTemplateService {
 		filtered = this.chorbiService.search(searchTemplate.getRelationshipType(), searchTemplate.getGenre(), searchTemplate.getCountry(), searchTemplate.getState(), searchTemplate.getProvince(), searchTemplate.getCity(), searchTemplate.getAge(),
 			searchTemplate.getKeyword());
 
-		searchTemplate.setChorbies(filtered);
+		searchTemplate.setChorbies(filtered); //ESTÁS VIENDO QUE TIENE UN PUTO CHORBI VERDAD? NO ESTOY LOCO VERDAD? no
 
 		final Date lastUpdate = new Date(System.currentTimeMillis() - 1);
 		searchTemplate.setMoment(lastUpdate);
@@ -121,11 +122,7 @@ public class SearchTemplateService {
 		return result;
 	}
 
-	/**
-	 * @param searchTemplate
-	 * @param binding
-	 * @return
-	 */
+	
 	public SearchTemplate reconstruct(final SearchTemplate searchTemplate, final BindingResult binding) {
 		SearchTemplate result;
 
@@ -136,18 +133,17 @@ public class SearchTemplateService {
 
 			result.setAge(searchTemplate.getAge());
 			result.setKeyword(searchTemplate.getKeyword());
-			result.setChorbi(searchTemplate.getChorbi());
 			result.setCity(searchTemplate.getCity());
 			result.setCountry(searchTemplate.getCountry());
 			result.setGenre(searchTemplate.getGenre());
-			result.setMoment(searchTemplate.getMoment());
 			result.setProvince(searchTemplate.getProvince());
 			result.setRelationshipType(searchTemplate.getRelationshipType());
 			result.setState(searchTemplate.getState());
-			result.setChorbies(searchTemplate.getChorbies());
-
+			
 			this.validator.validate(result, binding);
-			this.searchTemplateRepository.flush();
+			
+				
+			
 		}
 
 		return result;
