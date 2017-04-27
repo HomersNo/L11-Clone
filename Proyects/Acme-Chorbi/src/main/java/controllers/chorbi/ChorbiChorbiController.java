@@ -3,8 +3,6 @@ package controllers.chorbi;
 
 import java.util.Collection;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -74,7 +72,7 @@ public class ChorbiChorbiController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final Chorbi editChorbi, final BindingResult binding) {
+	public ModelAndView save(final Chorbi editChorbi, final BindingResult binding) {
 		ModelAndView result;
 		Chorbi chorbi;
 
@@ -83,14 +81,13 @@ public class ChorbiChorbiController {
 			result = this.createEditModelAndView(editChorbi);
 		else
 			try {
-				chorbi = this.chorbiService.register(chorbi);
-				result = new ModelAndView("redirect:/chorbi/chorbi/edit.do?chorbiId=" + chorbi.getId());
+				chorbi = this.chorbiService.save(chorbi);
+				result = new ModelAndView("redirect:/chorbi/chorbi/display.do");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(editChorbi, "chorbi.commit.error");
 			}
 		return result;
 	}
-
 	@RequestMapping(value = "/listLiking", method = RequestMethod.GET)
 	public ModelAndView listLiking(@RequestParam(required = false) final String errorMessage) {
 		ModelAndView result;

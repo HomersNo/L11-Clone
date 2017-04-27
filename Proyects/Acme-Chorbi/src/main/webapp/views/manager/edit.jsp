@@ -23,9 +23,9 @@
 
 	<form:hidden path="id" />
 	<form:hidden path="version" />
-	<form:hidden path="userAccount.authorities" />
-	<form:hidden path="userAccount.username" />
-	<form:hidden path="cumulatedFee" />
+	
+	
+	<acme:password code="manager.useraccount.password" path="userAccount.password"/>
 	
 	<acme:textbox code="manager.name" path="name"/>
 	

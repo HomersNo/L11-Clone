@@ -22,11 +22,7 @@
 <form:form action="${requestURI}" modelAttribute="chorbi">
 
 	<form:hidden path="id" />
-	<form:hidden path="version" />
-	<form:hidden path="userAccount.authorities" />
-	<form:hidden path="userAccount.username" />
-	
-	<p><spring:message code="chorbi.useraccount.username"/>: <jstl:out value="${chorbi.userAccount.username}" /></p> 
+	<form:hidden path="version" /> 
 
     <acme:password code="chorbi.useraccount.password" path="userAccount.password"/>
     
