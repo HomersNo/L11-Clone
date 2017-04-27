@@ -158,7 +158,12 @@ public class ChorbiService {
 			result.setState(chorbi.getState());
 			result.setSurname(chorbi.getSurname());
 
-			result.getUserAccount().setPassword(chorbi.getUserAccount().getPassword());
+			final Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+			final String password = chorbi.getUserAccount().getPassword();
+			String hash;
+			hash = encoder.encodePassword(password, null);
+
+			result.getUserAccount().setPassword(hash);
 
 			this.validator.validate(result, binding);
 		}
