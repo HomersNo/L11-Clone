@@ -18,7 +18,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 
-import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -64,7 +63,6 @@ public class SearchTemplate extends DomainEntity {
 	public String getGenre() {
 		return this.genre;
 	}
-	
 	public void setGenre(final String genre) {
 		this.genre = genre;
 	}
@@ -117,7 +115,6 @@ public class SearchTemplate extends DomainEntity {
 
 	@Valid
 	@OneToOne(optional = false)
-	@NotNull
 	public Chorbi getChorbi() {
 		return this.chorbi;
 	}
@@ -127,7 +124,6 @@ public class SearchTemplate extends DomainEntity {
 
 	@Valid
 	@ManyToMany(cascade = CascadeType.ALL)
-	@NotNull
 	public Collection<Chorbi> getChorbies() {
 		return this.chorbies;
 	}

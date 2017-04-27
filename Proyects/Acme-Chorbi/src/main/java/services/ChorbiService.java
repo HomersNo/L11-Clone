@@ -21,6 +21,7 @@ import security.LoginService;
 import security.UserAccount;
 import domain.Chorbi;
 import domain.SearchTemplate;
+import domain.SystemConfiguration;
 import forms.RegisterChorbi;
 
 @Service
@@ -28,19 +29,22 @@ import forms.RegisterChorbi;
 public class ChorbiService {
 
 	@Autowired
-	private ChorbiRepository		chorbiRepository;
+	private ChorbiRepository			chorbiRepository;
 
 	@Autowired
-	private AdministratorService	administratorService;
+	private AdministratorService		administratorService;
 
 	@Autowired
-	private SearchTemplateService	searchTemplateService;
+	private SearchTemplateService		searchTemplateService;
 
 	@Autowired
-	private FolderService			folderService;
+	private FolderService				folderService;
 
 	@Autowired
-	private Validator				validator;
+	private SystemConfigurationService	systemConfigurationService;
+
+	@Autowired
+	private Validator					validator;
 
 
 	public ChorbiService() {
@@ -206,6 +210,12 @@ public class ChorbiService {
 		this.chorbiRepository.save(chorbi);
 	}
 
+	public void sumFee(final Chorbi chorbi) {
+		final SystemConfiguration sc = this.systemConfigurationService.findMain();
+		chorbi.setCumulatedFee(chorbi.getCumulatedFee() + sc.getFeeChorbi());
+		this.save(chorbi);
+	}
+
 	public Collection<Chorbi> findLikersOfChorbi(final int likedId) {
 		final Collection<Chorbi> result = this.findLikersOfChorbi(likedId);
 
@@ -251,7 +261,9 @@ public class ChorbiService {
 	public Collection<Chorbi> findAllFound(final int searchTemplateId) {
 
 		Collection<Chorbi> filtered;
-		filtered = this.chorbiRepository.findAllFound(searchTemplateId);
+		final SearchTemplate st = this.searchTemplateService.findOne(searchTemplateId);
+
+		filtered = st.getChorbies();
 
 		return filtered;
 	}
