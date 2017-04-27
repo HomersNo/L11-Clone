@@ -18,9 +18,9 @@
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<jstl:set var="full" value="font-color:grey" />
-<jstl:set var="Inminent" value="background-color:red" />
-<jstl:set var="passed" value="font-color:red" />
+<jstl:set var="full" value="color:grey" />
+<jstl:set var="Inminent" value="color:green;font-weight:bold" />
+<jstl:set var="passed" value="color:red" />
 
 <display:table pagesize="5" class="displaytag" keepStatus="true"
 	name="events" requestURI="${requestURI}" id="row">
@@ -38,7 +38,9 @@
 			<display:column property="description" title="${descriptionHeader}" sortable="true" style="${full}" />
 			<display:column property="moment" title="${momentHeader}" sortable="true" style="${full}" />
 			<display:column property="numberSeat" title="${numberSeatHeader}" sortable="true" style="${full}" />
-			<display:column property="picture" title="${pictureHeader}" sortable="true" style="${full}" />
+			<display:column  title="${pictureHeader}" sortable="true" style="${full}" >
+				<img src="${row.picture }" height="120"/>
+			</display:column>
 		</jstl:when>
 		<jstl:otherwise>
 			<jsp:useBean id="dateValue" class="java.util.Date" />
@@ -50,21 +52,27 @@
 					<display:column property="description" title="${descriptionHeader}" sortable="true" style="${Inminent}" />
 					<display:column property="moment" title="${momentHeader}" sortable="true" style="${Inminent}" />
 					<display:column property="numberSeat" title="${numberSeatHeader}" sortable="true" style="${Inminent}" />
-					<display:column property="picture" title="${pictureHeader}" sortable="true" style="${Inminent}" />
+					<display:column title="${pictureHeader}" sortable="true" style="${Inminent}" >
+						<img src="${row.picture }" height="120"/>
+					</display:column>
 				</jstl:when>
 				<jstl:when test="${row.moment.time < now}">
 					<display:column property="title" title="${titleHeader}" sortable="true" style="${passed}"/>
 					<display:column property="description" title="${descriptionHeader}" sortable="true" style="${passed}" />
 					<display:column property="moment" title="${momentHeader}" sortable="true" style="${passed}" />
 					<display:column property="numberSeat" title="${numberSeatHeader}" sortable="true" style="${passed}" />
-					<display:column property="picture" title="${pictureHeader}" sortable="true" style="${passed}" />
+					<display:column title="${pictureHeader}" sortable="true" style="${passed}" >
+						<img src="${row.picture }" height="120"/>
+					</display:column>
 				</jstl:when>
 				<jstl:otherwise>
 					<display:column property="title" title="${titleHeader}" sortable="true"/>
 					<display:column property="description" title="${descriptionHeader}" sortable="true"/>
 					<display:column property="moment" title="${momentHeader}" sortable="true"/>
 					<display:column property="numberSeat" title="${numberSeatHeader}" sortable="true"/>
-					<display:column property="picture" title="${pictureHeader}" sortable="true"/>
+					<display:column title="${pictureHeader}" sortable="true">
+						<img src="${row.picture }" height="120"/>
+					</display:column>
 				</jstl:otherwise>
 			</jstl:choose>
 		</jstl:otherwise>
