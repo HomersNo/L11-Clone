@@ -8,6 +8,9 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 <form:form modelAttribute="searchTemplate" action="searchTemplate/chorbi/edit.do">
+
+	<form:hidden path="id" />
+	<form:hidden path="version" />
 	
 	<div>
 		<form:label path="age">

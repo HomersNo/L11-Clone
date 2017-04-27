@@ -28,7 +28,6 @@
 						<li><a href="chorbi/list.do"><spring:message code="master.page.chorbi.list" /></a></li>
 						<security:authorize access="hasRole('ADMIN')">
 							<li><a href="chorbi/administrator/list.do"><spring:message code="master.page.chorbi.admin.list" /></a></li>
-							<li><a href="chorbi/administrator/sumFee.do"><spring:message code="master.page.chorbi.admin.sumFee" /></a></li>
 						</security:authorize>
 						<security:authorize access="hasRole('CHORBI')">
 							<li><a href="likes/chorbi/list.do"><spring:message code="master.page.likes.list" /></a></li>
@@ -44,7 +43,6 @@
 					<security:authorize access="hasRole('MANAGER')">
 						<li><a href="event/manager/list.do"><spring:message code="master.page.event.manager.list" /></a></li>
 						<li><a href="event/manager/create.do"><spring:message code="master.page.event.manager.create" /></a></li>
-						<li><a href="chirp/manager/broadcast.do"><spring:message code="master.page.manager.broadcast"/></a></li>
 					</security:authorize>
 					<li><a href="event/list.do"><spring:message code="master.page.events.all" /></a></li>
 					<li><a href="event/listInminent.do"><spring:message code="master.page.events.imminent" /></a></li>
@@ -57,6 +55,12 @@
 		
 		
 		<security:authorize access="hasRole('ADMIN')">
+			<li><a class="fNiv"><spring:message	code="master.page.chorbi" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="chorbi/administrator/list.do"><spring:message code="master.page.chorbi.list" /></a></li>
+				</ul>
+			</li>
 			<li><a class="fNiv"><spring:message	code="master.page.administrator" /></a>
 				<ul>
 					<li class="arrow"></li>

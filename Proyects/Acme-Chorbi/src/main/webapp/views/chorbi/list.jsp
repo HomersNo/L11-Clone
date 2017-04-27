@@ -37,10 +37,6 @@
 		</jstl:choose>
 		</a>
 	</display:column>
-	<spring:message code="chorbi.fee" var ="feeHeader"/>
-	<display:column title="${feeHeader }">
-		<jstl:out value="${row.cumulatedFee }"/>
-	</display:column>
 		
 </security:authorize>
 
