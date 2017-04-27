@@ -144,6 +144,7 @@ public class SearchTemplateService {
 			result.setProvince(searchTemplate.getProvince());
 			result.setRelationshipType(searchTemplate.getRelationshipType());
 			result.setState(searchTemplate.getState());
+			result.setChorbies(searchTemplate.getChorbies());
 
 			this.validator.validate(result, binding);
 			this.searchTemplateRepository.flush();

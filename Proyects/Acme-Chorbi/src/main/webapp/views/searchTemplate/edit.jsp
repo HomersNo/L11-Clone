@@ -9,12 +9,6 @@
 
 <form:form modelAttribute="searchTemplate" action="searchTemplate/chorbi/edit.do">
 	
-	<form:hidden path="chorbies"/>
-	<form:hidden path="id"/>
-	<form:hidden path="version"/>
-	<form:hidden path="chorbi"/>
-	<form:hidden path="moment"/>
-	
 	<div>
 		<form:label path="age">
 			<spring:message code="searchTemplate.age" />:
