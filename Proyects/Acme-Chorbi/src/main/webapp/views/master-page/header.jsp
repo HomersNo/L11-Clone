@@ -28,6 +28,7 @@
 						<li><a href="chorbi/list.do"><spring:message code="master.page.chorbi.list" /></a></li>
 						<security:authorize access="hasRole('ADMIN')">
 							<li><a href="chorbi/administrator/list.do"><spring:message code="master.page.chorbi.admin.list" /></a></li>
+							<li><a href="chorbi/administrator/sumFee.do"><spring:message code="master.page.chorbi.admin.sumFee" /></a></li>
 						</security:authorize>
 						<security:authorize access="hasRole('CHORBI')">
 							<li><a href="likes/chorbi/list.do"><spring:message code="master.page.likes.list" /></a></li>
