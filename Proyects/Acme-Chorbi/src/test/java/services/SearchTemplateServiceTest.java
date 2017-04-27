@@ -132,10 +132,12 @@ public class SearchTemplateServiceTest extends AbstractTest {
 			this.unauthenticate();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
+
 			try {
 				this.searchTemplateService.flush();
 			} catch (final Throwable oops2) {
 				caught = oops2.getClass();
+
 			}
 		}
 		this.checkExceptions(expected, caught);
