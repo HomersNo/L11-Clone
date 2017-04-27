@@ -37,6 +37,9 @@
 		<bean class="converters.CreditCardToStringConverter" />
 		<bean class="converters.StringToCreditCardConverter" />
 		
+		<bean class="converters.CreditHolderToStringConverter" />
+		<bean class="converters.StringToCreditHolderConverter" />
+		
 		<bean class="converters.FolderToStringConverter" />
 		<bean class="converters.StringToFolderConverter" />
 		

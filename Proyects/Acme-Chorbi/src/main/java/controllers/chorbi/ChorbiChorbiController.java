@@ -97,20 +97,22 @@ public class ChorbiChorbiController {
 
 		Collection<Chorbi> chorbis;
 		Collection<Chorbi> likes;
-		Chorbi principal;
+		final Chorbi principal = this.chorbiService.findByPrincipal();
+		final CreditCard credit = this.creditCardService.findByPrincipal();
+		if (credit != null && this.creditCardService.checkCCNumber(credit.getCreditCardNumber()) && this.creditCardService.expirationDate(credit)) {
 
-		principal = this.chorbiService.findByPrincipal();
-		chorbis = this.chorbiService.findAllLikingMe(principal.getId());
-		likes = this.chorbiService.findAllLiked(principal.getId());
+			chorbis = this.chorbiService.findAllLikingMe(principal.getId());
+			likes = this.chorbiService.findAllLiked(principal.getId());
 
-		result = new ModelAndView("chorbi/list");
-		result.addObject("chorbis", chorbis);
-		result.addObject("likes", likes);
-		result.addObject("requestURI", "chorbi/chorbi/listLiking.do");
+			result = new ModelAndView("chorbi/list");
+			result.addObject("chorbis", chorbis);
+			result.addObject("likes", likes);
+			result.addObject("requestURI", "chorbi/chorbi/listLiking.do");
+		} else
+			result = new ModelAndView("redirect:/creditCard/chorbi/edit.do");
 
 		return result;
 	}
-
 	@RequestMapping(value = "/listFound", method = RequestMethod.GET)
 	public ModelAndView listFound(@RequestParam(required = false, defaultValue = "0") final int searchTemplateId) {
 

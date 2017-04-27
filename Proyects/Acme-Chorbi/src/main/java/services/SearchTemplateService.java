@@ -102,7 +102,7 @@ public class SearchTemplateService {
 		filtered = this.chorbiService.search(searchTemplate.getRelationshipType(), searchTemplate.getGenre(), searchTemplate.getCountry(), searchTemplate.getState(), searchTemplate.getProvince(), searchTemplate.getCity(), searchTemplate.getAge(),
 			searchTemplate.getKeyword());
 
-		searchTemplate.setChorbies(filtered); //ESTÁS VIENDO QUE TIENE UN PUTO CHORBI VERDAD? NO ESTOY LOCO VERDAD? no
+		searchTemplate.setChorbies(filtered);
 
 		final Date lastUpdate = new Date(System.currentTimeMillis() - 1);
 		searchTemplate.setMoment(lastUpdate);
@@ -123,10 +123,11 @@ public class SearchTemplateService {
 
 	public SearchTemplate reconstruct(final SearchTemplate searchTemplate, final BindingResult binding) {
 		SearchTemplate result;
-
-		if (searchTemplate.getId() == 0)
+		final Chorbi principal = this.chorbiService.findByPrincipal();
+		if (searchTemplate.getId() == 0) {
 			result = searchTemplate;
-		else {
+			result.setChorbi(principal);
+		} else {
 			result = this.searchTemplateRepository.findOne(searchTemplate.getId());
 
 			result.setAge(searchTemplate.getAge());
