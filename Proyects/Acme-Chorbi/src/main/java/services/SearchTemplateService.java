@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -122,7 +121,6 @@ public class SearchTemplateService {
 		return result;
 	}
 
-	
 	public SearchTemplate reconstruct(final SearchTemplate searchTemplate, final BindingResult binding) {
 		SearchTemplate result;
 
@@ -139,11 +137,9 @@ public class SearchTemplateService {
 			result.setProvince(searchTemplate.getProvince());
 			result.setRelationshipType(searchTemplate.getRelationshipType());
 			result.setState(searchTemplate.getState());
-			
+
 			this.validator.validate(result, binding);
-			
-				
-			
+
 		}
 
 		return result;
@@ -174,28 +170,28 @@ public class SearchTemplateService {
 			province = true;
 			city = true;
 
-			if (searchTemplate.getRelationshipType() != "" && searchTemplate.getRelationshipType() != null)
+			if (searchTemplate.getRelationshipType() != null)
 				relationshipType = chorbiTemplate.getRelationshipType().equals(searchTemplate.getRelationshipType());
 
 			if (searchTemplate.getAge() != null)
 				age = chorbiTemplate.getAge().equals(searchTemplate.getAge());
 
-			if (searchTemplate.getGenre() != "" || searchTemplate.getGenre() != null)
+			if (searchTemplate.getGenre() != null)
 				genre = chorbiTemplate.getGenre().equals(searchTemplate.getGenre());
 
-			if (searchTemplate.getKeyword() != "" || searchTemplate.getKeyword() != null)
+			if (searchTemplate.getKeyword() != null)
 				keyword = chorbiTemplate.getKeyword().equals(searchTemplate.getKeyword());
 
-			if (searchTemplate.getCountry() != "" || searchTemplate.getCountry() != null)
+			if (searchTemplate.getCountry() != null)
 				country = chorbiTemplate.getCountry().equals(searchTemplate.getCountry());
 
-			if (searchTemplate.getState() != "" || searchTemplate.getState() != null)
+			if (searchTemplate.getState() != null)
 				state = chorbiTemplate.getState().equals(searchTemplate.getState());
 
-			if (searchTemplate.getProvince() != "" || searchTemplate.getProvince() != null)
+			if (searchTemplate.getProvince() != null)
 				province = chorbiTemplate.getProvince().equals(searchTemplate.getProvince());
 
-			if (searchTemplate.getCity() != "" || searchTemplate.getCity() != null)
+			if (searchTemplate.getCity() != null)
 				city = chorbiTemplate.getCity().equals(searchTemplate.getCity());
 
 			res = relationshipType && age && genre && keyword && country && state && province && city;

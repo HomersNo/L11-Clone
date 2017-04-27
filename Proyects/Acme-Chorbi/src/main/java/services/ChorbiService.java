@@ -20,7 +20,7 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.Chorbi;
-import domain.SearchTemplate;
+import domain.SystemConfiguration;
 import forms.RegisterChorbi;
 
 @Service
@@ -28,19 +28,22 @@ import forms.RegisterChorbi;
 public class ChorbiService {
 
 	@Autowired
-	private ChorbiRepository		chorbiRepository;
+	private ChorbiRepository			chorbiRepository;
 
 	@Autowired
-	private AdministratorService	administratorService;
+	private AdministratorService		administratorService;
 
 	@Autowired
-	private SearchTemplateService	searchTemplateService;
+	private SearchTemplateService		searchTemplateService;
 
 	@Autowired
-	private FolderService			folderService;
+	private FolderService				folderService;
 
 	@Autowired
-	private Validator				validator;
+	private Validator					validator;
+
+	@Autowired
+	private SystemConfigurationService	systemConfigurationService;
 
 
 	public ChorbiService() {
@@ -254,6 +257,12 @@ public class ChorbiService {
 		filtered = this.chorbiRepository.findAllFound(searchTemplateId);
 
 		return filtered;
+	}
+
+	public void sumFee(final Chorbi chorbi) {
+		final SystemConfiguration sc = this.systemConfigurationService.findMain();
+		chorbi.setCumulatedFee(chorbi.getCumulatedFee() + sc.getFeeChorbi());
+		this.save(chorbi);
 	}
 
 	//Dashboard methods
