@@ -21,6 +21,7 @@ import security.LoginService;
 import security.UserAccount;
 import domain.Chorbi;
 import domain.SearchTemplate;
+import domain.SystemConfiguration;
 import forms.RegisterChorbi;
 
 @Service
@@ -28,19 +29,22 @@ import forms.RegisterChorbi;
 public class ChorbiService {
 
 	@Autowired
-	private ChorbiRepository		chorbiRepository;
+	private ChorbiRepository			chorbiRepository;
 
 	@Autowired
-	private AdministratorService	administratorService;
+	private AdministratorService		administratorService;
 
 	@Autowired
-	private SearchTemplateService	searchTemplateService;
+	private SearchTemplateService		searchTemplateService;
 
 	@Autowired
-	private FolderService			folderService;
+	private FolderService				folderService;
 
 	@Autowired
-	private Validator				validator;
+	private SystemConfigurationService	systemConfigurationService;
+
+	@Autowired
+	private Validator					validator;
 
 
 	public ChorbiService() {
@@ -206,6 +210,12 @@ public class ChorbiService {
 		this.chorbiRepository.save(chorbi);
 	}
 
+	public void sumFee(final Chorbi chorbi) {
+		final SystemConfiguration sc = this.systemConfigurationService.findMain();
+		chorbi.setCumulatedFee(chorbi.getCumulatedFee() + sc.getFeeChorbi());
+		this.save(chorbi);
+	}
+
 	public Collection<Chorbi> findLikersOfChorbi(final int likedId) {
 		final Collection<Chorbi> result = this.findLikersOfChorbi(likedId);
 
@@ -363,5 +373,11 @@ public class ChorbiService {
 		Collection<Chorbi> result;
 		result = this.chorbiRepository.findChorbiesOrderedByAvgStars();
 		return result;
+	}
+
+	public Collection<Chorbi> search(final String relationshipType, final String genre, final String country, final String state, final String province, final String city, final Integer age, final String keyword) {
+		Collection<Chorbi> found;
+		found = this.chorbiRepository.search(relationshipType, genre, country, state, province, city, age, keyword);
+		return found;
 	}
 }

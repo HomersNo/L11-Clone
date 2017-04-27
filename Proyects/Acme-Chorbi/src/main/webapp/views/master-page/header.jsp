@@ -20,6 +20,24 @@
 <div>
 	<ul id="jMenu">
 		<!-- Do not forget the "fNiv" class for the first level links !! -->
+		<security:authorize access="isAuthenticated()">
+			<li><a class="fNiv"><spring:message code="master.page.chorbi"/></a>
+				
+				<ul>
+					<li class="arrow"></li>
+						<li><a href="chorbi/list.do"><spring:message code="master.page.chorbi.list" /></a></li>
+						<security:authorize access="hasRole('ADMIN')">
+							<li><a href="chorbi/administrator/list.do"><spring:message code="master.page.chorbi.admin.list" /></a></li>
+							<li><a href="chorbi/administrator/sumFee.do"><spring:message code="master.page.chorbi.admin.sumFee" /></a></li>
+						</security:authorize>
+						<security:authorize access="hasRole('CHORBI')">
+							<li><a href="likes/chorbi/list.do"><spring:message code="master.page.likes.list" /></a></li>
+							<li><a href="chorbi/chorbi/listLiking.do"><spring:message code="master.page.chorbi.liking" /></a></li>
+							<li><a href="searchTemplate/chorbi/edit.do"><spring:message code="master.page.search" /></a></li>
+						</security:authorize>
+				</ul>
+			</li>
+		</security:authorize>
 		<li><a class="fNiv"><spring:message	code="master.page.events" /></a>
 				<ul>
 					<li class="arrow"></li>
@@ -68,18 +86,6 @@
 		
 		<security:authorize access="hasRole('CHORBI')">
 			
-			<li>
-				<a class="fNiv"> 
-					<spring:message code="master.page.chorbi" /> 
-				</a>
-				<ul>
-					<li class="arrow"></li>
-					<li><a href="chorbi/chorbi/listFound.do"><spring:message code="master.page.chorbi.list" /></a></li>
-					<li><a href="likes/chorbi/list.do"><spring:message code="master.page.likes.list" /></a></li>
-					<li><a href="chorbi/chorbi/listLiking.do"><spring:message code="master.page.chorbi.liking" /></a></li>
-					<li><a href="searchTemplate/chorbi/edit.do"><spring:message code="master.page.search" /></a></li>
-				</ul>
-			</li>
 			
 			<li>
 				<a class="fNiv"> 

@@ -104,7 +104,7 @@ public class EventService {
 		this.managerService.checkPrincipal();
 
 		this.eventRepository.delete(event);
-
+		this.chirpService.automaticChirp(event);
 		Assert.isNull(this.eventRepository.findOne(event.getId()));
 
 	}

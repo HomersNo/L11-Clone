@@ -28,20 +28,22 @@
 
 	<acme:textbox code="event.title" path="title"/><br />
 	<acme:textbox code="event.description" path="description"/><br />
+	<div>
+		<form:label path="moment">
+			<spring:message code="event.moment" />:
+		</form:label>
+		<form:input placeholder="dd/MM/yyyy HH:mm" path="moment" />
+		<form:errors cssClass="error" path="moment" />
+	</div> </br>
 	<acme:textbox code="event.numberSeat" path="numberSeat"/><br />
 	<acme:textbox code="event.picture" path="picture"/><br />
 
 
 	<input type="submit" name="save"
-		value="<spring:message code="folder.save" />" />&nbsp; 
-	<jstl:if test="${event.id != 0}">
-		<input type="button" name="cancel"
-		value="<spring:message code="folder.cancel" />"
-		onclick="location.href = ('event/manager/delete.do'${event.id});" />&nbsp;
-	</jstl:if>
+		value="<spring:message code="event.save" />" />&nbsp; 
 	<input type="button" name="cancel"
-		value="<spring:message code="folder.cancel" />"
-		onclick="location.href = ('folder/actor/list.do');" />
+		value="<spring:message code="event.cancel" />"
+		onclick="location.href = ('event/manager/list.do');" />
 	<br />
 
 	
