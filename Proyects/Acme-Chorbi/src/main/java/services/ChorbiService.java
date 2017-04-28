@@ -343,6 +343,7 @@ public class ChorbiService {
 	public Collection<Chorbi> findAllLikingMe(final int chorbiId) {
 
 		Collection<Chorbi> result;
+		Assert.isTrue(this.chorbiRepository.exists(chorbiId));
 		result = this.chorbiRepository.findAllLiking(chorbiId);
 		return result;
 	}
