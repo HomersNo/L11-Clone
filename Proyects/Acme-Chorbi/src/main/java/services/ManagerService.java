@@ -11,6 +11,7 @@ import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.ManagerRepository;
 import security.Authority;
@@ -30,6 +31,9 @@ public class ManagerService {
 
 	@Autowired
 	private SystemConfigurationService	systemConfigurationService;
+
+	@Autowired
+	private Validator					validator;
 
 
 	public ManagerService() {
@@ -111,7 +115,13 @@ public class ManagerService {
 		manager.setVATNumber(registerManager.getVATNumber());
 
 		manager.getUserAccount().setUsername(registerManager.getUsername());
-		manager.getUserAccount().setPassword(registerManager.getPassword());
+
+		final Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+		final String password = registerManager.getPassword();
+		String hash;
+		hash = encoder.encodePassword(password, null);
+
+		manager.getUserAccount().setPassword(hash);
 
 		creditCard.setBrandName(registerManager.getBrandName());
 		creditCard.setHolderName(registerManager.getHolderName());
@@ -125,40 +135,34 @@ public class ManagerService {
 
 		return result;
 	}
+	public Manager reconstruct(final Manager manager, final BindingResult binding) {
+		Manager result;
 
-	//	public Manager reconstruct(final Manager manager, final BindingResult binding) {
-	//		Manager result;
-	//
-	//		if (manager.getId() == 0)
-	//			result = manager;
-	//		else {
-	//			result = this.managerRepository.findOne(manager.getId());
-	//
-	//			manager.setName(registerManager.getName());
-	//			manager.setSurname(registerManager.getSurname());
-	//			manager.setPhoneNumber(registerManager.getPhoneNumber());
-	//			manager.setEmail(registerManager.getEmail());
-	//			
-	//			manager.setCompanyName(registerManager.getCompanyName());
-	//			manager.setVATNumber(registerManager.getVATNumber());
-	//
-	//			manager.getUserAccount().setUsername(registerManager.getUsername());
-	//			manager.getUserAccount().setPassword(registerManager.getPassword());
-	//			
-	//			creditCard.setBrandName(registerManager.getBrandName());
-	//			creditCard.setHolderName(registerManager.getHolderName());
-	//			creditCard.setCreditCardNumber(registerManager.getCreditCardNumber());
-	//			creditCard.setCVV(registerManager.getCVV());
-	//			creditCard.setExpirationMonth(registerManager.getExpirationMonth());
-	//			creditCard.setExpirationYear(registerManager.getExpirationYear());
-	//
-	//			result.getUserAccount().setPassword(manager.getUserAccount().getPassword());
-	//
-	//			this.validator.validate(result, binding);
-	//		}
-	//
-	//		return result;
-	//	}
+		if (manager.getId() == 0)
+			result = manager;
+		else {
+			result = this.managerRepository.findOne(manager.getId());
+
+			result.setName(manager.getName());
+			result.setSurname(manager.getSurname());
+			result.setPhoneNumber(manager.getPhoneNumber());
+			result.setEmail(manager.getEmail());
+
+			result.setCompanyName(manager.getCompanyName());
+			result.setVATNumber(manager.getVATNumber());
+
+			final Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+			final String password = manager.getUserAccount().getPassword();
+			String hash;
+			hash = encoder.encodePassword(password, null);
+
+			result.getUserAccount().setPassword(hash);
+
+			this.validator.validate(result, binding);
+		}
+
+		return result;
+	}
 
 	public Manager findByPrincipal() {
 		Manager result;
