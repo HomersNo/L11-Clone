@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.validation.ConstraintViolationException;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +50,9 @@ public class SystemConfigurationServiceTest extends AbstractTest {
 		final String urlWrong = "Esto no es un link";
 		bannersWrong.add(urlWrong);
 
+		final Double feeBuena = 2.0;
+		final Double feeMala = -2.0;
+
 		final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 		try {
 			final Date dateWrong = sdf.parse("10:00:00");
@@ -55,36 +60,72 @@ public class SystemConfigurationServiceTest extends AbstractTest {
 
 			final Object testingData[][] = {
 				{	// Modificación correcta: Caché correcta.
-					"admin", bannersFull, dateRight, null
+					"admin", bannersFull, dateRight, feeBuena, null
 				}, { // Modificacion erronea: Cache errónea.
-					"admin", bannersEmpty, dateWrong, IllegalArgumentException.class
+					"admin", bannersFull, dateWrong, feeBuena, IllegalArgumentException.class
 				}, { // Modificacion erronea: Banners vacíos.
-					"admin", bannersEmpty, dateRight, IllegalArgumentException.class
+					"admin", bannersEmpty, dateRight, feeBuena, null
 				}, { // Modificacion erronea: Banners con formato erroneo.
-					"admin", bannersWrong, dateRight, IllegalArgumentException.class
+					"admin", bannersWrong, dateRight, feeBuena, null
 				}, { // Modificacion erronea: Banners completo.
-					"admin", bannersFull, dateRight, IllegalArgumentException.class
+					"admin", bannersFull, dateRight, feeBuena, null
+				}, { // Modificacion erronea: Cuota errónea.
+					"admin", bannersFull, dateRight, feeMala, ConstraintViolationException.class
 				}
 			};
 			for (int i = 0; i < testingData.length; i++)
-				this.templateModifyingCache((String) testingData[i][0], (Collection<String>) testingData[i][1], (Date) testingData[i][2], (Class<?>) testingData[i][3]);
+				this.templateModifyingCache((String) testingData[i][0], (Collection<String>) testingData[i][1], (Date) testingData[i][2], (Double) testingData[i][3], (Class<?>) testingData[i][4]);
 		} catch (final ParseException e) {
 			e.printStackTrace();
 		}
 	}
+
+	@Test
+	public void driverChangeFee() {
+
+		final Double feeBuena = 2.0;
+		final Double feeMala = -2.0;
+
+		final Object testingData[][] = {
+			{		// Cambio de cuota correcta. 
+				feeBuena, null
+			}, {	// Fallo al intentar poner una cuota incorrecta.
+				feeMala, null
+			}
+		};
+		for (int i = 0; i < testingData.length; i++)
+			this.templateChangeFee((Double) testingData[i][0], (Class<?>) testingData[i][1]);
+	}
+
 	// Templates ----------------------------------------------------------
-	protected void templateModifyingCache(final String username, final Collection<String> banners, final Date cacheTime, final Class<?> expected) {
+	protected void templateModifyingCache(final String username, final Collection<String> banners, final Date cacheTime, final Double fee, final Class<?> expected) {
 		Class<?> caught;
 		caught = null;
 		try {
-			this.adminService.findByPrincipal();
 			this.authenticate(username);
 			final SystemConfiguration sc = this.sysConService.findMain();
 			sc.setBanners(banners);
 			sc.setCacheTime(cacheTime);
+			sc.setFeeChorbi(fee);
+			sc.setFeeManager(fee);
 			this.sysConService.save(sc);
 			this.sysConService.flush();
 			this.unauthenticate();
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		this.checkExceptions(expected, caught);
+	}
+
+	protected void templateChangeFee(final Double newFee, final Class<?> expected) {
+		Class<?> caught;
+		caught = null;
+		try {
+			final SystemConfiguration sc = this.sysConService.findMain();
+			this.authenticate("admin");
+			sc.setFeeChorbi(newFee);
+			sc.setFeeManager(newFee);
+			this.sysConService.save(sc);
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
