@@ -28,7 +28,7 @@
 
 	<acme:textbox code="message.title" path="subject"/>
 	
-	<acme:textbox code="message.body" path="text"/>
+	<acme:textarea code="message.body" path="text"/>
 	
 	<form:label path="event">
 		<spring:message code="chirp.event" />:
