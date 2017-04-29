@@ -115,8 +115,13 @@ public class EventService {
 		this.checkPrincipal(event);
 		this.managerService.checkPrincipal();
 
-		this.eventRepository.delete(event);
 		this.chirpService.automaticChirp(event);
+
+		event.setRegistered(new ArrayList<Chorbi>());
+		final Event saved = this.eventRepository.save(event);
+
+		this.eventRepository.delete(saved);
+
 		Assert.isNull(this.eventRepository.findOne(event.getId()));
 
 	}
@@ -138,7 +143,7 @@ public class EventService {
 			registered.add(chorbi);
 			event.setRegistered(registered);
 		}
-		this.save(event);
+		this.eventRepository.save(event);
 	}
 
 	public void checkPrincipal(final Event event) {
