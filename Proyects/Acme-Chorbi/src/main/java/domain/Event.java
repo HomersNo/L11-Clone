@@ -75,6 +75,7 @@ public class Event extends DomainEntity {
 	}
 
 	@Min(0)
+	@NotNull
 	public Integer getNumberSeat() {
 		return this.numberSeat;
 	}

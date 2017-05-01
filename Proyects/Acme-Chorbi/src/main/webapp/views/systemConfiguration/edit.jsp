@@ -46,7 +46,7 @@
 	<form:errors cssClass="error" path="feeChorbi" />
 	<br />
 	
-	<br>
+
 	<input type="submit" name="save"
 		value="<spring:message code="systemConfiguration.save" />" 
 		onclick="javascript: relativeRedir('welcome/index.do');" />&nbsp;
@@ -59,6 +59,7 @@
 <br />
 </form:form>
 
+<br>
 <form:form action="systemConfiguration/administrator/banners.do" modelAttribute="addPicture">
 
 	<form:hidden path="id" value="${system.id}"/>

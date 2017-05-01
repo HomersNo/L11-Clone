@@ -34,7 +34,7 @@ public class CreditCardServiceTest extends AbstractTest {
 
 	// Tests ---------------------------------------------------------------
 	@Test
-	public void driverCreation() {
+	public void driverCreationAndDelete() {
 		final Object testingData[][] = {
 			{		// Creación correcta de una tarjeta de crédito.
 				"chorbi4", "holderName", "VISA", "4662031000040705", 4, 19, 321, null
@@ -69,14 +69,14 @@ public class CreditCardServiceTest extends AbstractTest {
 	@Test
 	public void driverDisplaying() {
 		final Object testingData[][] = {
-			{		// Display correcto de una tarjeta de crédito.
-				"chorbi1", 51, null
-			}, {	// Display erróneo de una tarjeta de crédito.
-				"chorbi1", 100, IllegalArgumentException.class
+			{		// Display correcto de una tarjeta de crédito del chorbi logeado.
+				"chorbi1", "creditCard1", null
+			}, {	// Display erróneo de una tarjeta de crédito inexistente.
+				"chorbi1", "event1", IllegalArgumentException.class
 			}
 		};
 		for (int i = 0; i < testingData.length; i++)
-			this.templateDisplaying((String) testingData[i][0], (int) testingData[i][1], (Class<?>) testingData[i][2]);
+			this.templateDisplaying((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
 	}
 
 	// Templates ----------------------------------------------------------
@@ -85,7 +85,7 @@ public class CreditCardServiceTest extends AbstractTest {
 		caught = null;
 		try {
 			this.authenticate(username);
-			final CreditCard cc = this.creditCardService.create();
+			CreditCard cc = this.creditCardService.create();
 			cc.setHolderName(holderName);
 			cc.setBrandName(brandName);
 			cc.setCreditCardNumber(creditCardNumber);
@@ -94,8 +94,9 @@ public class CreditCardServiceTest extends AbstractTest {
 			cc.setCVV(cvv);
 			final Chorbi c = (Chorbi) this.actorService.findByPrincipal();
 			cc.setHolder(c);
-			this.creditCardService.save(cc);
+			cc = this.creditCardService.save(cc);
 			this.creditCardService.flush();
+			this.creditCardService.delete(cc);
 			this.unauthenticate();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
@@ -103,12 +104,12 @@ public class CreditCardServiceTest extends AbstractTest {
 		this.checkExceptions(expected, caught);
 	}
 
-	protected void templateDisplaying(final String username, final int creditCardId, final Class<?> expected) {
+	protected void templateDisplaying(final String username, final String creditCardId, final Class<?> expected) {
 		Class<?> caught;
 		caught = null;
 		try {
 			this.authenticate(username);
-			final CreditCard cc = this.creditCardService.findOne(creditCardId);
+			final CreditCard cc = this.creditCardService.findOne(this.extract(creditCardId));
 			this.unauthenticate();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
