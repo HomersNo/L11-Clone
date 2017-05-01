@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import security.Authority;
 import security.UserAccount;
@@ -121,7 +122,7 @@ public class ChorbiServiceTest extends AbstractTest {
 				"chorbi3", "chorbi3", null
 			}, {	// Listado correcto de los me gusta de un chorbi diferente al logueado.
 				"chorbi3", "chorbi1", null
-			}, {	// Listado erróneo de los me gusta de un chorbi sin estar logueado.
+			}, {	// Listado correcto de los me gusta de un chorbi sin estar logueado.
 				null, "chorbi1", null
 			}, {	// Display erróneo de los me gusta de un chorbi inexistente.
 				"chorbi3", "event1", IllegalArgumentException.class
@@ -129,6 +130,43 @@ public class ChorbiServiceTest extends AbstractTest {
 		};
 		for (int i = 0; i < testingData.length; i++)
 			this.templateLikesMe((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
+	}
+
+	@Test
+	public void driverSumFee() {
+		final Object testingData[][] = {
+			{		// Suma correcta de la cuota a un chorbi. 
+				"chorbi3", null
+			}, {	// Fallo al intentar sumar a fee a algo que no es un chorbi.
+				"event1", IllegalArgumentException.class
+			}
+		};
+		for (int i = 0; i < testingData.length; i++)
+			this.templateSumFee((String) testingData[i][0], (Class<?>) testingData[i][1]);
+	}
+
+	@Test
+	public void driverBan() {
+		final Object testingData[][] = {
+			{		// Baneo (no se muestra en el listar normal de chorbis) y desbaneo correcto de un chorbi. 
+				"chorbi3", null
+			}, {	// Fallo al banear algo que no es un chorbi.
+				"event1", NullPointerException.class
+			}
+		};
+		for (int i = 0; i < testingData.length; i++)
+			this.templateBan((String) testingData[i][0], (Class<?>) testingData[i][1]);
+	}
+
+	@Test
+	public void driverLoginBan() {
+		final Object testingData[][] = {
+			{		// Baneo e intento de login del chorbi baneado. 
+				"chorbi3", IllegalArgumentException.class
+			}
+		};
+		for (int i = 0; i < testingData.length; i++)
+			this.templateLoginBan((String) testingData[i][0], (Class<?>) testingData[i][1]);
 	}
 
 	// Templates ----------------------------------------------------------
@@ -189,6 +227,52 @@ public class ChorbiServiceTest extends AbstractTest {
 		try {
 			this.authenticate(username);
 			final Collection<Chorbi> chorbis = this.chorbiService.findAllLikingMe(this.extract(chorbiId));
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		this.checkExceptions(expected, caught);
+	}
+
+	protected void templateSumFee(final String chorbiId, final Class<?> expected) {
+		Class<?> caught;
+		caught = null;
+		try {
+			final Double feeAnterior = this.chorbiService.findOne(this.extract(chorbiId)).getCumulatedFee();
+			this.chorbiService.sumFee(this.chorbiService.findOne(this.extract(chorbiId)));
+			Assert.isTrue(feeAnterior < this.chorbiService.findOne(this.extract(chorbiId)).getCumulatedFee());
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		this.checkExceptions(expected, caught);
+	}
+
+	protected void templateBan(final String chorbiId, final Class<?> expected) {
+		Class<?> caught;
+		caught = null;
+		try {
+			this.authenticate("admin");
+			this.chorbiService.banChorbi(this.extract(chorbiId));
+			final Collection<Chorbi> sinBaneados = this.chorbiService.findAllNotBanned();
+			if (sinBaneados.contains(this.chorbiService.findOne(this.extract(chorbiId))))
+				throw new Exception("El chorbi baneado se lista en la lista sin baneados");
+			this.chorbiService.banChorbi(this.extract(chorbiId));
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		this.checkExceptions(expected, caught);
+	}
+
+	protected void templateLoginBan(final String chorbiId, final Class<?> expected) {
+		Class<?> caught;
+		caught = null;
+		try {
+			this.authenticate("admin");
+			this.chorbiService.banChorbi(this.extract(chorbiId));
+			this.unauthenticate();
+			this.authenticate(chorbiId);
+			this.unauthenticate();
+			this.authenticate("admin");
+			this.chorbiService.banChorbi(this.extract(chorbiId));
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}

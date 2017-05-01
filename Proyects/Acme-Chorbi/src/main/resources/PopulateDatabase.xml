@@ -603,7 +603,7 @@
 		</property>
 		<property name="recipient" ref="chorbi1" />
 		<property name="sender" ref="chorbi2" />
-		<property name="folder" ref="received2" />
+		<property name="folder" ref="sent2" />
 	</bean>
 	
 	<bean id="chirp2" class="domain.Chirp">

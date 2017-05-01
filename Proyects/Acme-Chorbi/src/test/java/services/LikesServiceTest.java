@@ -36,22 +36,21 @@ public class LikesServiceTest extends AbstractTest {
 	public void driverCreation() {
 		final Object testingData[][] = {
 			{		// Creación correcta de un Likes.
-				"chorbi1", "correcto", null
+				"chorbi1", "correcto", 2, null
 			}, {	// Creación correcta de un Likes: Text vacío.
-				"chorbi3", "", null
-			}, {	// Creación correcta de un Likes: Text vacío.
-				"chorbi4", null, null
+				"chorbi3", "", 2, null
 			}, {	// Creación erronea de un Likes: Segundo like a una segunda persona, el mensaje que de error en la consola es esperado.
-				"chorbi4", null, DataIntegrityViolationException.class
+				"chorbi4", "", 2, DataIntegrityViolationException.class
 			}, {	// Creación errónea de un Likes: sin autenticar.
-				null, "correcto", IllegalArgumentException.class
+				null, "correcto", 2, IllegalArgumentException.class
 			}, {	// Creación incorrecta de un Likes: a sí mismo
-				"chorbi2", "correcto", IllegalArgumentException.class
+				"chorbi2", "correcto", 2, IllegalArgumentException.class
+			}, {	// Creación incorrecta de un Likes: estrellas fuera de rango
+				"chorbi1", "correcto", 4, DataIntegrityViolationException.class
 			}
-
 		};
 		for (int i = 0; i < testingData.length; i++)
-			this.templateCreation((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
+			this.templateCreation((String) testingData[i][0], (String) testingData[i][1], (Integer) testingData[i][2], (Class<?>) testingData[i][3]);
 	}
 
 	//An actor who is authenticated as a chorbi must be able to:
@@ -74,7 +73,7 @@ public class LikesServiceTest extends AbstractTest {
 	}
 
 	// Templates ----------------------------------------------------------
-	protected void templateCreation(final String username, final String text, final Class<?> expected) {
+	protected void templateCreation(final String username, final String text, final Integer stars, final Class<?> expected) {
 		Class<?> caught;
 		caught = null;
 		try {
@@ -82,6 +81,7 @@ public class LikesServiceTest extends AbstractTest {
 			final Chorbi chorbi = this.chorbiService.findOne(this.extract("chorbi2"));
 			final Likes c = this.likesService.create(chorbi);
 			c.setComment(text);
+			c.setStars(stars);
 
 			this.likesService.save(c);
 			this.likesService.flush();
