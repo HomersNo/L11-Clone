@@ -18,10 +18,12 @@
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
+
 <jstl:set var="full" value="font-weight: grey; color:grey; background-color:white;" />
 <jstl:set var="Inminent" value="color:white; font-weight:bold; background-color:black;" />
 <jstl:set var="passed" value="background-color:red; color: black; font-weight:bold;" />
 <jstl:set var="available" value="background-color:green; color: black; font-weight:bold;" />
+
 
 <display:table pagesize="5" keepStatus="true"
 	name="events" requestURI="${requestURI}" id="row">
@@ -49,11 +51,11 @@
 			<jstl:set var="oneMonth" value="${dateValue.time + 2628000000}"/>
 			<jstl:choose>
 				<jstl:when test="${row.moment.time > now && row.moment.time < oneMonth}">
-					<display:column property="title" title="${titleHeader}" sortable="true" style="${Inminent}"/>
-					<display:column property="description" title="${descriptionHeader}" sortable="true" style="${Inminent}" />
-					<display:column property="moment" title="${momentHeader}" sortable="true" style="${Inminent}" />
-					<display:column property="numberSeat" title="${numberSeatHeader}" sortable="true" style="${Inminent}" />
-					<display:column title="${pictureHeader}" sortable="true" style="${Inminent}" >
+					<display:column property="title" title="${titleHeader}" sortable="true" style="${available}"/>
+					<display:column property="description" title="${descriptionHeader}" sortable="true" style="${available}" />
+					<display:column property="moment" title="${momentHeader}" sortable="true" style="${available}" />
+					<display:column property="numberSeat" title="${numberSeatHeader}" sortable="true" style="${available}" />
+					<display:column title="${pictureHeader}" sortable="true" style="${available}" >
 						<img src="${row.picture }" height="120"/>
 					</display:column>
 				</jstl:when>
@@ -67,11 +69,13 @@
 					</display:column>
 				</jstl:when>
 				<jstl:otherwise>
-					<display:column property="title" title="${titleHeader}" sortable="true" style="${available}"/>
-					<display:column property="description" title="${descriptionHeader}" sortable="true" style="${available}"/>
-					<display:column property="moment" title="${momentHeader}" sortable="true" style="${available}"/>
-					<display:column property="numberSeat" title="${numberSeatHeader}" sortable="true" style="${available}"/>
-					<display:column title="${pictureHeader}" sortable="true" style="${available}">
+
+					<display:column property="title" title="${titleHeader}" sortable="true" style="${Inminent}"/>
+					<display:column property="description" title="${descriptionHeader}" sortable="true" style="${Inminent}"/>
+					<display:column property="moment" title="${momentHeader}" sortable="true" style="${Inminent}"/>
+					<display:column property="numberSeat" title="${numberSeatHeader}" sortable="true" style="${Inminent}"/>
+					<display:column title="${pictureHeader}" sortable="true" style="${Inminent}">
+
 						<img src="${row.picture }" height="120"/>
 					</display:column>
 				</jstl:otherwise>
