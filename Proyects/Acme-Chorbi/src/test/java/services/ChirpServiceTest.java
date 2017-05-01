@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
+import domain.Actor;
 import domain.Chirp;
 import domain.Chorbi;
 import domain.Folder;
@@ -123,10 +124,10 @@ public class ChirpServiceTest extends AbstractTest {
 		attachments.add(url);
 
 		final Object testingData[][] = {
-			{
-				"manager1", "event4", "correcto", "correcto", attachments, NullPointerException.class
-			}, {
-				"manager1", "event12", "correcto", "correcto", attachments, NullPointerException.class
+			{    // Enviar correctamente un broadcast
+				"manager1", "event4", "correcto", "correcto", attachments, null
+			}, { // Fallo al enviar un broadcast modificando un evento inexistente
+				"manager1", "event12", "correcto", "correcto", attachments, NumberFormatException.class
 			}
 		};
 		for (int i = 0; i < testingData.length; i++)
@@ -216,7 +217,8 @@ public class ChirpServiceTest extends AbstractTest {
 
 		try {
 			this.authenticate(username);
-			final ChirpBroadcast cB;
+			final Actor sender = this.actorService.findByPrincipal();
+			final ChirpBroadcast cB = new ChirpBroadcast();
 			cB.setAttachments(attachments);
 			cB.setSubject(subject);
 			cB.setText(text);
@@ -224,6 +226,14 @@ public class ChirpServiceTest extends AbstractTest {
 			this.chirpService.broadcast(cB);
 			this.unauthenticate();
 
+			this.authenticate("chorbi1");
+			final Folder recipientFolder = this.folderService.findSystemFolder(this.chorbiService.findOne(this.extract("chorbi1")), "Received");
+			final Collection<Chirp> chirps = this.chirpService.findAllByFolder(recipientFolder.getId());
+			for (final Chirp c : chirps)
+				if (c.getSubject() == cB.getSubject() && c.getAttachments() == cB.getAttachments() && c.getSender() == sender && c.getText() == cB.getText())
+					Assert.isTrue(c.getSubject() == cB.getSubject() && c.getAttachments() == cB.getAttachments() && c.getSender() == sender && c.getText() == cB.getText());
+
+			this.unauthenticate();
 			this.chirpService.flush();
 
 		} catch (final Throwable oops) {
@@ -249,6 +259,7 @@ public class ChirpServiceTest extends AbstractTest {
 					&& c.getRecipient().equals(chirpToSendExtracted.getRecipient()) && c.getText() == chirpToSendExtracted.getText())
 					Assert.isTrue(c.getSubject() == chirpToSendExtracted.getSubject() && c.getMoment().equals(chirpToSendExtracted.getMoment()) && c.getAttachments() == chirpToSendExtracted.getAttachments()
 						&& c.getRecipient().equals(chirpToSendExtracted.getRecipient()) && c.getText() == chirpToSendExtracted.getText());
+			this.unauthenticate();
 			this.chirpService.flush();
 
 		} catch (final Throwable oops) {
