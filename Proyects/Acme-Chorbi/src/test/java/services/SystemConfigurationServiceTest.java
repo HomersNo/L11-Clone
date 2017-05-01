@@ -90,7 +90,7 @@ public class SystemConfigurationServiceTest extends AbstractTest {
 			{		// Cambio de cuota correcta. 
 				feeBuena, null
 			}, {	// Fallo al intentar poner una cuota incorrecta.
-				feeMala, null
+				feeMala, ConstraintViolationException.class
 			}
 		};
 		for (int i = 0; i < testingData.length; i++)
