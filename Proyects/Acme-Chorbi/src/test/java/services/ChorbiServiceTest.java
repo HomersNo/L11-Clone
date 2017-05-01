@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import security.Authority;
 import security.UserAccount;
@@ -160,7 +161,7 @@ public class ChorbiServiceTest extends AbstractTest {
 	@Test
 	public void driverLoginBan() {
 		final Object testingData[][] = {
-			{		// Baneo (no se muestra en el listar normal de chorbis) y desbaneo correcto de un chorbi. 
+			{		// Baneo e intento de login del chorbi baneado. 
 				"chorbi3", IllegalArgumentException.class
 			}
 		};
@@ -236,7 +237,9 @@ public class ChorbiServiceTest extends AbstractTest {
 		Class<?> caught;
 		caught = null;
 		try {
+			final Double feeAnterior = this.chorbiService.findOne(this.extract(chorbiId)).getCumulatedFee();
 			this.chorbiService.sumFee(this.chorbiService.findOne(this.extract(chorbiId)));
+			Assert.isTrue(feeAnterior < this.chorbiService.findOne(this.extract(chorbiId)).getCumulatedFee());
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
