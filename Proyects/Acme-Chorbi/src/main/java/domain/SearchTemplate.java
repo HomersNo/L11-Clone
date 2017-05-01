@@ -44,7 +44,7 @@ public class SearchTemplate extends DomainEntity {
 	private String	city;
 
 
-	@Pattern(regexp = "^ACTIVITIES|FRIENDSHIP|LOVE|\\s*$")
+	@Pattern(regexp = "^ACTIVITIES|FRIENDSHIP|LOVE$")
 	public String getRelationshipType() {
 		return this.relationshipType;
 	}
@@ -59,7 +59,7 @@ public class SearchTemplate extends DomainEntity {
 		this.age = age;
 	}
 
-	@Pattern(regexp = "^MAN|WOMAN|\\s*$")
+	@Pattern(regexp = "^MAN|WOMAN$")
 	public String getGenre() {
 		return this.genre;
 	}
