@@ -1,7 +1,6 @@
 
 package services;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -17,8 +16,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import security.Authority;
-import security.UserAccount;
 import utilities.AbstractTest;
 import domain.Chorbi;
 
@@ -176,16 +173,8 @@ public class ChorbiServiceTest extends AbstractTest {
 		caught = null;
 		try {
 			final Chorbi c = this.chorbiService.create();
-			final UserAccount user = new UserAccount();
-			final Collection<Authority> as = new ArrayList<Authority>();
-			final Authority a = new Authority();
-			a.setAuthority("CHORBI");
-			as.add(a);
-			user.setAuthorities(as);
-			c.setUserAccount(user);
-			user.setUsername(username);
-			user.setPassword(password);
-			c.setUserAccount(user);
+			c.getUserAccount().setUsername(username);
+			c.getUserAccount().setPassword(password);
 			c.setName(name);
 			c.setSurname(surname);
 			c.setEmail(email);

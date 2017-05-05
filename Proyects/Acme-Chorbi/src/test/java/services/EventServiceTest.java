@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.Calendar;
@@ -16,11 +17,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import utilities.AbstractTest;
 import domain.Event;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
 	"classpath:spring/junit.xml"
 })
-
 @Transactional
 public class EventServiceTest extends AbstractTest {
 
@@ -45,15 +46,15 @@ public class EventServiceTest extends AbstractTest {
 			}, {	// Creación errónea de un Event: title vacío.
 				"manager1", null, this.fechaFutura, "equisdejajajaxdxdxd", "http://www.imagen.com.mx/assets/img/imagen_share.png", 1, ConstraintViolationException.class
 			}, {	// Creación errónea de un Event: description vacío.
-				"manager1", "blae", this.fechaFutura, null, "http://www.imagen.com.mx/assets/img/imagen_share.png", 1,  ConstraintViolationException.class
+				"manager1", "blae", this.fechaFutura, null, "http://www.imagen.com.mx/assets/img/imagen_share.png", 1, ConstraintViolationException.class
 			}, {	// Creación errónea de un Event: picture que no es url.
-				"manager1", "blae", this.fechaFutura, "equisdejajajaxdxdxd", "no soy una url jiji", 1,  ConstraintViolationException.class
+				"manager1", "blae", this.fechaFutura, "equisdejajajaxdxdxd", "no soy una url jiji", 1, ConstraintViolationException.class
 			}, {	// Creación errónea de un Event: moment nulo vacío.
-				"manager1", "blae", null, "equisdejajajaxdxdxd", "http://www.imagen.com.mx/assets/img/imagen_share.png", 1,  ConstraintViolationException.class
+				"manager1", "blae", null, "equisdejajajaxdxdxd", "http://www.imagen.com.mx/assets/img/imagen_share.png", 1, ConstraintViolationException.class
 			}, {	// Creación errónea de un Event: numberSeat negativo.
 				"manager1", "blae", this.fechaFutura, "equisdejajajaxdxdxd", "http://www.imagen.com.mx/assets/img/imagen_share.png", -1, ConstraintViolationException.class
 			}, {	// Creación errónea de un Event: no es un manager el logueado.
-				"chorbi1", "blae", this.fechaFutura, "equisdejajajaxdxdxd", "http://www.imagen.com.mx/assets/img/imagen_share.png", 1,  ConstraintViolationException.class
+				"chorbi1", "blae", this.fechaFutura, "equisdejajajaxdxdxd", "http://www.imagen.com.mx/assets/img/imagen_share.png", 1, ConstraintViolationException.class
 			}
 		};
 		for (int i = 0; i < testingData.length; i++)
@@ -73,7 +74,7 @@ public class EventServiceTest extends AbstractTest {
 		for (int i = 0; i < testingData.length; i++)
 			this.templateListOwn((String) testingData[i][0], (int) testingData[i][1], (Class<?>) testingData[i][2]);
 	}
-	
+
 	@Test
 	public void driverList() {
 		final Object testingData[][] = {
@@ -88,7 +89,7 @@ public class EventServiceTest extends AbstractTest {
 		for (int i = 0; i < testingData.length; i++)
 			this.templateList((String) testingData[i][0], (int) testingData[i][1], (Class<?>) testingData[i][2]);
 	}
-	
+
 	@Test
 	public void driverRegister() {
 		final Object testingData[][] = {
@@ -111,14 +112,14 @@ public class EventServiceTest extends AbstractTest {
 		try {
 			this.authenticate(username);
 			final Event e = this.eventService.create();
-			
+
 			e.setDescription(description);
 			e.setMoment(moment);
 			e.setNumberSeat(numberSeat);
 			e.setPicture(picture);
 			e.setTitle(title);
-			
-			Event saved = this.eventService.save(e);
+
+			final Event saved = this.eventService.save(e);
 			this.eventService.delete(saved);
 			this.unauthenticate();
 			this.eventService.flush();
@@ -140,7 +141,7 @@ public class EventServiceTest extends AbstractTest {
 		}
 		this.checkExceptions(expected, caught);
 	}
-	
+
 	protected void templateList(final String username, final int managerId, final Class<?> expected) {
 		Class<?> caught;
 		caught = null;
@@ -148,20 +149,20 @@ public class EventServiceTest extends AbstractTest {
 			this.authenticate(username);
 			final Collection<Event> e = this.eventService.findAll();
 			final Collection<Event> ev = this.eventService.findAllEventsInOneMonth();
-			
+
 			this.unauthenticate();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
 		this.checkExceptions(expected, caught);
 	}
-	
+
 	protected void templateRegister(final String username, final int eventId, final Class<?> expected) {
 		Class<?> caught;
 		caught = null;
 		try {
 			this.authenticate(username);
-			Event e = this.eventService.findOne(eventId);
+			final Event e = this.eventService.findOne(eventId);
 			this.eventService.register(e);
 			this.eventService.register(e);
 			this.unauthenticate();
@@ -171,8 +172,5 @@ public class EventServiceTest extends AbstractTest {
 		}
 		this.checkExceptions(expected, caught);
 	}
-	
-	
 
 }
-
