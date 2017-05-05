@@ -3,8 +3,6 @@ package controllers.chorbi;
 
 import java.util.Collection;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -74,7 +72,7 @@ public class ChorbiChorbiController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final Chorbi editChorbi, final BindingResult binding) {
+	public ModelAndView save(final Chorbi editChorbi, final BindingResult binding) {
 		ModelAndView result;
 		Chorbi chorbi;
 
@@ -83,34 +81,35 @@ public class ChorbiChorbiController {
 			result = this.createEditModelAndView(editChorbi);
 		else
 			try {
-				chorbi = this.chorbiService.register(chorbi);
-				result = new ModelAndView("redirect:/chorbi/chorbi/edit.do?chorbiId=" + chorbi.getId());
+				chorbi = this.chorbiService.save(chorbi);
+				result = new ModelAndView("redirect:/chorbi/chorbi/display.do");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(editChorbi, "chorbi.commit.error");
 			}
 		return result;
 	}
-
 	@RequestMapping(value = "/listLiking", method = RequestMethod.GET)
 	public ModelAndView listLiking(@RequestParam(required = false) final String errorMessage) {
 		ModelAndView result;
 
 		Collection<Chorbi> chorbis;
 		Collection<Chorbi> likes;
-		Chorbi principal;
+		final Chorbi principal = this.chorbiService.findByPrincipal();
+		final CreditCard credit = this.creditCardService.findByPrincipal();
+		if (credit != null && this.creditCardService.checkCCNumber(credit.getCreditCardNumber()) && this.creditCardService.expirationDate(credit)) {
 
-		principal = this.chorbiService.findByPrincipal();
-		chorbis = this.chorbiService.findAllLikingMe(principal.getId());
-		likes = this.chorbiService.findAllLiked(principal.getId());
+			chorbis = this.chorbiService.findAllLikingMe(principal.getId());
+			likes = this.chorbiService.findAllLiked(principal.getId());
 
-		result = new ModelAndView("chorbi/list");
-		result.addObject("chorbis", chorbis);
-		result.addObject("likes", likes);
-		result.addObject("requestURI", "chorbi/chorbi/listLiking.do");
+			result = new ModelAndView("chorbi/list");
+			result.addObject("chorbis", chorbis);
+			result.addObject("likes", likes);
+			result.addObject("requestURI", "chorbi/chorbi/listLiking.do");
+		} else
+			result = new ModelAndView("redirect:/creditCard/chorbi/edit.do");
 
 		return result;
 	}
-
 	@RequestMapping(value = "/listFound", method = RequestMethod.GET)
 	public ModelAndView listFound(@RequestParam(required = false, defaultValue = "0") final int searchTemplateId) {
 

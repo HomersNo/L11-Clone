@@ -25,6 +25,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import security.LoginService;
+import services.ChorbiService;
 
 public abstract class AbstractTest {
 
@@ -34,6 +35,9 @@ public abstract class AbstractTest {
 	private LoginService		loginService;
 
 	private static Properties	prop;
+
+	@Autowired
+	private ChorbiService		chorbiService;
 
 
 	// Set up and tear down -------------------------------
@@ -81,6 +85,11 @@ public abstract class AbstractTest {
 		if (username == null)
 			authenticationToken = null;
 		else {
+			//			Chorbi c = null;
+			//			c = this.chorbiService.findOne(this.extract(username));
+			//			if (c != null)
+			//				if (this.chorbiService.findOne(this.extract(username)).getBanned() == true)
+			//					throw new IllegalArgumentException();
 			userDetails = this.loginService.loadUserByUsername(username);
 			authenticationToken = new TestingAuthenticationToken(userDetails, null);
 		}

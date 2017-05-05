@@ -228,6 +228,7 @@ public class ChirpChorbiController extends AbstractController {
 	protected ModelAndView createEditModelAndView(final Chirp message, final String errorMessage, final ChirpAttach ca) {
 		ModelAndView result;
 		Collection<Chorbi> actors;
+
 		if (ca == null) {
 			final ChirpAttach chirpAttach = new ChirpAttach();
 			chirpAttach.setAttachments(message.getAttachments());
@@ -237,7 +238,6 @@ public class ChirpChorbiController extends AbstractController {
 			chirpAttach.setSender(message.getSender());
 			chirpAttach.setSubject(message.getSubject());
 			chirpAttach.setText(message.getText());
-
 			actors = this.actorService.findAll();
 
 			result = new ModelAndView("message/edit");

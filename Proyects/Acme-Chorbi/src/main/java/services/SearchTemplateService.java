@@ -121,33 +121,26 @@ public class SearchTemplateService {
 		return result;
 	}
 
-	/**
-	 * @param searchTemplate
-	 * @param binding
-	 * @return
-	 */
 	public SearchTemplate reconstruct(final SearchTemplate searchTemplate, final BindingResult binding) {
 		SearchTemplate result;
-
-		if (searchTemplate.getId() == 0)
+		final Chorbi principal = this.chorbiService.findByPrincipal();
+		if (searchTemplate.getId() == 0) {
 			result = searchTemplate;
-		else {
+			result.setChorbi(principal);
+		} else {
 			result = this.searchTemplateRepository.findOne(searchTemplate.getId());
 
 			result.setAge(searchTemplate.getAge());
 			result.setKeyword(searchTemplate.getKeyword());
-			result.setChorbi(searchTemplate.getChorbi());
 			result.setCity(searchTemplate.getCity());
 			result.setCountry(searchTemplate.getCountry());
 			result.setGenre(searchTemplate.getGenre());
-			result.setMoment(searchTemplate.getMoment());
 			result.setProvince(searchTemplate.getProvince());
 			result.setRelationshipType(searchTemplate.getRelationshipType());
 			result.setState(searchTemplate.getState());
-			result.setChorbies(searchTemplate.getChorbies());
 
 			this.validator.validate(result, binding);
-			this.searchTemplateRepository.flush();
+
 		}
 
 		return result;
@@ -178,28 +171,28 @@ public class SearchTemplateService {
 			province = true;
 			city = true;
 
-			if (searchTemplate.getRelationshipType() != "" && searchTemplate.getRelationshipType() != null)
+			if (searchTemplate.getRelationshipType() != null)
 				relationshipType = chorbiTemplate.getRelationshipType().equals(searchTemplate.getRelationshipType());
 
 			if (searchTemplate.getAge() != null)
 				age = chorbiTemplate.getAge().equals(searchTemplate.getAge());
 
-			if (searchTemplate.getGenre() != "" || searchTemplate.getGenre() != null)
+			if (searchTemplate.getGenre() != null)
 				genre = chorbiTemplate.getGenre().equals(searchTemplate.getGenre());
 
-			if (searchTemplate.getKeyword() != "" || searchTemplate.getKeyword() != null)
+			if (searchTemplate.getKeyword() != null)
 				keyword = chorbiTemplate.getKeyword().equals(searchTemplate.getKeyword());
 
-			if (searchTemplate.getCountry() != "" || searchTemplate.getCountry() != null)
+			if (searchTemplate.getCountry() != null)
 				country = chorbiTemplate.getCountry().equals(searchTemplate.getCountry());
 
-			if (searchTemplate.getState() != "" || searchTemplate.getState() != null)
+			if (searchTemplate.getState() != null)
 				state = chorbiTemplate.getState().equals(searchTemplate.getState());
 
-			if (searchTemplate.getProvince() != "" || searchTemplate.getProvince() != null)
+			if (searchTemplate.getProvince() != null)
 				province = chorbiTemplate.getProvince().equals(searchTemplate.getProvince());
 
-			if (searchTemplate.getCity() != "" || searchTemplate.getCity() != null)
+			if (searchTemplate.getCity() != null)
 				city = chorbiTemplate.getCity().equals(searchTemplate.getCity());
 
 			res = relationshipType && age && genre && keyword && country && state && province && city;

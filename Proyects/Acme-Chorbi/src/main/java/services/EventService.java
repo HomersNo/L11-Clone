@@ -15,22 +15,26 @@ import repositories.EventRepository;
 import domain.Chorbi;
 import domain.Event;
 import domain.Manager;
+import domain.SystemConfiguration;
 
 @Service
 @Transactional
 public class EventService {
 
 	@Autowired
-	private EventRepository	eventRepository;
+	private EventRepository				eventRepository;
 
 	@Autowired
-	private ManagerService	managerService;
+	private ManagerService				managerService;
 
 	@Autowired
-	private ChorbiService	chorbiService;
+	private ChorbiService				chorbiService;
 
 	@Autowired
-	private ChirpService	chirpService;
+	private ChirpService				chirpService;
+
+	@Autowired
+	private SystemConfigurationService	scService;
 
 
 	public EventService() {
@@ -92,6 +96,14 @@ public class EventService {
 		Event result;
 		if (event.getId() != 0)
 			this.chirpService.automaticChirp(event);
+		if (event.getId() == 0) {
+
+			final Manager principal = this.managerService.findByPrincipal();
+			final SystemConfiguration main = this.scService.findMain();
+			principal.setCumulatedFee(principal.getCumulatedFee() + main.getFeeManager());
+			this.managerService.save(principal);
+
+		}
 		result = this.eventRepository.save(event);
 		return result;
 	}
@@ -103,8 +115,13 @@ public class EventService {
 		this.checkPrincipal(event);
 		this.managerService.checkPrincipal();
 
-		this.eventRepository.delete(event);
 		this.chirpService.automaticChirp(event);
+
+		event.setRegistered(new ArrayList<Chorbi>());
+		final Event saved = this.eventRepository.save(event);
+
+		this.eventRepository.delete(saved);
+
 		Assert.isNull(this.eventRepository.findOne(event.getId()));
 
 	}
@@ -126,7 +143,7 @@ public class EventService {
 			registered.add(chorbi);
 			event.setRegistered(registered);
 		}
-		this.save(event);
+		this.eventRepository.save(event);
 	}
 
 	public void checkPrincipal(final Event event) {

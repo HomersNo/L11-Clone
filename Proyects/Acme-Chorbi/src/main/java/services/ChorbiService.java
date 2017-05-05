@@ -20,7 +20,6 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.Chorbi;
-import domain.SearchTemplate;
 import domain.SystemConfiguration;
 import forms.RegisterChorbi;
 
@@ -41,10 +40,10 @@ public class ChorbiService {
 	private FolderService				folderService;
 
 	@Autowired
-	private SystemConfigurationService	systemConfigurationService;
+	private Validator					validator;
 
 	@Autowired
-	private Validator					validator;
+	private SystemConfigurationService	systemConfigurationService;
 
 
 	public ChorbiService() {
@@ -159,7 +158,12 @@ public class ChorbiService {
 			result.setState(chorbi.getState());
 			result.setSurname(chorbi.getSurname());
 
-			result.getUserAccount().setPassword(chorbi.getUserAccount().getPassword());
+			final Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+			final String password = chorbi.getUserAccount().getPassword();
+			String hash;
+			hash = encoder.encodePassword(password, null);
+
+			result.getUserAccount().setPassword(hash);
 
 			this.validator.validate(result, binding);
 		}
@@ -210,12 +214,6 @@ public class ChorbiService {
 		this.chorbiRepository.save(chorbi);
 	}
 
-	public void sumFee(final Chorbi chorbi) {
-		final SystemConfiguration sc = this.systemConfigurationService.findMain();
-		chorbi.setCumulatedFee(chorbi.getCumulatedFee() + sc.getFeeChorbi());
-		this.save(chorbi);
-	}
-
 	public Collection<Chorbi> findLikersOfChorbi(final int likedId) {
 		final Collection<Chorbi> result = this.findLikersOfChorbi(likedId);
 
@@ -261,11 +259,15 @@ public class ChorbiService {
 	public Collection<Chorbi> findAllFound(final int searchTemplateId) {
 
 		Collection<Chorbi> filtered;
-		final SearchTemplate st = this.searchTemplateService.findOne(searchTemplateId);
-
-		filtered = st.getChorbies();
+		filtered = this.chorbiRepository.findAllFound(searchTemplateId);
 
 		return filtered;
+	}
+
+	public void sumFee(final Chorbi chorbi) {
+		final SystemConfiguration sc = this.systemConfigurationService.findMain();
+		chorbi.setCumulatedFee(chorbi.getCumulatedFee() + sc.getFeeChorbi());
+		this.save(chorbi);
 	}
 
 	//Dashboard methods
@@ -341,6 +343,7 @@ public class ChorbiService {
 	public Collection<Chorbi> findAllLikingMe(final int chorbiId) {
 
 		Collection<Chorbi> result;
+		Assert.isTrue(this.chorbiRepository.exists(chorbiId));
 		result = this.chorbiRepository.findAllLiking(chorbiId);
 		return result;
 	}

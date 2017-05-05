@@ -1,8 +1,6 @@
 
 package controllers.manager;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -57,18 +55,19 @@ public class ManagerManagerController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final Manager editManager, final BindingResult binding) {
+	public ModelAndView save(final Manager editManager, final BindingResult binding) {
 		ModelAndView result;
 		Manager manager;
 
+		manager = this.managerService.reconstruct(editManager, binding);
 		if (binding.hasErrors())
-			result = this.createEditModelAndView(editManager);
+			result = this.createEditModelAndView(manager);
 		else
 			try {
-				manager = this.managerService.register(editManager);
+				manager = this.managerService.save(manager);
 				result = new ModelAndView("redirect:/manager/manager/display.do?managerId=" + manager.getId());
 			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(editManager, "manager.commit.error");
+				result = this.createEditModelAndView(manager, "manager.commit.error");
 			}
 		return result;
 	}

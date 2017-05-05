@@ -1,8 +1,6 @@
 
 package controllers.chorbi;
 
-import javax.validation.Valid;
-
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -64,37 +62,42 @@ public class SearchTemplateChorbiController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final SearchTemplate searchTemplate, final BindingResult binding) {
+	public ModelAndView save(final SearchTemplate searchTemplate, final BindingResult binding) {
 		ModelAndView result;
 		Boolean sameFields;
-		
+
 		SearchTemplate search;
-		search = this.searchTemplateService.reconstruct(searchTemplate, binding);
-		
-		final SystemConfiguration system = this.scService.findMain();
-		final DateTime last = new DateTime(searchTemplate.getMoment()); // Esto se pone una vez reconstruido el objeto, tú veras como lo pones
-		final DateTime now = DateTime.now();
+		try {
+			sameFields = this.searchTemplateService.checkCache(searchTemplate);
+			search = this.searchTemplateService.reconstruct(searchTemplate, binding);
 
-		if (binding.hasErrors())
-			result = this.createEditModelAndView(searchTemplate);
-		else
-			try {
-				sameFields = this.searchTemplateService.checkCache(searchTemplate);
-				
-				if (binding.hasErrors())
-					result = this.createEditModelAndView(search);
-				if (now.minus(system.getCacheTime().getTime()).isBefore(last) && sameFields) {
-					result = new ModelAndView("redirect:/chorbi/chorbi/listFound.do?searchTemplateId=" + search.getId());
-					result.addObject("message", "searchTemplate.commit.ok");
-				} else {
-					this.searchTemplateService.save(search);
-					result = new ModelAndView("redirect:/chorbi/chorbi/listFound.do?searchTemplateId=" + search.getId());
-					result.addObject("message", "searchTemplate.commit.ok");
+			final SystemConfiguration system = this.scService.findMain();
+			final DateTime last = new DateTime(search.getMoment()); // Esto se pone una vez reconstruido el objeto, tú veras como lo pones
+			final DateTime now = DateTime.now();
+
+			if (binding.hasErrors())
+				result = this.createEditModelAndView(searchTemplate);
+			else
+				try {
+
+					if (now.minus(system.getCacheTime().getTime()).isBefore(last) && sameFields) {
+						result = new ModelAndView("redirect:/chorbi/chorbi/listFound.do?searchTemplateId=" + search.getId());
+						result.addObject("message", "searchTemplate.commit.ok");
+					} else
+						try {
+							final SearchTemplate searched = this.searchTemplateService.save(search);
+							result = new ModelAndView("redirect:/chorbi/chorbi/listFound.do?searchTemplateId=" + search.getId());
+							result.addObject("message", "searchTemplate.commit.ok");
+						} catch (NullPointerException | IllegalArgumentException e) {
+							result = new ModelAndView("redirect:/creditCard/chorbi/edit.do");
+						}
+
+				} catch (final Throwable oops) {
+					result = this.createEditModelAndView(searchTemplate, "searchTemplate.commit.error");
 				}
-
-			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(searchTemplate, "searchTemplate.commit.error");
-			}
+		} catch (final Throwable oops) {
+			result = this.createEditModelAndView(searchTemplate, "searchTemplate.commit.error");
+		}
 
 		return result;
 
