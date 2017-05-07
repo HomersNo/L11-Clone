@@ -80,6 +80,8 @@ public class SystemConfigurationServiceTest extends AbstractTest {
 		}
 	}
 
+	//	- An actor who is authenticated as an administrator must be able to:
+	//		o Change the fee that is charged to managers and chorbies. (Note that they need not be the same.)
 	@Test
 	public void driverChangeFee() {
 

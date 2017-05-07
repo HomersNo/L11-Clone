@@ -117,6 +117,8 @@ public class ChirpServiceTest extends AbstractTest {
 			this.templateFindAllByFolderId((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
 	}
 
+	//	- An actor who is authenticated as a manager must be able to:
+	//		o Broadcast a chirp to the chorbies who have registered to any of the events that he or she manages.
 	@Test
 	public void driverSendBroadcast() {
 		final Collection<String> attachments = new ArrayList<String>();
