@@ -129,6 +129,8 @@ public class ChorbiServiceTest extends AbstractTest {
 			this.templateLikesMe((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
 	}
 
+	//	- An actor who is authenticated as an administrator must be able to:
+	//		o Run a process to update the total monthly fees that the chorbies would have to pay. Recall that chorbies must not be aware of the simulation.
 	@Test
 	public void driverSumFee() {
 		final Object testingData[][] = {
@@ -142,6 +144,8 @@ public class ChorbiServiceTest extends AbstractTest {
 			this.templateSumFee((String) testingData[i][0], (Class<?>) testingData[i][1]);
 	}
 
+	//	- An actor who is authenticated as an administrator must be able to:
+	//		o Ban a chorbi, that is, to disable his or her account.
 	@Test
 	public void driverBan() {
 		final Object testingData[][] = {
