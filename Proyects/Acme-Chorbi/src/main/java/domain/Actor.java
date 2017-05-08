@@ -23,7 +23,7 @@ import security.UserAccount;
 @Table(indexes = {
 	@Index(columnList = "name"), @Index(columnList = "surname")
 })
-public class Actor extends DomainEntity {
+public abstract class Actor extends DomainEntity {
 
 	// Constructors -----------------------------------------------------------
 

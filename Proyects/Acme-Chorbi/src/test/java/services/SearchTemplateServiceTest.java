@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.validation.ConstraintViolationException;
 
+import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.util.Assert;
 import utilities.AbstractTest;
 import domain.Chorbi;
 import domain.SearchTemplate;
+import domain.SystemConfiguration;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -27,10 +29,13 @@ public class SearchTemplateServiceTest extends AbstractTest {
 	//The SUT
 
 	@Autowired
-	private SearchTemplateService	searchTemplateService;
+	private SearchTemplateService		searchTemplateService;
 
 	@Autowired
-	private ChorbiService			chorbiService;
+	private ChorbiService				chorbiService;
+
+	@Autowired
+	private SystemConfigurationService	scService;
 
 
 	// Tests
@@ -108,13 +113,15 @@ public class SearchTemplateServiceTest extends AbstractTest {
 	protected void templateSearch(final String username, final Integer age, final String city, final String country, final String genre, final String keyword, final String province, final String relationshipType, final String state, final Class<?> expected) {
 		Class<?> caught;
 		caught = null;
+		final SystemConfiguration system = this.scService.findMain();
+
+		final DateTime now = DateTime.now();
 		try {
 			this.authenticate(username);
 			final Chorbi chorbi = this.chorbiService.findByPrincipal();
-			SearchTemplate search = this.searchTemplateService.findSearchTemplateByChorbi(chorbi);
 			SearchTemplate result;
-			if (search == null)
-				search = this.searchTemplateService.create();
+			SearchTemplate search;
+			search = this.searchTemplateService.create();
 			search.setAge(age);
 			search.setCity(city);
 			search.setCountry(country);
@@ -123,11 +130,25 @@ public class SearchTemplateServiceTest extends AbstractTest {
 			search.setProvince(province);
 			search.setRelationshipType(relationshipType);
 			search.setState(state);
-
-			if (!this.searchTemplateService.checkCache(search)) {
-				result = this.searchTemplateService.save(search);
+			final Boolean sameFields = this.searchTemplateService.checkCache(search);
+			SearchTemplate dbOne = this.searchTemplateService.findSearchTemplateByChorbi(chorbi);
+			if (dbOne != null) {
+				dbOne.setAge(age);
+				dbOne.setCity(city);
+				dbOne.setCountry(country);
+				dbOne.setGenre(genre);
+				dbOne.setKeyword(keyword);
+				dbOne.setProvince(province);
+				dbOne.setRelationshipType(relationshipType);
+				dbOne.setState(state);
+			} else
+				dbOne = search;
+			final DateTime last = new DateTime(dbOne.getMoment());
+			if (!sameFields || !now.minus(system.getCacheTime().getTime()).isBefore(last)) {
+				result = this.searchTemplateService.save(dbOne);
 				Assert.isTrue(result.getMoment().after(new Date(System.currentTimeMillis() - 43200000)));
 			}
+
 			this.searchTemplateService.flush();
 			this.unauthenticate();
 		} catch (final Throwable oops) {
