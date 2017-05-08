@@ -12,7 +12,7 @@ import services.ManagerService;
 import domain.Manager;
 
 @Controller
-@RequestMapping("/manager/manager")
+@RequestMapping("/_manager/_manager")
 public class ManagerManagerController {
 
 	//Services
@@ -65,7 +65,7 @@ public class ManagerManagerController {
 		else
 			try {
 				manager = this.managerService.save(manager);
-				result = new ModelAndView("redirect:/manager/manager/display.do?managerId=" + manager.getId());
+				result = new ModelAndView("redirect:/_manager/_manager/display.do?managerId=" + manager.getId());
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(manager, "manager.commit.error");
 			}
@@ -84,7 +84,7 @@ public class ManagerManagerController {
 	protected ModelAndView createEditModelAndView(final Manager manager, final String message) {
 		ModelAndView result;
 
-		final String requestURI = "manager/manager/edit.do";
+		final String requestURI = "_manager/_manager/edit.do";
 
 		result = new ModelAndView("manager/edit");
 		result.addObject("manager", manager);

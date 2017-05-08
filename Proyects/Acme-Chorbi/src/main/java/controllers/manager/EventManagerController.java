@@ -13,23 +13,28 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.CreditCardService;
 import services.EventService;
 import services.ManagerService;
 import controllers.AbstractController;
+import domain.CreditCard;
 import domain.Event;
 import domain.Manager;
 
 @Controller
-@RequestMapping("/event/manager")
+@RequestMapping("/event/_manager")
 public class EventManagerController extends AbstractController {
 
 	//Services
 
 	@Autowired
-	private EventService	eventService;
+	private EventService		eventService;
 
 	@Autowired
-	private ManagerService	managerService;
+	private ManagerService		managerService;
+
+	@Autowired
+	private CreditCardService	creditCardService;
 
 
 	//Constructor
@@ -69,7 +74,7 @@ public class EventManagerController extends AbstractController {
 		events = this.eventService.findAllByPrincipal();
 
 		result = new ModelAndView("event/list");
-		result.addObject("requestURI", "event/manager/list.do");
+		result.addObject("requestURI", "event/_manager/list.do");
 		result.addObject("events", events);
 		result.addObject("errorMessage", errorMessage);
 
@@ -84,8 +89,16 @@ public class EventManagerController extends AbstractController {
 			result = this.createEditModelAndView(event);
 		else
 			try {
-				event = this.eventService.save(event);
-				result = new ModelAndView("redirect:/event/manager/list.do");
+				final CreditCard creditCard = this.creditCardService.findByPrincipal();
+				if (creditCard != null) {
+					if (this.creditCardService.checkCCNumber(creditCard.getCreditCardNumber()) && this.creditCardService.expirationDate(creditCard)) {
+						event = this.eventService.save(event);
+						result = new ModelAndView("redirect:/event/_manager/list.do");
+					} else
+						result = new ModelAndView("redirect:/creditCard/_manager/edit.do");
+				} else
+					result = new ModelAndView("redirect:/creditCard/_manager/edit.do");
+
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(event, "manager.commit.error");
 			}
@@ -100,7 +113,7 @@ public class EventManagerController extends AbstractController {
 		event = this.eventService.findOne(eventId);
 		this.eventService.delete(event);
 
-		result = new ModelAndView("redirect:/event/manager/list.do");
+		result = new ModelAndView("redirect:/event/_manager/list.do");
 
 		return result;
 	}
@@ -117,7 +130,7 @@ public class EventManagerController extends AbstractController {
 	protected ModelAndView createEditModelAndView(final Event event, final String message) {
 		ModelAndView result;
 
-		final String requestURI = "event/manager/edit.do";
+		final String requestURI = "event/_manager/edit.do";
 
 		result = new ModelAndView("event/edit");
 		result.addObject("event", event);

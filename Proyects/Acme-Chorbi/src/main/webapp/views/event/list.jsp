@@ -51,11 +51,11 @@
 			<jstl:set var="oneMonth" value="${dateValue.time + 2628000000}"/>
 			<jstl:choose>
 				<jstl:when test="${row.moment.time > now && row.moment.time < oneMonth}">
-					<display:column property="title" title="${titleHeader}" sortable="true" style="${available}"/>
-					<display:column property="description" title="${descriptionHeader}" sortable="true" style="${available}" />
-					<display:column property="moment" title="${momentHeader}" sortable="true" style="${available}" />
-					<display:column property="numberSeat" title="${numberSeatHeader}" sortable="true" style="${available}" />
-					<display:column title="${pictureHeader}" sortable="true" style="${available}" >
+					<display:column property="title" title="${titleHeader}" sortable="true" style="${Inminent}"/>
+					<display:column property="description" title="${descriptionHeader}" sortable="true" style="${Inminent}" />
+					<display:column property="moment" title="${momentHeader}" sortable="true" style="${Inminent}" />
+					<display:column property="numberSeat" title="${numberSeatHeader}" sortable="true" style="${Inminent}" />
+					<display:column title="${pictureHeader}" sortable="true" style="${Inminent}" >
 						<img src="${row.picture }" height="120"/>
 					</display:column>
 				</jstl:when>
@@ -70,11 +70,11 @@
 				</jstl:when>
 				<jstl:otherwise>
 
-					<display:column property="title" title="${titleHeader}" sortable="true" style="${Inminent}"/>
-					<display:column property="description" title="${descriptionHeader}" sortable="true" style="${Inminent}"/>
-					<display:column property="moment" title="${momentHeader}" sortable="true" style="${Inminent}"/>
-					<display:column property="numberSeat" title="${numberSeatHeader}" sortable="true" style="${Inminent}"/>
-					<display:column title="${pictureHeader}" sortable="true" style="${Inminent}">
+					<display:column property="title" title="${titleHeader}" sortable="true" style="${available}"/>
+					<display:column property="description" title="${descriptionHeader}" sortable="true" style="${available}"/>
+					<display:column property="moment" title="${momentHeader}" sortable="true" style="${available}"/>
+					<display:column property="numberSeat" title="${numberSeatHeader}" sortable="true" style="${available}"/>
+					<display:column title="${pictureHeader}" sortable="true" style="${available}">
 
 						<img src="${row.picture }" height="120"/>
 					</display:column>
@@ -88,13 +88,13 @@
 	<jstl:if test="${loggedactor.id == row.organiser.userAccount.id}">
 		<spring:message code="event.edit" var="editHeader" />
 		<display:column title="${editHeader}">
-			<a href="event/manager/edit.do?eventId=${row.id}"><spring:message code="event.edit" /> </a>
+			<a href="event/_manager/edit.do?eventId=${row.id}"><spring:message code="event.edit" /> </a>
 		</display:column>
 	
 	
 		<spring:message code="event.delete" var="deleteHeader" />
 		<display:column title="${deleteHeader}">
-			<a href="event/manager/delete.do?eventId=${row.id}"><spring:message code="event.delete" /> </a>
+			<a href="event/_manager/delete.do?eventId=${row.id}"><spring:message code="event.delete" /> </a>
 		</display:column>
 	</jstl:if>
 	</security:authorize>
@@ -135,7 +135,7 @@
 <security:authorize access="hasRole('MANAGER')">
 	<input type="button" name="create"
 		value="<spring:message code="event.create" />"
-		onclick="location.href = ('event/manager/create.do');" />
+		onclick="location.href = ('event/_manager/create.do');" />
 </security:authorize>
 
 <br/>

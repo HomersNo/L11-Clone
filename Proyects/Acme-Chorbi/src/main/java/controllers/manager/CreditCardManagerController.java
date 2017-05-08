@@ -1,3 +1,4 @@
+
 package controllers.manager;
 
 import javax.validation.Valid;
@@ -8,93 +9,92 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import domain.CreditCard;
+
 import services.CreditCardService;
+import domain.CreditCard;
 
 @Controller
-@RequestMapping("/creditCard/manager")
+@RequestMapping("/creditCard/_manager")
 public class CreditCardManagerController {
 
 	//Services
 
-		@Autowired
-		private CreditCardService	creditCardService;
+	@Autowired
+	private CreditCardService	creditCardService;
 
 
-		//Constructor
+	//Constructor
 
-		public CreditCardManagerController() {
-			super();
-		}
-		
-		//edit
-		
-		@RequestMapping(value = "/edit", method = RequestMethod.GET)
-		public ModelAndView edit() {
-			ModelAndView result;
-			CreditCard creditCard;
+	public CreditCardManagerController() {
+		super();
+	}
 
-			creditCard = creditCardService.findByPrincipal();
-			if(creditCard == null){
-				creditCard = creditCardService.create();
-			}else{
-				creditCard.setCreditCardNumber(creditCardService.trimCreditNumber(creditCard));
+	//edit
+
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public ModelAndView edit() {
+		ModelAndView result;
+		CreditCard creditCard;
+
+		creditCard = this.creditCardService.findByPrincipal();
+		if (creditCard == null)
+			creditCard = this.creditCardService.create();
+		else
+			creditCard.setCreditCardNumber(this.creditCardService.trimCreditNumber(creditCard));
+		result = this.createEditModelAndView(creditCard);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+	public ModelAndView save(@Valid CreditCard creditCard, final BindingResult binding) {
+		ModelAndView result;
+
+		if (binding.hasErrors())
+			result = this.createEditModelAndView(creditCard);
+		else
+			try {
+				creditCard = this.creditCardService.save(creditCard);
+				result = new ModelAndView("redirect:/creditCard/_manager/edit.do");
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(creditCard, "manager.commit.error");
 			}
-			result = createEditModelAndView(creditCard);
+		return result;
+	}
 
-			return result;
-		}
-		
-		@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-		public ModelAndView save(@Valid CreditCard creditCard, BindingResult binding) {
-			ModelAndView result;
+	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	public ModelAndView delete() {
+		ModelAndView result;
+		CreditCard creditCard;
 
-			if (binding.hasErrors()) {
-				result = createEditModelAndView(creditCard);
-			} else {
-				try {
-					creditCard = creditCardService.save(creditCard);
-					result = new ModelAndView("redirect:/creditCard/manager/edit.do");
-				} catch (Throwable oops) {
-					result = createEditModelAndView(creditCard, "manager.commit.error");
-				}
-			}
-			return result;
-		}
-		
-		@RequestMapping(value = "/delete", method = RequestMethod.GET)
-		public ModelAndView delete() {
-			ModelAndView result;
-			CreditCard creditCard;
+		creditCard = this.creditCardService.findByPrincipal();
+		this.creditCardService.delete(creditCard);
 
-			creditCard = creditCardService.findByPrincipal();
-			creditCardService.delete(creditCard);
-			
-			result = new ModelAndView("redirect:/welcome/index.do");
+		result = new ModelAndView("redirect:/welcome/index.do");
 
-			return result;
-		}
-		
-		// Ancillary methods
-		
-		protected ModelAndView createEditModelAndView(CreditCard creditCard) {
-			ModelAndView result;
+		return result;
+	}
 
-			result = createEditModelAndView(creditCard, null);
+	// Ancillary methods
 
-			return result;
-		}
-		protected ModelAndView createEditModelAndView(CreditCard creditCard, String message) {
-			ModelAndView result;
+	protected ModelAndView createEditModelAndView(final CreditCard creditCard) {
+		ModelAndView result;
 
-			String requestURI = "creditCard/manager/edit.do";
+		result = this.createEditModelAndView(creditCard, null);
 
-			result = new ModelAndView("creditCard/edit");
-			result.addObject("creditCard", creditCard);
-			result.addObject("message", message);
-			result.addObject("requestURI", requestURI);
+		return result;
+	}
+	protected ModelAndView createEditModelAndView(final CreditCard creditCard, final String message) {
+		ModelAndView result;
 
-			return result;
-		}
-	
+		final String requestURI = "creditCard/_manager/edit.do";
+
+		result = new ModelAndView("creditCard/edit");
+		result.addObject("creditCard", creditCard);
+		result.addObject("message", message);
+		result.addObject("requestURI", requestURI);
+
+		return result;
+	}
+
 }

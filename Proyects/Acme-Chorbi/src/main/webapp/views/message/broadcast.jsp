@@ -20,7 +20,7 @@
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 
-<form:form action="chirp/manager/edit.do" modelAttribute="chirpBroadcast">
+<form:form action="chirp/_manager/edit.do" modelAttribute="chirpBroadcast">
 
 	<form:hidden path="attachments"/>
 	
