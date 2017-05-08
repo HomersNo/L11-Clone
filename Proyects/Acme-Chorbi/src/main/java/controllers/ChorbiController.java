@@ -51,7 +51,7 @@ public class ChorbiController {
 		result = new ModelAndView("chorbi/list");
 
 		principal = this.actorService.findByPrincipal();
-		final Collection<Chorbi> chorbies = this.chorbiService.findAll();
+		final Collection<Chorbi> chorbies = this.chorbiService.findAllNotBanned();
 		if (principal instanceof Chorbi) {
 			chorbis = this.chorbiService.findAllLiked(principal.getId());
 			result.addObject("likes", chorbis);

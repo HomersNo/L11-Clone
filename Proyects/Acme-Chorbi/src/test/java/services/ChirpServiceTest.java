@@ -15,9 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
+import domain.Actor;
 import domain.Chirp;
 import domain.Chorbi;
 import domain.Folder;
+import forms.ChirpBroadcast;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -38,6 +40,12 @@ public class ChirpServiceTest extends AbstractTest {
 
 	@Autowired
 	private ChorbiService	chorbiService;
+
+	@Autowired
+	private ManagerService	managerService;
+
+	@Autowired
+	private EventService	eventService;
 
 
 	// Tests ---------------------------------------------------------------
@@ -108,6 +116,41 @@ public class ChirpServiceTest extends AbstractTest {
 		for (int i = 0; i < testingData.length; i++)
 			this.templateFindAllByFolderId((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
 	}
+
+	//	- An actor who is authenticated as a manager must be able to:
+	//		o Broadcast a chirp to the chorbies who have registered to any of the events that he or she manages.
+	@Test
+	public void driverSendBroadcast() {
+		final Collection<String> attachments = new ArrayList<String>();
+		final String url = "http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png";
+		attachments.add(url);
+
+		final Object testingData[][] = {
+			{    // Enviar correctamente un broadcast
+				"manager1", "event4", "correcto", "correcto", attachments, null
+			}, { // Fallo al enviar un broadcast modificando un evento inexistente
+				"manager1", "event12", "correcto", "correcto", attachments, NumberFormatException.class
+			}
+		};
+		for (int i = 0; i < testingData.length; i++)
+			this.templateSendBroadcast((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (Collection<String>) testingData[i][4], (Class<?>) testingData[i][5]);
+	}
+
+	@Test
+	public void driverResendChirp() {
+		final Collection<String> attachments = new ArrayList<String>();
+		final String url = "http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png";
+		attachments.add(url);
+
+		final Object testingData[][] = {
+			{
+				"chorbi1", "chirp2", "chorbi3", null
+			}
+		};
+		for (int i = 0; i < testingData.length; i++)
+			this.templateResendChirp((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Class<?>) testingData[i][3]);
+	}
+
 	// Templates ----------------------------------------------------------
 	protected void templateCreation(final String username, final String subject, final String text, final Collection<String> attachment, final Class<?> expected) {
 		Class<?> caught;
@@ -162,6 +205,63 @@ public class ChirpServiceTest extends AbstractTest {
 			this.chirpService.findAllByFolder(folder.getId());
 			this.unauthenticate();
 
+			this.chirpService.flush();
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		this.checkExceptions(expected, caught);
+	}
+
+	private void templateSendBroadcast(final String username, final String eventName, final String subject, final String text, final Collection<String> attachments, final Class<?> expected) {
+		Class<?> caught;
+		caught = null;
+
+		try {
+			this.authenticate(username);
+			final Actor sender = this.actorService.findByPrincipal();
+			final ChirpBroadcast cB = new ChirpBroadcast();
+			cB.setAttachments(attachments);
+			cB.setSubject(subject);
+			cB.setText(text);
+			cB.setEvent(this.eventService.findOne(this.extract(eventName)));
+			this.chirpService.broadcast(cB);
+			this.unauthenticate();
+
+			this.authenticate("chorbi1");
+			final Folder recipientFolder = this.folderService.findSystemFolder(this.chorbiService.findOne(this.extract("chorbi1")), "Received");
+			final Collection<Chirp> chirps = this.chirpService.findAllByFolder(recipientFolder.getId());
+			for (final Chirp c : chirps)
+				if (c.getSubject() == cB.getSubject() && c.getAttachments() == cB.getAttachments() && c.getSender() == sender && c.getText() == cB.getText())
+					Assert.isTrue(c.getSubject() == cB.getSubject() && c.getAttachments() == cB.getAttachments() && c.getSender() == sender && c.getText() == cB.getText());
+
+			this.unauthenticate();
+			this.chirpService.flush();
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		this.checkExceptions(expected, caught);
+	}
+
+	private void templateResendChirp(final String username, final String chirpToSend, final String receiver, final Class<?> expected) {
+		Class<?> caught;
+		caught = null;
+		final Chirp chirpToSendExtracted = this.chirpService.findOne(this.extract(chirpToSend));
+		try {
+			this.authenticate(username);
+			this.chirpService.reSend(chirpToSendExtracted, this.chorbiService.findOne(this.extract(receiver)));
+			this.unauthenticate();
+
+			this.authenticate(receiver);
+			final Folder recipientFolder = this.folderService.findSystemFolder(this.chorbiService.findOne(this.extract(receiver)), "Received");
+			final Collection<Chirp> chirps = this.chirpService.findAllByFolder(recipientFolder.getId());
+			for (final Chirp c : chirps)
+				if (c.getSubject() == chirpToSendExtracted.getSubject() && c.getMoment().equals(chirpToSendExtracted.getMoment()) && c.getAttachments() == chirpToSendExtracted.getAttachments()
+					&& c.getRecipient().equals(chirpToSendExtracted.getRecipient()) && c.getText() == chirpToSendExtracted.getText())
+					Assert.isTrue(c.getSubject() == chirpToSendExtracted.getSubject() && c.getMoment().equals(chirpToSendExtracted.getMoment()) && c.getAttachments() == chirpToSendExtracted.getAttachments()
+						&& c.getRecipient().equals(chirpToSendExtracted.getRecipient()) && c.getText() == chirpToSendExtracted.getText());
+			this.unauthenticate();
 			this.chirpService.flush();
 
 		} catch (final Throwable oops) {

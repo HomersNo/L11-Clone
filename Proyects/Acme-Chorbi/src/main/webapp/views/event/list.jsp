@@ -18,11 +18,14 @@
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<jstl:set var="full" value="color:grey" />
-<jstl:set var="Inminent" value="font-weight:bold" />
-<jstl:set var="passed" value="color:red" />
 
-<display:table pagesize="5" class="displaytag" keepStatus="true"
+<jstl:set var="full" value="font-weight: grey; color:grey; background-color:white;" />
+<jstl:set var="Inminent" value="color:white; font-weight:bold; background-color:black;" />
+<jstl:set var="passed" value="background-color:red; color: black; font-weight:bold;" />
+<jstl:set var="available" value="background-color:green; color: black; font-weight:bold;" />
+
+
+<display:table pagesize="5" keepStatus="true"
 	name="events" requestURI="${requestURI}" id="row">
 	<security:authentication property="principal" var ="loggedactor"/>
 	
@@ -48,11 +51,11 @@
 			<jstl:set var="oneMonth" value="${dateValue.time + 2628000000}"/>
 			<jstl:choose>
 				<jstl:when test="${row.moment.time > now && row.moment.time < oneMonth}">
-					<display:column property="title" title="${titleHeader}" sortable="true" style="${Inminent}"/>
-					<display:column property="description" title="${descriptionHeader}" sortable="true" style="${Inminent}" />
-					<display:column property="moment" title="${momentHeader}" sortable="true" style="${Inminent}" />
-					<display:column property="numberSeat" title="${numberSeatHeader}" sortable="true" style="${Inminent}" />
-					<display:column title="${pictureHeader}" sortable="true" style="${Inminent}" >
+					<display:column property="title" title="${titleHeader}" sortable="true" style="${available}"/>
+					<display:column property="description" title="${descriptionHeader}" sortable="true" style="${available}" />
+					<display:column property="moment" title="${momentHeader}" sortable="true" style="${available}" />
+					<display:column property="numberSeat" title="${numberSeatHeader}" sortable="true" style="${available}" />
+					<display:column title="${pictureHeader}" sortable="true" style="${available}" >
 						<img src="${row.picture }" height="120"/>
 					</display:column>
 				</jstl:when>
@@ -66,11 +69,13 @@
 					</display:column>
 				</jstl:when>
 				<jstl:otherwise>
-					<display:column property="title" title="${titleHeader}" sortable="true"/>
-					<display:column property="description" title="${descriptionHeader}" sortable="true"/>
-					<display:column property="moment" title="${momentHeader}" sortable="true"/>
-					<display:column property="numberSeat" title="${numberSeatHeader}" sortable="true"/>
-					<display:column title="${pictureHeader}" sortable="true">
+
+					<display:column property="title" title="${titleHeader}" sortable="true" style="${Inminent}"/>
+					<display:column property="description" title="${descriptionHeader}" sortable="true" style="${Inminent}"/>
+					<display:column property="moment" title="${momentHeader}" sortable="true" style="${Inminent}"/>
+					<display:column property="numberSeat" title="${numberSeatHeader}" sortable="true" style="${Inminent}"/>
+					<display:column title="${pictureHeader}" sortable="true" style="${Inminent}">
+
 						<img src="${row.picture }" height="120"/>
 					</display:column>
 				</jstl:otherwise>
@@ -120,8 +125,17 @@
 	
 </display:table>
 
+<ul class="legend">
+    <li><span style="${full}"></span> <spring:message code= "event.full" /></li>
+    <li><span style="${passed}"></span> <spring:message code= "event.passed" /></li>
+    <li><span style="${Inminent}"></span> <spring:message code= "event.inminent" /></li>
+    <li><span style="${available}"></span> <spring:message code= "event.available" /></li>
+</ul>
+<br>
 <security:authorize access="hasRole('MANAGER')">
 	<input type="button" name="create"
 		value="<spring:message code="event.create" />"
 		onclick="location.href = ('event/manager/create.do');" />
 </security:authorize>
+
+<br/>
