@@ -71,11 +71,10 @@ public class ChorbiService {
 
 	public Chorbi save(final Chorbi chorbi) {
 		Assert.notNull(chorbi);
-		if (chorbi.getId() == 0) {
-			final DateTime date = new DateTime().minusYears(18);
-			final DateTime birth = new DateTime(chorbi.getBirthDate());
-			Assert.isTrue(date.isAfter(birth) || date.isEqual(birth), "Dear user, you must be over 18 to register");
-		}
+
+		final DateTime date = new DateTime().minusYears(18);
+		final DateTime birth = new DateTime(chorbi.getBirthDate());
+		Assert.isTrue(date.isAfter(birth) || date.isEqual(birth), "Dear user, you must be over 18 to register");
 		Chorbi result;
 
 		result = this.chorbiRepository.save(chorbi);
