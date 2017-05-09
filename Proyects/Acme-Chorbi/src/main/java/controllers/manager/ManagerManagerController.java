@@ -58,8 +58,8 @@ public class ManagerManagerController {
 	public ModelAndView save(final Manager editManager, final BindingResult binding) {
 		ModelAndView result;
 		Manager manager;
+		manager = editManager;
 
-		manager = this.managerService.reconstruct(editManager, binding);
 		if (binding.hasErrors())
 			result = this.createEditModelAndView(manager);
 		else

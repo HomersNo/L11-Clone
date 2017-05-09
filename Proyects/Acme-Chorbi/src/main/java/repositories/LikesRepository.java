@@ -24,8 +24,7 @@ public interface LikesRepository extends JpaRepository<Likes, Integer> {
 	@Query("select l from Likes l where l.chorbi.id = ?1")
 	Collection<Likes> findAllByChorbiId(int chorbiId);
 
-  
 	@Query("select l from Likes l where l.chorbi.id = ?1 and l.liked.id = ?2")
-	Object findOneByChorbiAndLiked(int chorbiId, int likedId);
+	Likes findOneByChorbiAndLiked(int chorbiId, int likedId);
 
 }

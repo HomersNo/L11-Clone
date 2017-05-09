@@ -65,7 +65,7 @@ public class ManagerController {
 			result = this.createEditModelAndView(registerManager);
 		else
 			try {
-				manager = this.managerService.register(manager);
+				manager = this.managerService.save(manager);
 				creditCard.setHolder(manager);
 				creditCard = this.creditCardService.save(creditCard);
 				result = new ModelAndView("redirect:/welcome/index.do");

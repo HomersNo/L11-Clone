@@ -25,8 +25,6 @@
 	<form:hidden path="version" />
 	
 	
-	<acme:password code="manager.useraccount.password" path="userAccount.password"/>
-	
 	<acme:textbox code="manager.name" path="name"/>
 	
 	<acme:textbox code="manager.surname" path="surname"/>
