@@ -159,17 +159,6 @@ public class ChorbiServiceTest extends AbstractTest {
 			this.templateBan((String) testingData[i][0], (Class<?>) testingData[i][1]);
 	}
 
-	@Test
-	public void driverLoginBan() {
-		final Object testingData[][] = {
-			{		// Baneo e intento de login del chorbi baneado. 
-				"chorbi3", IllegalArgumentException.class
-			}
-		};
-		for (int i = 0; i < testingData.length; i++)
-			this.templateLoginBan((String) testingData[i][0], (Class<?>) testingData[i][1]);
-	}
-
 	// Templates ----------------------------------------------------------
 	protected void templateCreation(final String username, final String password, final String name, final String surname, final String email, final String phone, final String picture, final String description, final String relationshipType,
 		final Date birthDate, final String genre, final Boolean banned, final String country, final String state, final String province, final String city, final Double cumulatedFee, final Class<?> expected) {
