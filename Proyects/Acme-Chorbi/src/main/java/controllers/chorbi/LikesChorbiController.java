@@ -83,9 +83,12 @@ public class LikesChorbiController {
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	public ModelAndView delete(@RequestParam final int likesId) {
 		ModelAndView result;
+
+		final Chorbi liked = this.chorbiService.findOne(likesId);
+		final Chorbi principal = this.chorbiService.findByPrincipal();
 		Likes likes;
 
-		likes = this.likesService.findOne(likesId);
+		likes = this.likesService.findOneByChorbiAndLiked(principal.getId(), liked.getId());
 		this.likesService.delete(likes);
 
 		result = new ModelAndView("redirect:/likes/chorbi/list.do");

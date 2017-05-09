@@ -151,13 +151,6 @@ public class ManagerService {
 			result.setCompanyName(manager.getCompanyName());
 			result.setVATNumber(manager.getVATNumber());
 
-			final Md5PasswordEncoder encoder = new Md5PasswordEncoder();
-			final String password = manager.getUserAccount().getPassword();
-			String hash;
-			hash = encoder.encodePassword(password, null);
-
-			result.getUserAccount().setPassword(hash);
-
 			this.validator.validate(result, binding);
 		}
 

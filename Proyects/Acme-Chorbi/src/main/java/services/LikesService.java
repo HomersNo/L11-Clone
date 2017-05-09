@@ -64,6 +64,10 @@ public class LikesService {
 		return this.likesRepository.findAll();
 	}
 
+	public Likes findOneByChorbiAndLiked(final int chorbiId, final int likedId) {
+
+		return this.likesRepository.findOneByChorbiAndLiked(chorbiId, likedId);
+	}
 	public Likes save(final Likes comment) {
 		Assert.isTrue(!comment.getLiked().equals(comment.getChorbi()));
 		Likes saved;

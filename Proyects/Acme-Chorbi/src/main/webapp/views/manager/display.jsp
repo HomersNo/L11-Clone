@@ -34,7 +34,7 @@
 <security:authorize access="hasRole('MANAGER')">
 	<a href="welcome/index.do?"> <spring:message code="manager.back" /></a>
 	<jstl:if test="${manager.userAccount.username==loggedactor.username}">
-		<a href="manager/manager/edit.do?"> <spring:message code="manager.edit" /></a>
+		<a href="_manager/_manager/edit.do?"> <spring:message code="manager.edit" /></a>
 	</jstl:if>
 </security:authorize>
 
