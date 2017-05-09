@@ -24,7 +24,7 @@ import domain.Manager;
 import forms.ChirpBroadcast;
 
 @Controller
-@RequestMapping("/chirp/manager")
+@RequestMapping("/chirp/_manager")
 public class ChirpManagerController extends AbstractController {
 
 	//Services

@@ -93,6 +93,7 @@ public class EventService {
 
 	public Event save(final Event event) {
 		Assert.notNull(event);
+		this.checkPrincipal(event);
 		Event result;
 		if (event.getId() != 0)
 			this.chirpService.automaticChirp(event);

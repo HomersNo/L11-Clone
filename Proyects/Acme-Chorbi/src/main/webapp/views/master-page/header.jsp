@@ -42,9 +42,9 @@
 				<ul>
 					<li class="arrow"></li>
 					<security:authorize access="hasRole('MANAGER')">
-						<li><a href="event/manager/list.do"><spring:message code="master.page.event.manager.list" /></a></li>
-						<li><a href="event/manager/create.do"><spring:message code="master.page.event.manager.create" /></a></li>
-						<li><a href="chirp/manager/broadcast.do"><spring:message code="master.page.manager.broadcast"/></a></li>
+						<li><a href="event/_manager/list.do"><spring:message code="master.page.event.manager.list" /></a></li>
+						<li><a href="event/_manager/create.do"><spring:message code="master.page.event.manager.create" /></a></li>
+						<li><a href="chirp/_manager/broadcast.do"><spring:message code="master.page.manager.broadcast"/></a></li>
 					</security:authorize>
 					<li><a href="event/list.do"><spring:message code="master.page.events.all" /></a></li>
 					<li><a href="event/listInminent.do"><spring:message code="master.page.events.imminent" /></a></li>
@@ -74,7 +74,7 @@
 				<ul>
 					<li class="arrow"></li>
 					<li><a href="chorbi/register.do"><spring:message code="master.page.as.chorbi" /></a></li>
-					<li><a href="manager/register.do"><spring:message code="master.page.as.manager" /></a></li>				
+					<li><a href="_manager/register.do"><spring:message code="master.page.as.manager" /></a></li>				
 				</ul>
 			</li>
 		</security:authorize>
@@ -119,9 +119,9 @@
 				</a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="manager/manager/display.do"><spring:message code="master.page.manager.display" /></a></li>
-					<li><a href="manager/manager/edit.do"><spring:message code="master.page.manager.edit" /></a></li>
-					<li><a href="creditCard/manager/edit.do"><spring:message code="master.page.manager.credit" /></a></li>
+					<li><a href="_manager/_manager/display.do"><spring:message code="master.page.manager.display" /></a></li>
+					<li><a href="_manager/_manager/edit.do"><spring:message code="master.page.manager.edit" /></a></li>
+					<li><a href="creditCard/_manager/edit.do"><spring:message code="master.page.manager.credit" /></a></li>
 					<li><a href="j_spring_security_logout"><spring:message code="master.page.logout" /> </a></li>
 				</ul>
 			</li>
