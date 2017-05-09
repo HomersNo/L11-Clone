@@ -42,7 +42,7 @@
 		<jstl:if test="${row.chorbi.userAccount.username==loggedactor.username}">
 			<spring:message code="likes.unlike" var="unlikeHeader" />
 			<display:column title="${unlikeHeader}">
-				<a href="likes/chorbi/delete.do?likesId=${row.id}"><spring:message code="likes.unlike" /></a>
+				<a href="likes/chorbi/delete.do?likesId=${row.liked.id}"><spring:message code="likes.unlike" /></a>
 			</display:column>
 		</jstl:if>
 	</security:authorize>

@@ -70,7 +70,7 @@
 		<display:column title="${likeHeader}">
 			<jstl:choose>
 				<jstl:when test="${likes.contains(row)}">
-					<a href="likes/chorbi/delete.do?likesId=${like.id}">
+					<a href="likes/chorbi/delete.do?likesId=${row.id}">
 		 			<spring:message code="chorbi.unlike" />
 		 			</a>
 				</jstl:when>

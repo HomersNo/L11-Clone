@@ -76,7 +76,7 @@ public class ChorbiChorbiController {
 		ModelAndView result;
 		Chorbi chorbi;
 
-		chorbi = this.chorbiService.reconstruct(editChorbi, binding);
+		chorbi = editChorbi;
 		if (binding.hasErrors())
 			result = this.createEditModelAndView(editChorbi);
 		else
@@ -86,6 +86,7 @@ public class ChorbiChorbiController {
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(editChorbi, "chorbi.commit.error");
 			}
+
 		return result;
 	}
 	@RequestMapping(value = "/listLiking", method = RequestMethod.GET)
