@@ -203,7 +203,6 @@ public class ChirpChorbiController extends AbstractController {
 		return result;
 
 	}
-	//TODO lo mismo que arriba
 
 	// Ancillary methods ------------------------------------------------------
 
@@ -215,8 +214,6 @@ public class ChirpChorbiController extends AbstractController {
 		return result;
 	}
 
-	//la existencia de este método es porque he planeado mal el reconstruct y me sirve
-	//de workarround hasta que lo afine un poco. Por ahora gracias a esto el sistema funciona
 	protected ModelAndView createEditModelAndView(final ChirpAttach chirpAttach) {
 		ModelAndView result;
 
@@ -228,7 +225,7 @@ public class ChirpChorbiController extends AbstractController {
 	protected ModelAndView createEditModelAndView(final Chirp message, final String errorMessage, final ChirpAttach ca) {
 		ModelAndView result;
 		Collection<Chorbi> actors;
-
+		actors = this.actorService.findAll();
 		if (ca == null) {
 			final ChirpAttach chirpAttach = new ChirpAttach();
 			chirpAttach.setAttachments(message.getAttachments());
@@ -242,14 +239,14 @@ public class ChirpChorbiController extends AbstractController {
 
 			result = new ModelAndView("message/edit");
 			result.addObject("message", errorMessage);
-			result.addObject("actors", actors);
+
 			result.addObject("chirpAttach", chirpAttach);
 		} else {
 
 			result = new ModelAndView("message/edit");
 			result.addObject("chirpAttach", ca);
 		}
-
+		result.addObject("actors", actors);
 		return result;
 	}
 }

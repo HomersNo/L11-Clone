@@ -23,8 +23,6 @@
 
 	<form:hidden path="id" />
 	<form:hidden path="version" /> 
-
-    <acme:password code="chorbi.useraccount.password" path="userAccount.password"/>
     
 	<acme:textbox code="chorbi.name" path="name"/>
 	
@@ -38,6 +36,9 @@
 	
 	<acme:textbox code="chorbi.description" path="description"/>
 	
+	<form:label path="relationshipType">
+		<spring:message code="chorbi.relationshipType" />:
+	</form:label>
 	<form:select path="relationshipType">
 		<option value="ACTIVITIES" <jstl:if test="${chorbi.relationshipType == 'ACTIVITIES'}">selected = "selected"</jstl:if>>
 			<spring:message code="chorbi.activities" />
@@ -50,12 +51,17 @@
 		</option>
 	</form:select>
 	<div>
+	
 	<form:label path="birthDate">
-			<spring:message code="chorbi.birthDate" />:
-		</form:label>
-		<form:input placeholder="dd/MM/yyyy" path="birthDate" />
+		<spring:message code="chorbi.birthDate" />
+	</form:label>
+	<form:input placeholder="dd/MM/yyyy" path="birthDate" />
 		<form:errors cssClass="error" path="birthDate" />
 	</div>
+	
+	<form:label path="genre">
+		<spring:message code="chorbi.genre" />:
+	</form:label>
 	<form:select path="genre">
 		<option value="MAN" <jstl:if test="${chorbi.genre == 'MAN'}">selected = "selected"</jstl:if>>
 			<spring:message code="chorbi.man" />

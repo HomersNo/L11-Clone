@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -201,14 +203,18 @@ public class ChirpService {
 		message.setMoment(new Date(System.currentTimeMillis() - 1));
 
 		Collection<Chorbi> recipients;
-		recipients = this.chorbiService.findChorbiesRegisteredEvent(chirp.getEvent().getId());
+		final Pageable page = new PageRequest(0, 100); //Second index is the size of the page
+		recipients = this.chorbiService.findChorbiesRegisteredEvent(chirp.getEvent().getId(), page);
 
-		for (final Chorbi c : recipients) {
-			final Folder recipientFolder = this.folderService.findSystemFolder(c, "Received");
-			message.setFolder(recipientFolder);
-			message.setRecipient(c);
-			this.messageRepository.save(message);
+		while (!recipients.isEmpty()) {
 
+			for (final Chorbi c : recipients) {
+				final Folder recipientFolder = this.folderService.findSystemFolder(c, "Received");
+				message.setFolder(recipientFolder);
+				message.setRecipient(c);
+				this.messageRepository.save(message);
+			}
+			recipients = this.chorbiService.findChorbiesRegisteredEvent(chirp.getEvent().getId(), page.next());
 		}
 
 		return message;
@@ -220,7 +226,8 @@ public class ChirpService {
 		Collection<Chorbi> recipients;
 
 		chirp = this.create();
-		recipients = this.chorbiService.findChorbiesRegisteredEvent(event.getId());
+		final Pageable page = new PageRequest(0, 100); //Second index is the size of the page
+		recipients = this.chorbiService.findChorbiesRegisteredEvent(event.getId(), page);
 
 		final String text = "The event " + event.getTitle() + " in which you are registered has been edited or deleted \n" + "El evento " + event.getTitle() + " en el que está registrado ha sido modificado o borrado";
 		final String subject = event.getTitle() + " Warn";
@@ -228,13 +235,15 @@ public class ChirpService {
 		chirp.setSubject(subject);
 		chirp.setText(text);
 		chirp.setMoment(new Date(System.currentTimeMillis() - 1));
+		while (!recipients.isEmpty()) {
+			for (final Chorbi c : recipients) {
+				final Folder recipientFolder = this.folderService.findSystemFolder(c, "Received");
+				chirp.setFolder(recipientFolder);
+				chirp.setRecipient(c);
+				this.messageRepository.save(chirp);
 
-		for (final Chorbi c : recipients) {
-			final Folder recipientFolder = this.folderService.findSystemFolder(c, "Received");
-			chirp.setFolder(recipientFolder);
-			chirp.setRecipient(c);
-			this.messageRepository.save(chirp);
-
+			}
+			recipients = this.chorbiService.findChorbiesRegisteredEvent(event.getId(), page.next());
 		}
 	}
 	// Principal Checkers
