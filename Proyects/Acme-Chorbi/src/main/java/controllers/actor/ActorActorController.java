@@ -13,6 +13,7 @@ import controllers.AbstractController;
 import domain.Actor;
 import domain.Administrator;
 import domain.Chorbi;
+import domain.Manager;
 
 @Controller
 @RequestMapping("/actor/actor")
@@ -47,6 +48,8 @@ public class ActorActorController extends AbstractController {
 			result = new ModelAndView("redirect:/chorbi/actor/display.do?chorbiId=" + actor.getId());
 		else if (actor instanceof Administrator)
 			result = new ModelAndView("redirect:/folder/actor/list.do");
+		else if (actor instanceof Manager)
+			result = new ModelAndView("redirect:/_manager/display.do?managerId=" + actor.getId());
 		return result;
 	}
 }

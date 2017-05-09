@@ -42,7 +42,7 @@ public class SystemConfigurationServiceTest extends AbstractTest {
 		final Collection<String> banners = new ArrayList<String>();
 		final String url = "http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png";
 		banners.add(url);
-		final Collection<String> bannersEmpty = new ArrayList<String>();
+		final Collection<String> bannersEmpty = null;
 		final Collection<String> bannersFull = new ArrayList<String>();
 		final Collection<String> bannersWrong = new ArrayList<String>();
 		for (int i = 0; i < 20; i++)
@@ -63,13 +63,11 @@ public class SystemConfigurationServiceTest extends AbstractTest {
 					"admin", bannersFull, dateRight, feeBuena, null
 				}, { // Modificacion erronea: Cache errónea.
 					"admin", bannersFull, dateWrong, feeBuena, IllegalArgumentException.class
-				}, { // Modificacion erronea: Banners vacíos.
-					"admin", bannersEmpty, dateRight, feeBuena, null
-				}, { // Modificacion erronea: Banners con formato erroneo.
-					"admin", bannersWrong, dateRight, feeBuena, null
-				}, { // Modificacion erronea: Banners completo.
-					"admin", bannersFull, dateRight, feeBuena, null
+				}, { // Modificacion erronea: Banners en null.
+					"admin", bannersEmpty, dateRight, feeBuena, ConstraintViolationException.class
 				}, { // Modificacion erronea: Cuota errónea.
+						//	- An actor who is authenticated as an administrator must be able to:
+						//		o Change the fee that is charged to managers and chorbies. (Note that they need not be the same.)
 					"admin", bannersFull, dateRight, feeMala, ConstraintViolationException.class
 				}
 			};
@@ -78,23 +76,6 @@ public class SystemConfigurationServiceTest extends AbstractTest {
 		} catch (final ParseException e) {
 			e.printStackTrace();
 		}
-	}
-
-	@Test
-	public void driverChangeFee() {
-
-		final Double feeBuena = 2.0;
-		final Double feeMala = -2.0;
-
-		final Object testingData[][] = {
-			{		// Cambio de cuota correcta. 
-				feeBuena, null
-			}, {	// Fallo al intentar poner una cuota incorrecta.
-				feeMala, ConstraintViolationException.class
-			}
-		};
-		for (int i = 0; i < testingData.length; i++)
-			this.templateChangeFee((Double) testingData[i][0], (Class<?>) testingData[i][1]);
 	}
 
 	// Templates ----------------------------------------------------------
@@ -111,21 +92,6 @@ public class SystemConfigurationServiceTest extends AbstractTest {
 			this.sysConService.save(sc);
 			this.sysConService.flush();
 			this.unauthenticate();
-		} catch (final Throwable oops) {
-			caught = oops.getClass();
-		}
-		this.checkExceptions(expected, caught);
-	}
-
-	protected void templateChangeFee(final Double newFee, final Class<?> expected) {
-		Class<?> caught;
-		caught = null;
-		try {
-			final SystemConfiguration sc = this.sysConService.findMain();
-			this.authenticate("admin");
-			sc.setFeeChorbi(newFee);
-			sc.setFeeManager(newFee);
-			this.sysConService.save(sc);
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}

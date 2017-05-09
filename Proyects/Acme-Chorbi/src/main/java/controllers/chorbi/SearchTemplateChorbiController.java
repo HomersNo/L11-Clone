@@ -72,7 +72,7 @@ public class SearchTemplateChorbiController extends AbstractController {
 			search = this.searchTemplateService.reconstruct(searchTemplate, binding);
 
 			final SystemConfiguration system = this.scService.findMain();
-			final DateTime last = new DateTime(search.getMoment()); // Esto se pone una vez reconstruido el objeto, tú veras como lo pones
+			final DateTime last = new DateTime(search.getMoment());
 			final DateTime now = DateTime.now();
 
 			if (binding.hasErrors())

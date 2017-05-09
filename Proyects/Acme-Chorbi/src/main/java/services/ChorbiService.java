@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -71,11 +72,10 @@ public class ChorbiService {
 
 	public Chorbi save(final Chorbi chorbi) {
 		Assert.notNull(chorbi);
-		if (chorbi.getId() == 0) {
-			final DateTime date = new DateTime().minusYears(18);
-			final DateTime birth = new DateTime(chorbi.getBirthDate());
-			Assert.isTrue(date.isAfter(birth) || date.isEqual(birth), "Dear user, you must be over 18 to register");
-		}
+
+		final DateTime date = new DateTime().minusYears(18);
+		final DateTime birth = new DateTime(chorbi.getBirthDate());
+		Assert.isTrue(date.isAfter(birth) || date.isEqual(birth), "Dear user, you must be over 18 to register");
 		Chorbi result;
 
 		result = this.chorbiRepository.save(chorbi);
@@ -363,10 +363,10 @@ public class ChorbiService {
 		return result;
 	}
 
-	public Collection<Chorbi> findChorbiesRegisteredEvent(final int eventId) {
+	public List<Chorbi> findChorbiesRegisteredEvent(final int eventId, final Pageable pageRequest) {
 
-		Collection<Chorbi> result;
-		result = this.chorbiRepository.findChorbiesRegisteredEvent(eventId);
+		List<Chorbi> result;
+		result = this.chorbiRepository.findChorbiesRegisteredEvent(eventId, pageRequest);
 
 		return result;
 	}
