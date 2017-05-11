@@ -89,6 +89,8 @@
 	<!-- Repositories to download components -->
 
 	<repositories>
+	
+		
 
 		<!-- Spring repository -->
 
@@ -117,6 +119,14 @@
 	<!--  Dependencies -->
 
 	<dependencies>
+	
+	<!-- PhoneNumber repository Google code -->
+		
+		<dependency>
+	   		<groupId>com.googlecode.libphonenumber</groupId>
+	    	<artifactId>libphonenumber</artifactId>
+	  	    <version>3.1</version>
+		</dependency>
 
 		<!-- Spring Framework -->
 
