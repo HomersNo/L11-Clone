@@ -14,7 +14,7 @@ import services.ChorbiService;
 
 @Controller
 @RequestMapping("/chorbi/actor")
-public class ChorbiActorController {
+public class ChorbiActorController extends AbstractController{
 
 	//Services
 
