@@ -48,16 +48,14 @@
 <br/>
 
 <security:authorize access="hasRole('CHORBI')">
-	<a href="chorbi/chorbi/list.do?"> <spring:message code="chorbi.back" /></a>
+	<a href="chorbi/list.do"> <spring:message code="chorbi.back" /></a>
 	<jstl:if test="${chorbi.userAccount.username==loggedactor.username}">
-		<a href="chorbi/chorbi/edit.do?"> <spring:message code="chorbi.edit" /></a>
+		<a href="chorbi/chorbi/edit.do"> <spring:message code="chorbi.edit" /></a>
 	</jstl:if>
 </security:authorize>
 
 <security:authorize access="hasRole('ADMIN')">
-	<jstl:if test="${chorbi.userAccount.username==loggedactor.username}">
-	<a href="chorbi/administrator/list.do?"> <spring:message code="chorbi.back" /></a>
-	</jstl:if>
+	<a href="chorbi/administrator/list.do"> <spring:message code="chorbi.back" /></a>
 </security:authorize>
 
 <br/>
