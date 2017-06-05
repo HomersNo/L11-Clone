@@ -111,11 +111,18 @@
 				</jstl:if>
 			</jstl:forEach>
 			<jstl:choose>
-				<jstl:when test="${registered}">
-					<spring:message code="event.unregister" />
+				<jstl:when test="${row.moment.time ge now}">
+					<jstl:choose>
+						<jstl:when test="${registered}">
+							<spring:message code="event.unregister" />
+						</jstl:when>
+						<jstl:otherwise>	
+							<spring:message code="event.register" />				
+						</jstl:otherwise>
+					</jstl:choose>
 				</jstl:when>
-				<jstl:otherwise>	
-					<spring:message code="event.register" />				
+				<jstl:otherwise>
+					<spring:message code="event.over" />
 				</jstl:otherwise>
 			</jstl:choose>
 			 </a>
