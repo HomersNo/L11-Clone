@@ -92,18 +92,19 @@ public class SystemConfigurationService {
 
 	public String findRandomBanner() {
 
-		String result;
+		String result = null;
 		SystemConfiguration sc;
 		int randomNum;
 		final Random rn = new Random();
 		List<String> banners;
 
 		sc = this.findMain();
-		randomNum = rn.nextInt(sc.getBanners().size());
 		banners = new ArrayList<String>(sc.getBanners());
+		if (banners != null && !banners.isEmpty()) {
+			randomNum = rn.nextInt(sc.getBanners().size());
 
-		result = banners.get(randomNum);
-
+			result = banners.get(randomNum);
+		}
 		return result;
 	}
 
