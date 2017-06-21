@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import services.ChorbiService;
 import domain.Chorbi;
@@ -31,11 +32,16 @@ public class ChorbiAdministratorController {
 
 	//Register
 	@RequestMapping(value = "/ban", method = RequestMethod.GET)
-	public ModelAndView register(@RequestParam final int chorbiId) {
+	public ModelAndView register(@RequestParam final int chorbiId, final RedirectAttributes redir) {
 		ModelAndView result;
 
-		this.chorbiService.banChorbi(chorbiId);
-		result = new ModelAndView("redirect:/chorbi/administrator/list.do");
+		try {
+			this.chorbiService.banChorbi(chorbiId);
+			result = new ModelAndView("redirect:/chorbi/administrator/list.do");
+		} catch (final Throwable oops) {
+			result = new ModelAndView("redirect:/chorbi/administrador/list.do");
+			redir.addFlashAttribute("message", "commit.error");
+		}
 
 		return result;
 	}

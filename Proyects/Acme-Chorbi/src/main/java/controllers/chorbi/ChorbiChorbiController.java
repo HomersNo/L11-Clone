@@ -72,7 +72,7 @@ public class ChorbiChorbiController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(final Chorbi editChorbi, final BindingResult binding) {
+	public ModelAndView save(Chorbi editChorbi, final BindingResult binding) {
 		ModelAndView result;
 		Chorbi chorbi;
 

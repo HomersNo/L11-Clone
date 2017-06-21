@@ -55,19 +55,23 @@ public class ManagerManagerController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(final Manager editManager, final BindingResult binding) {
+	public ModelAndView save(Manager editManager, final BindingResult binding) {
 		ModelAndView result;
 		Manager manager;
-		manager = editManager;
 
 		if (binding.hasErrors())
-			result = this.createEditModelAndView(manager);
+			result = this.createEditModelAndView(editManager);
 		else
 			try {
-				manager = this.managerService.save(manager);
-				result = new ModelAndView("redirect:/_manager/_manager/display.do?managerId=" + manager.getId());
+				editManager = this.managerService.reconstruct(editManager, binding);
+				if (binding.hasErrors())
+					result = this.createEditModelAndView(editManager);
+				else {
+					manager = this.managerService.save(editManager);
+					result = new ModelAndView("redirect:/_manager/_manager/display.do?managerId=" + manager.getId());
+				}
 			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(manager, "manager.commit.error");
+				result = this.createEditModelAndView(editManager, "manager.commit.error");
 			}
 		return result;
 	}

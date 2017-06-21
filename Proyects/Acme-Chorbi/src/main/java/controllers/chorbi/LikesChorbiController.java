@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import services.ChorbiService;
 import services.LikesService;
@@ -81,17 +82,20 @@ public class LikesChorbiController {
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public ModelAndView delete(@RequestParam final int likesId) {
+	public ModelAndView delete(@RequestParam final int likesId, final RedirectAttributes redir) {
 		ModelAndView result;
 
 		final Chorbi liked = this.chorbiService.findOne(likesId);
 		final Chorbi principal = this.chorbiService.findByPrincipal();
 		Likes likes;
-
-		likes = this.likesService.findOneByChorbiAndLiked(principal.getId(), liked.getId());
-		this.likesService.delete(likes);
-
-		result = new ModelAndView("redirect:/likes/chorbi/list.do");
+		try {
+			likes = this.likesService.findOneByChorbiAndLiked(principal.getId(), liked.getId());
+			this.likesService.delete(likes);
+			result = new ModelAndView("redirect:/likes/chorbi/list.do");
+		} catch (final Throwable oops) {
+			result = new ModelAndView("redirect:/likes/chorbi/list.do");
+			redir.addFlashAttribute("message", "commit.error");
+		}
 
 		return result;
 	}
