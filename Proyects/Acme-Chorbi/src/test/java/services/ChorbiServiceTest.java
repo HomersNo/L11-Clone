@@ -75,9 +75,9 @@ public class ChorbiServiceTest extends AbstractTest {
 			}, {	// Creación errónea de un Customer: relationship incorrecto.
 				"", "correcto", "correcto", "correcto", "correcto@bien.com", "1234", "http://www.edurne.com", "descripcion", "LOE", this.fechaValida, "WOMAN", false, "Country", "state", "province", "city", 1.0, ConstraintViolationException.class
 			}, {	// Creación errónea de un Customer: fecha vacía.
-				"", "correcto", "correcto", "correcto", "correcto@bien.com", "1234", "http://www.edurne.com", "descripcion", "LOVE", null, "WOMAN", false, "Country", "state", "province", "city", 1.0, IllegalArgumentException.class
+				"", "correcto", "correcto", "correcto", "correcto@bien.com", "1234", "http://www.edurne.com", "descripcion", "LOVE", null, "WOMAN", false, "Country", "state", "province", "city", 1.0, ConstraintViolationException.class
 			}, {	// Creación errónea de un Customer: fecha futura.
-				"", "correcto", "correcto", "correcto", "correcto@bien.com", "1234", "http://www.edurne.com", "descripcion", "LOVE", this.fechaFutura, "WOMAN", false, "Country", "state", "province", "city", 1.0, IllegalArgumentException.class
+				"", "correcto", "correcto", "correcto", "correcto@bien.com", "1234", "http://www.edurne.com", "descripcion", "LOVE", this.fechaFutura, "WOMAN", false, "Country", "state", "province", "city", 1.0, ConstraintViolationException.class
 			}, {	// Creación errónea de un Customer: genre vacío.
 				"", "correcto", "correcto", "correcto", "correcto@bien.com", "1234", "http://www.edurne.com", "descripcion", "LOVE", this.fechaValida, "", false, "Country", "state", "province", "city", 1.0, ConstraintViolationException.class
 			}, {	// Creación errónea de un Customer: genre incorrecto.
@@ -183,7 +183,7 @@ public class ChorbiServiceTest extends AbstractTest {
 			c.setProvince(province);
 			c.setCity(city);
 			c.setCumulatedFee(cumulatedFee);
-			this.chorbiService.save(c);
+			this.chorbiService.register(c);
 			this.chorbiService.flush();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();

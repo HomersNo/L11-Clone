@@ -140,18 +140,6 @@ public class ManagerServiceTest extends AbstractTest {
 	public void driverCreationWrong9() {
 		final Object testingData[][] = {
 			{		// Creación correcta de un Manager.
-				"managerTest9", "co", "correcto", "correcto", "correcto@bien.com", "1234", "equisdejajajaxdxdxd", "43321", ConstraintViolationException.class
-			}
-		};
-		for (int i = 0; i < testingData.length; i++)
-			this.templateCreationDelete((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (String) testingData[i][5], (String) testingData[i][6],
-				(String) testingData[i][7], (Class<?>) testingData[i][8]);
-	}
-
-	@Test
-	public void driverCreationWrong10() {
-		final Object testingData[][] = {
-			{		// Creación correcta de un Manager.
 				"managerTest10", "correcto", "correcto", "correcto", "ajjj", "1234", "equisdejajajaxdxdxd", "43321", ConstraintViolationException.class
 			}
 		};
@@ -161,7 +149,7 @@ public class ManagerServiceTest extends AbstractTest {
 	}
 
 	@Test
-	public void driverCreationWrong11() {
+	public void driverCreationWrong10() {
 		final Object testingData[][] = {
 			{		// Creación correcta de un Manager.
 				"managerTest11", "correcto", "correcto", "correcto", "correcto@bien.com", "A", "equisdejajajaxdxdxd", "43321", ConstraintViolationException.class
@@ -187,7 +175,7 @@ public class ManagerServiceTest extends AbstractTest {
 
 			m.setCompanyName(companyName);
 			m.setVATNumber(VATNumber);
-			this.managerService.save(m);
+			this.managerService.register(m);
 			this.managerService.flush();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();

@@ -266,7 +266,7 @@ public class ChorbiService {
 		else
 			chorbi.setCumulatedFee(chorbi.getCumulatedFee() + sc.getFeeChorbi());
 
-		this.save(chorbi);
+		this.chorbiRepository.save(chorbi);
 	}
 
 	//Dashboard methods
