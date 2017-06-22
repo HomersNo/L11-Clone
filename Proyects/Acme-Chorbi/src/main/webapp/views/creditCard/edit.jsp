@@ -76,7 +76,7 @@
 			<security:authorize access="hasRole('MANAGER')">
 				<input type="button" name="delete"
 					value="<spring:message code="creditCard.delete" />"
-					onclick="location.href = ('creditCard/manager/delete.do');" />
+					onclick="location.href = ('creditCard/_manager/delete.do');" />
 			</security:authorize>
 			
 		</jstl:otherwise>
@@ -87,4 +87,4 @@
 		value="<spring:message code="creditCard.back" />"
 			onclick="location.href = ('welcome/index.do');" />
 	
-	
+		<p><spring:message code="creditCard.error.message.register"/></p>

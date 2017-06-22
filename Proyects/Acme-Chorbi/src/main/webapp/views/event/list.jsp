@@ -103,7 +103,7 @@
 		<spring:message code="event.register" var="registerHeader" />
 		<display:column title="${registerHeader}">
 		<jstl:if test="${row.registered.size() < row.numberSeat}">
-			<a href="event/chorbi/register.do?eventId=${row.id}">
+			
 			<jstl:set var="registered" value="false" />
 			<jstl:forEach var="item" items="${row.registered}">
 				<jstl:if test="${item.userAccount.id == loggedactor.id}">
@@ -114,10 +114,14 @@
 				<jstl:when test="${row.moment.time ge now}">
 					<jstl:choose>
 						<jstl:when test="${registered}">
+						<a href="event/chorbi/register.do?eventId=${row.id}">
 							<spring:message code="event.unregister" />
+							</a>
 						</jstl:when>
 						<jstl:otherwise>	
-							<spring:message code="event.register" />				
+						<a href="event/chorbi/register.do?eventId=${row.id}">
+							<spring:message code="event.register" />	
+							</a>			
 						</jstl:otherwise>
 					</jstl:choose>
 				</jstl:when>
@@ -125,7 +129,7 @@
 					<spring:message code="event.over" />
 				</jstl:otherwise>
 			</jstl:choose>
-			 </a>
+			 
 		</jstl:if>
 		</display:column>
 	</security:authorize>

@@ -71,6 +71,8 @@ public class ManagerService {
 		Assert.notNull(manager);
 		Manager result;
 
+		Assert.isTrue(this.findByPrincipal().getId() == manager.getId());
+
 		result = this.managerRepository.save(manager);
 
 		return result;

@@ -75,6 +75,7 @@ public class ChorbiService {
 
 		final DateTime date = new DateTime().minusYears(18);
 		final DateTime birth = new DateTime(chorbi.getBirthDate());
+		Assert.isTrue(this.findByPrincipal().getId() == chorbi.getId());
 		Assert.isTrue(date.isAfter(birth) || date.isEqual(birth), "Dear user, you must be over 18 to register");
 		Chorbi result;
 
@@ -129,6 +130,7 @@ public class ChorbiService {
 		result.setRelationshipType(registerChorbi.getRelationshipType());
 		result.setState(registerChorbi.getState());
 		result.setSurname(registerChorbi.getSurname());
+		result.setCumulatedFee(0.0);
 
 		result.getUserAccount().setUsername(registerChorbi.getUsername());
 		result.getUserAccount().setPassword(registerChorbi.getPassword());
@@ -259,7 +261,11 @@ public class ChorbiService {
 
 	public void sumFee(final Chorbi chorbi) {
 		final SystemConfiguration sc = this.systemConfigurationService.findMain();
-		chorbi.setCumulatedFee(chorbi.getCumulatedFee() + sc.getFeeChorbi());
+		if (chorbi.getCumulatedFee() == null)
+			chorbi.setCumulatedFee(sc.getFeeChorbi());
+		else
+			chorbi.setCumulatedFee(chorbi.getCumulatedFee() + sc.getFeeChorbi());
+
 		this.save(chorbi);
 	}
 

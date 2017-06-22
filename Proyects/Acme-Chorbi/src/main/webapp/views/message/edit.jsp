@@ -61,7 +61,7 @@
 		value="<spring:message code="message.save" />" />&nbsp; 
 	<input type="button" name="cancel"
 		value="<spring:message code="message.cancel" />"
-		onclick="location.href = ('folder/actor/list.do');" />
+		onclick="location.href = ('folder/chorbi/list.do');" />
 	<br />
 
 	

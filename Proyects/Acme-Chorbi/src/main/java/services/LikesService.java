@@ -70,6 +70,7 @@ public class LikesService {
 	}
 	public Likes save(final Likes comment) {
 		Assert.isTrue(!comment.getLiked().equals(comment.getChorbi()));
+		Assert.isTrue(this.chorbiService.findByPrincipal().equals(comment.getChorbi()));
 		Likes saved;
 		final Date moment = new Date(System.currentTimeMillis() - 100);
 		comment.setMoment(moment);

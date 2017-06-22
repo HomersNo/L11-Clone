@@ -29,7 +29,7 @@
 
 <a href="likes/chorbi/list.do?"> <spring:message code="likes.back" /></a>
 <jstl:if test="${likes.chorbi.userAccount.username==loggedactor.username}">
-	<a href="likes/chorbi/edit.do?"> <spring:message code="likes.edit" /></a>
+	<a href="likes/chorbi/delete.do?likesId=${likes.liked.id}"><spring:message code="likes.unlike" /></a>
 </jstl:if>
 
 

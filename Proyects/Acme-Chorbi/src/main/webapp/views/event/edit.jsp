@@ -43,7 +43,7 @@
 		value="<spring:message code="event.save" />" />&nbsp; 
 	<input type="button" name="cancel"
 		value="<spring:message code="event.cancel" />"
-		onclick="location.href = ('event/manager/list.do');" />
+		onclick="location.href = ('event/_manager/list.do');" />
 	<br />
 
 	

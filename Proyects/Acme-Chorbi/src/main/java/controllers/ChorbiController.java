@@ -82,9 +82,10 @@ public class ChorbiController {
 		Chorbi chorbi;
 
 		chorbi = this.chorbiService.reconstruct(registerChorbi, binding);
-		if (binding.hasErrors())
+		if (binding.hasErrors()) {
+			registerChorbi.setAccept(false);
 			result = this.createEditModelAndView(registerChorbi);
-		else
+		} else
 			try {
 				chorbi = this.chorbiService.register(chorbi);
 				result = new ModelAndView("redirect:/welcome/index.do");
